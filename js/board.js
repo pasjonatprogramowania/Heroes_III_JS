@@ -1,5 +1,3 @@
-import Point from './point.js'
-import Creature from './creture.js'
 import BoardMovingTest from './test/boardMovingTest.js'
 import BoardTest from './test/boardTest.js'
 import CreatureTurnQueueTest from './test/creatureTurnQueueTest.js'
@@ -54,11 +52,10 @@ export default class Board {
 }
 
 
-let borad = new Board();
+
 let boardMovingTest = new BoardMovingTest();
 let boardTest = new BoardTest();
 let creatureTurnQueueTest = new CreatureTurnQueueTest()
-let creatureTurnQueue = new CreatureTurnQueue()
 
 creatureTurnQueueTest.queueShoulChangeActiveCreature()
 boardTest.mapShouldHaveKeyAndValue()

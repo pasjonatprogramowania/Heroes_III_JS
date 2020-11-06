@@ -7,39 +7,30 @@ export default class CreatureTurnQueueTest {
     queueShoulChangeActiveCreature() {
         let creatureTurnQueue = new CreatureTurnQueue();
 
-        let creture1 = new Creature();
-        let creture2 = new Creature();
-        let creture3 = new Creature();
+        let creture1 = new Creature('aaaa', 1, 1, 1, 1);
+        let creture2 = new Creature('bbbb', 1, 1, 1, 1);
+        let creture3 = new Creature('cccc', 1, 1, 1, 1);
 
-        let creatureList = [];
-        let copyCreatureList = [];
+        let creatureMap = new Map;
+        let creatureArray = [];
+        creatureMap.set(0, creture1)
+        creatureMap.set(1, creture2)
+        creatureMap.set(2, creture3)
 
-        creatureList.push(creture1)
-        creatureList.push(creture2)
-        creatureList.push(creture3)
+        creatureMap.forEach((val, key) => {
+            creatureArray[key] = val;
+        })
 
-        creatureTurnQueue.initQueue(creatureList)
+        creatureTurnQueue.initQueue(creatureMap)
 
-        if (creture1 !== creatureTurnQueue.getActiveCreature()) {
-            throw `Exception: => Kolejka nie dziala poprawnie`
-        }
-        if (creatureTurnQueue.next()) {
-            creatureTurnQueue.initQueue(creatureList)
-        }
-
-        if (creture2 !== creatureTurnQueue.getActiveCreature()) {
-            throw `Exception: => Kolejka nie dziala poprawnie`
-        }
-        if (creatureTurnQueue.next()) {
-            creatureTurnQueue.initQueue(creatureList)
-        }
-
-        if (creture3 !== creatureTurnQueue.getActiveCreature()) {
-            throw `Exception: => Kolejka nie dziala poprawnie`
-        }
-        if (creatureTurnQueue.next()) {
-            creatureTurnQueue.initQueue(creatureList)
-        }
+        creatureArray.forEach(item => {
+            if (item !== creatureTurnQueue.getActiveCreature()) {
+                throw `Exception: => Kolejka nie dziala poprawnie`
+            }
+            if (creatureTurnQueue.next()) {
+                creatureTurnQueue.initQueue(creatureMap)
+            }
+        })
 
     }
 }

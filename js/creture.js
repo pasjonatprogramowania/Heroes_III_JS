@@ -1,5 +1,3 @@
-import Board from './board.js'
-import Point from './point.js'
 import CreatureStatistics from './creatureStatistics.js'
 
 export default class Creature {

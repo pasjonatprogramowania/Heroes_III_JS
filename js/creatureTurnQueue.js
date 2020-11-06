@@ -1,24 +1,23 @@
-import Board from './board.js'
-import Point from './point.js'
-import Creature from './creture.js'
-import CreatureTurnQueueTest from './test/creatureTurnQueueTest.js'
-
 export default class CreatureTurnQueue {
     constructor() {
-        this.creatureList = [];
-        this.copyCreatureList = [];
+        this.creatureList = new Map;
+        this.counterToRemove;
     }
     initQueue(list) {
-        console.log('inicjalizacja')
         this.creatureList = list;
+        this.counterToRemove = 0;
     }
     getActiveCreature() {
-        return this.creatureList.shift();
+        let creatureListArray = [];
+        this.creatureList.forEach((val, key) => creatureListArray[key] = val)
+        this.creatureList.delete(this.counterToRemove)
+        this.counterToRemove++;
+        let [first] = creatureListArray.filter(el => el);
+        return first;
     }
     next() {
-        console.log('this.creatureList.length', this.creatureList.length)
-        if (this.creatureList.length == 0) {
-            return true;
+        if (this.creatureList.size == 0) {
+            return true
         }
     }
 }

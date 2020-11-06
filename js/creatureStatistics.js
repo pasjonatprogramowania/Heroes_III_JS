@@ -1,6 +1,3 @@
-import Board from './board.js'
-import Point from './point.js'
-
 export default class CreatureStatistics {
     constructor(_name, _attack, _armor, _maxHp, _moveRange) {
         this.name = _name;
