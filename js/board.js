@@ -2,15 +2,14 @@ import Point from './point.js'
 import Creature from './creture.js'
 import BoardMovingTest from './test/boardMovingTest.js'
 import BoardTest from './test/boardTest.js'
+import CreatureTurnQueueTest from './test/creatureTurnQueueTest.js'
+import CreatureTurnQueue from './creatureTurnQueue.js'
 
 export default class Board {
     constructor() {
         this.map = new Map();
         this.boardX = 20
         this.boardY = 15
-    }
-    returnMap() {
-        return this.map;
     }
     add(point, creature) {
         let mapToString = ``;
@@ -58,7 +57,10 @@ export default class Board {
 let borad = new Board();
 let boardMovingTest = new BoardMovingTest();
 let boardTest = new BoardTest();
+let creatureTurnQueueTest = new CreatureTurnQueueTest()
+let creatureTurnQueue = new CreatureTurnQueue()
 
+creatureTurnQueueTest.queueShoulChangeActiveCreature()
 boardTest.mapShouldHaveKeyAndValue()
 boardMovingTest.cretureShouldMoveCorrectly()
 
