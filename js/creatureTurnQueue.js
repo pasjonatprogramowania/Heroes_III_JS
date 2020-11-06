@@ -8,14 +8,12 @@ export default class CreatureTurnQueue {
         this.creatureList = [];
         this.copyCreatureList = [];
     }
-    initQueue(list, copyList) {
+    initQueue(list) {
         console.log('inicjalizacja')
         this.creatureList = list;
-        this.copyCreatureList = copyList;
     }
     getActiveCreature() {
-        //kolejka powinna byc podawana odwrtornie bo usuwany jest ostani element
-        return this.creatureList.pop();
+        return this.creatureList.shift();
     }
     next() {
         console.log('this.creatureList.length', this.creatureList.length)

@@ -18,33 +18,27 @@ export default class CreatureTurnQueueTest {
         creatureList.push(creture2)
         creatureList.push(creture3)
 
-        copyCreatureList.push(creture1)
-        copyCreatureList.push(creture2)
-        copyCreatureList.push(creture3)
+        creatureTurnQueue.initQueue(creatureList)
 
-        creatureTurnQueue.initQueue(creatureList, copyCreatureList)
-
-        if (creatureList[2] !== creatureTurnQueue.getActiveCreature()) {
-            throw `Exception: => Kolejka nie dziala poprawnie`
-        }
-
-        if (creatureTurnQueue.next()) {
-            creatureTurnQueue.initQueue(creatureList, copyCreatureList)
-        }
-
-        if (creatureList[1] !== creatureTurnQueue.getActiveCreature()) {
+        if (creture1 !== creatureTurnQueue.getActiveCreature()) {
             throw `Exception: => Kolejka nie dziala poprawnie`
         }
         if (creatureTurnQueue.next()) {
-            creatureTurnQueue.initQueue(creatureList, copyCreatureList)
+            creatureTurnQueue.initQueue(creatureList)
         }
 
-        if (creatureList[0] !== creatureTurnQueue.getActiveCreature()) {
+        if (creture2 !== creatureTurnQueue.getActiveCreature()) {
             throw `Exception: => Kolejka nie dziala poprawnie`
         }
-
         if (creatureTurnQueue.next()) {
-            creatureTurnQueue.initQueue(creatureList, copyCreatureList)
+            creatureTurnQueue.initQueue(creatureList)
+        }
+
+        if (creture3 !== creatureTurnQueue.getActiveCreature()) {
+            throw `Exception: => Kolejka nie dziala poprawnie`
+        }
+        if (creatureTurnQueue.next()) {
+            creatureTurnQueue.initQueue(creatureList)
         }
 
     }
