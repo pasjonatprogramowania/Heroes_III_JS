@@ -1,5 +1,5 @@
 import Board from './board.js'
-import Creature from './creture.js'
+import Creature from './creature.js'
 
 export default class Point {
     constructor(aX, aY) {

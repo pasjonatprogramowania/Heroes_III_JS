@@ -1,6 +1,6 @@
 import Board from '../board.js'
 import Point from '../point.js'
-import Creature from '../creture.js'
+import Creature from '../creature.js'
 import CreatureTurnQueue from '../creatureTurnQueue.js'
 
 export default class CreatureTurnQueueTest {
