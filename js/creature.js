@@ -5,7 +5,8 @@ export default class Creature {
         this.stats = this.createCreature(_name, _attack, _armor, _maxHp, _moveRange);
         localStorage.setItem(`${this.stats.name}CurrentHp`, this.stats.getMaxHp())
         localStorage.setItem(`${this.stats.name}CurrentHp`, this.stats.getMaxHp())
-        this.var = false;
+        window.var = false;
+        //zamien wszystkie localStroydze na window. s
     }
     createCreature(_name, _attack, _armor, _maxHp, _moveRange) {
         return new CreatureStatistics(
@@ -24,7 +25,7 @@ export default class Creature {
                 localStorage.setItem(`${this.stats.name}CurrentHp`, attackerDamegeToDeal)
             }
         }
-        this.var = true;
+        window.var = true;
     }
     calculateDamage(creatureToAttack) {
         return creatureToAttack.stats.getMaxHp() - this.stats.getAttack() + creatureToAttack.stats.getArmor() > creatureToAttack.stats.getMaxHp()
@@ -37,7 +38,7 @@ export default class Creature {
         }
     }
     getCurrentHp() {
-        console.log('aaa', this.var)
+        console.log('aaa', window.var)
 
         return localStorage.getItem(`${this.stats.name}CurrentHp`)
     }
