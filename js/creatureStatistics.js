@@ -21,12 +21,4 @@ export default class CreatureStatistics {
     getMoveRange() {
         return this.moveRange
     }
-
-
-
-
-
-
-
-
 }

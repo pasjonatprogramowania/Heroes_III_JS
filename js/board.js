@@ -3,6 +3,7 @@ import BoardTest from './test/boardTest.js'
 import CreatureTurnQueueTest from './test/creatureTurnQueueTest.js'
 import CreatureTurnQueue from './creatureTurnQueue.js'
 import AttackTest from './test/attackTest.js';
+import CounterAttackTest from './test/counterAttack.js';
 
 export default class Board {
     constructor() {
@@ -58,9 +59,12 @@ let boardMovingTest = new BoardMovingTest();
 let boardTest = new BoardTest();
 let creatureTurnQueueTest = new CreatureTurnQueueTest()
 let attackTest = new AttackTest();
+let counterAttack = new CounterAttackTest()
 
 attackTest.creatureShouldLost10HpWhenAttackerHas20AttackAndDefenderHas10Armor();
 attackTest.creatureShouldNotSelfHealWhenAttackerHasLowerAttackThenDefenderArmor();
+counterAttack.creatureShouldCounterAttack();
+// counterAttack.creatureShouldCounterAttackOnlyOnceAtTour();
 creatureTurnQueueTest.queueShoulChangeActiveCreature()
 boardTest.mapShouldHaveKeyAndValue()
 boardMovingTest.cretureShouldMoveCorrectly()
