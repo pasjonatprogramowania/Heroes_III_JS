@@ -60,6 +60,7 @@ let creatureTurnQueueTest = new CreatureTurnQueueTest()
 let attackTest = new AttackTest();
 
 attackTest.creatureShouldLost10HpWhenAttackerHas20AttackAndDefenderHas10Armor();
+attackTest.creatureShouldNotSelfHealWhenAttackerHasLowerAttackThenDefenderArmor();
 creatureTurnQueueTest.queueShoulChangeActiveCreature()
 boardTest.mapShouldHaveKeyAndValue()
 boardMovingTest.cretureShouldMoveCorrectly()
