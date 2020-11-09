@@ -1,19 +1,18 @@
 <template>
   <div>
-    <unitTests/>
+    <unitTests />
   </div>
 </template>
 
-<script>
-import unitTests from './components/unitTests.vue'
+<script lang="ts">
+import unitTests from "./components/unitTests.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    unitTests
-  }
-}
+    unitTests,
+  },
+};
 </script>
 
-<style>
-</style>
+<style></style>

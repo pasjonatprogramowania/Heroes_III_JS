@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div />
 </template>
 
 <script>
@@ -23,7 +23,6 @@ boardTest.mapShouldHaveKeyAndValue();
 boardMovingTest.cretureShouldMoveCorrectly();
 
 export default {
-  name: "board",
   data() {
     return {};
   },
