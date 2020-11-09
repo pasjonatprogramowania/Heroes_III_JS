@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <BoardTestVue />
-  </div>
+  <div />
 </template>
 
 <script>
@@ -24,16 +22,10 @@ creatureTurnQueueTest.queueShoulChangeActiveCreature();
 boardTest.mapShouldHaveKeyAndValue();
 boardMovingTest.cretureShouldMoveCorrectly();
 
-import BoardTestVue from "./boardTest.vue";
-
 export default {
-  name: "Board",
-  components: {
-    BoardTestVue
-  },
   data() {
     return {};
-  }
+  },
 };
 </script>
 

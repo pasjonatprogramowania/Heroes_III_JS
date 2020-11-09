@@ -4,14 +4,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import unitTests from "./components/unitTests.vue";
 
 export default {
   name: "App",
   components: {
-    unitTests
-  }
+    unitTests,
+  },
 };
 </script>
 

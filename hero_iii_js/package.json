@@ -31,12 +31,13 @@
     },
     "extends": [
       "plugin:vue/recommended",
-      "plugin:prettier/recommended",
-      "eslint:recommended"
+      "eslint:recommended",
+      "prettier",
+      "prettier/vue"
     ],
     "parserOptions": {
       "parser": "babel-eslint"
-  },
+    },
     "rules": {}
   },
   "browserslist": [
