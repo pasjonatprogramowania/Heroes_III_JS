@@ -45,15 +45,3 @@ export default class Board {
         this.map.set(newPoint, creature)
     }
 }
-
-// module.exports = new Board();
-
-// **Testy jednostkowe**
-// Ruszenie 
-// -> Czy pole na które chce sie ruszyc jest zajete ?
-// -> Czy ruszenie sie na wybrane pole przebieglo pomyslnie ?
-// -> Czy po ruszeniu sie na wybrane pole zostalem usuniety z poprzedniego pola ?
-// Tworzenie 
-// -> Czy postacie dodaja sie na odpowiednie pola ?
-
-
