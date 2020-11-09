@@ -1,16 +1,16 @@
 <template>
   <div>
-    <board/>
+    <unitTests/>
   </div>
 </template>
 
 <script>
-import board from './components/board.vue'
+import unitTests from './components/unitTests.vue'
 
 export default {
   name: 'App',
   components: {
-    board
+    unitTests
   }
 }
 </script>
