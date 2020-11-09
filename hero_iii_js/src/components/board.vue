@@ -1,9 +1,14 @@
-export default class Board {
-  constructor() {
-    this.map = new Map();
-    this.boardX = 20;
-    this.boardY = 15;
-  }
+<template>
+  <div></div>
+</template>
+
+<script lang='ts'>
+import { Vue, Component } from "vue-property-decorator";
+@Component
+export default class Board extends Vue {
+  map = new Map();
+  boardX = 20;
+  boardY = 15;
   add(point, creature) {
     let mapToString = ``;
     this.map.forEach((val, key) => {
@@ -44,3 +49,7 @@ export default class Board {
     this.map.set(newPoint, creature);
   }
 }
+</script>
+
+<style>
+</style>

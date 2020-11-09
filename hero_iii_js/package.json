@@ -20,6 +20,8 @@
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-vue": "^6.2.2",
+    "vue-class-component": "^7.2.6",
+    "vue-property-decorator": "^9.0.2",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
@@ -34,7 +36,7 @@
     ],
     "parserOptions": {
       "parser": "babel-eslint"
-    },
+  },
     "rules": {}
   },
   "browserslist": [
