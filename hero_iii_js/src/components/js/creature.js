@@ -2,17 +2,7 @@ import CreatureStatistics from "./creatureStatistics.js";
 
 export default class Creature {
     constructor(_name, _attack, _armor, _maxHp, _moveRange) {
-        this.stats = this.createCreature(
-            _name,
-            _attack,
-            _armor,
-            _maxHp,
-            _moveRange
-        );
-        localStorage.setItem(`${this.stats.name}CurrentHp`, this.stats.getMaxHp());
-        localStorage.setItem(`${this.stats.name}CurrentHp`, this.stats.getMaxHp());
-        window.var = false;
-        //zamien wszystkie localStroydze na window. s
+        this.stats = this.createCreature(_name, _attack, _armor, _maxHp, _moveRange);
     }
     createCreature(_name, _attack, _armor, _maxHp, _moveRange) {
         return new CreatureStatistics(
@@ -24,42 +14,30 @@ export default class Creature {
         );
     }
     attack(_defender) {
+        _defender.stats.wasCounterAttack = false
+        _defender.stats.currentHp = _defender.stats.maxHp;
+        this.stats.wasCounterAttack = false
+        this.stats.currentHp = this.stats.maxHp;
+
         if (_defender.isAlive()) {
-            let defenderDamageToDeal = this.calculateDamage(_defender);
-            localStorage.setItem(
-                `${_defender.stats.name}CurrentHp`,
-                defenderDamageToDeal
-            );
-            if (_defender.isAlive()) {
-                let attackerDamegeToDeal = _defender.calculateDamage(this);
-                localStorage.setItem(
-                    `${this.stats.name}CurrentHp`,
-                    attackerDamegeToDeal
-                );
+            _defender.stats.currentHp = this.calculateDamage(_defender);
+            if (_defender.isAlive() && !_defender.wasCounterAttack) {
+                _defender.wasCounterAttack = true;
+                this.stats.currentHp = _defender.calculateDamage(this);
             }
         }
-        window.var = true;
     }
-    calculateDamage(creatureToAttack) {
-        return creatureToAttack.stats.getMaxHp() -
-            this.stats.getAttack() +
-            creatureToAttack.stats.getArmor() >
-            creatureToAttack.stats.getMaxHp()
-            ? creatureToAttack.stats.getMaxHp()
-            : creatureToAttack.stats.getMaxHp() -
-            this.stats.getAttack() +
-            creatureToAttack.stats.getArmor();
+    calculateDamage(attackedCreature) {
+        return attackedCreature.stats.getMaxHp() - this.stats.getAttack() + attackedCreature.stats.getArmor() > attackedCreature.stats.getMaxHp()
+            ? attackedCreature.stats.getMaxHp()
+            : attackedCreature.stats.getMaxHp() - this.stats.getAttack() + attackedCreature.stats.getArmor();
     }
     isAlive() {
-        if (localStorage.getItem(`${this.stats.name}CurrentHp`) > 0) {
+        if (this.stats.currentHp > 0) {
             return true;
         }
     }
     getCurrentHp() {
-        console.log("aaa", window.var);
-
-        return localStorage.getItem(`${this.stats.name}CurrentHp`);
+        return this.stats.currentHp;
     }
 }
-// TODO
-// CounterAttack powinien wykonywac sie tylko raz na tuer dodaj te logike

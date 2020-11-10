@@ -18,6 +18,7 @@ let counterAttackTest = new CounterAttackTest();
 attackTest.creatureShouldLost10HpWhenAttackerHas20AttackAndDefenderHas10Armor();
 attackTest.creatureShouldNotSelfHealWhenAttackerHasLowerAttackThenDefenderArmor();
 counterAttackTest.creatureShouldCounterAttack();
+counterAttackTest.creatureShouldCounterAttackOnlyOnceAtTour();
 creatureTurnQueueTest.queueShoulChangeActiveCreature();
 boardTest.mapShouldHaveKeyAndValue();
 boardMovingTest.cretureShouldMoveCorrectly();
