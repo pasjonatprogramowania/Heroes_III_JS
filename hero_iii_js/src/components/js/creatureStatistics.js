@@ -21,19 +21,4 @@ export default class CreatureStatistics {
     getMoveRange() {
         return this.moveRange;
     }
-    // setNewName(newName) {
-    //     this.name = newName;
-    // }
-    // setNewAttack(newAttack) {
-    //     this.attack = newAttack
-    // }
-    // setNewArmor(newArmor) {
-    //     this.armor = newArmor
-    // }
-    // setNewMaxHp(newMaxHp) {
-    //     this.maxHp = newMaxHp
-    // }
-    // setNewMoveRange(newMoveRange) {
-    //     this.moveRange = newMoveRange
-    // }
 }
