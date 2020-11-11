@@ -8,6 +8,7 @@ import BoardTest from "./js/test/boardTest.js";
 import CreatureTurnQueueTest from "./js/test/creatureTurnQueueTest.js";
 import AttackTest from "./js/test/attackTest.js";
 import CounterAttackTest from "./js/test/counterAttack.js";
+// import GameEngine from "./js/gameEngine.js";
 
 let boardMovingTest = new BoardMovingTest();
 let boardTest = new BoardTest();
@@ -21,6 +22,7 @@ counterAttackTest.creatureShouldCounterAttack();
 counterAttackTest.creatureShouldCounterAttackOnlyOnceAtTour();
 creatureTurnQueueTest.queueShoulChangeActiveCreature();
 boardTest.mapShouldHaveKeyAndValue();
+boardTest.shouldReturnCorrectLocationForCreatureByCreature();
 boardMovingTest.cretureShouldMoveCorrectly();
 
 export default {

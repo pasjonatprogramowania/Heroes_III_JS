@@ -14,4 +14,16 @@ export default class boardTest {
             throw "Exception: => Creature dla tego pola zwraca undefined";
         }
     }
+    shouldReturnCorrectLocationForCreatureByCreature() {
+        let board = new Board()
+        let creature = new Creature();
+
+        let unitTestPoint = new Point(0, 0);
+        board.add(unitTestPoint, creature);
+
+        if (board.getPoint(creature) !== unitTestPoint) {
+            throw "Exception: => getPoint nie poprawnie zwraca Creature";
+        }
+
+    }
 }
