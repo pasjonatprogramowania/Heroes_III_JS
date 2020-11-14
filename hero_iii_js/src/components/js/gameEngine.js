@@ -12,15 +12,22 @@ export default class GameEngine {
         _myCreatures.forEach(item => this.twoSidesCretures.push(item))
         _EnnemyCreatures.forEach(item => this.twoSidesCretures.push(item))
 
-        putCreaturesFromeOneSideToBoard(0, _myCreatures)
-        putCreaturesFromeOneSideToBoard(board.boardX - 1, _EnnemyCreatures)
+        putCreaturesFromeOneSideToBoard(_myCreatures, 0)
+        putCreaturesFromeOneSideToBoard(_EnnemyCreatures, board.boardX - 1)
     }
+    putCreaturesFromeOneSideToBoard(_creatures, _site) {
+        _creatures.forEach(((item, index) => {
+            this.board.add(new Point(_site, index * 2), item)
+        }))
+    }
+    // interactions
     move(_targetPoint) {
         this.board.movebyCreature(this.queue.getActiveCreature, _targetPoint)
     }
-    putCreaturesFromeOneSideToBoard(_leftOrRightSite, _creatures) {
-        _creatures.forEach(((item, index) => {
-            this.board.add(new Point(_leftOrRightSite, index * 2), item)
-        }))
+    pass() {
+        this.queue.next();
+    }
+    attack(x, y) {
+        this.queue.getActiveCreature().attack(board.get(x, y))
     }
 }

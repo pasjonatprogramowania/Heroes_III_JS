@@ -20,7 +20,4 @@ export default class CreatureTurnQueue {
             return true;
         }
     }
-    pass() {
-        return;
-    }
 }
