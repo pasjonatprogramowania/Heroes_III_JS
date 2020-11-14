@@ -16,7 +16,7 @@ export default class GameEngine {
         putCreaturesFromeOneSideToBoard(board.boardX - 1, _EnnemyCreatures)
     }
     move(_targetPoint) {
-        this.board.move(board.getPoint(this.queue.getActiveCreature), _targetPoint)
+        this.board.movebyCreature(this.queue.getActiveCreature, _targetPoint)
     }
     putCreaturesFromeOneSideToBoard(_leftOrRightSite, _creatures) {
         _creatures.forEach(((item, index) => {

@@ -33,6 +33,9 @@ export default class Board {
             }
         }
     }
+    movebyCreature(_creature, _newPoint) {
+        this.move(this.getPoint(_creature), _newPoint);
+    }
     move(_point, _newPoint) {
         let mapToString = ``;
         this.map.forEach((val, key) => {
