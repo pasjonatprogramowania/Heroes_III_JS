@@ -7,7 +7,7 @@
       </div>
     </div>
     <div>
-      <button>Pass</button>
+      <button @click="addCreaturesToGui()">Pass</button>
       <button>Defend</button>
       <button>Run</button>
     </div>
@@ -15,11 +15,25 @@
 </template>
 <script>
 import Board from "../js/board.js";
+import Creature from "../js/creature.js";
+// import GameEngine from "../js/gameEngine.js";
 export default {
   data() {
     return {
       board: new Board(),
     };
+  },
+  methods: {
+    addCreaturesToGui() {
+      let newCreature = new Creature();
+      let newPoint = 1;
+      this.board.add(newPoint, newCreature);
+      //Zrob tak aby to game engine robil to a ty tylko wysylasz
+      this.renderCreature(newPoint, newCreature);
+    },
+    renderCreature(_point, _creature) {
+      document.getElementById(_point).innerHTML = _creature.stats.name;
+    },
   },
 };
 </script>

@@ -1,5 +1,4 @@
 import Board from "../board.js";
-import Point from "../point.js";
 import Creature from "../creature.js";
 
 export default class boardTest {
@@ -7,7 +6,7 @@ export default class boardTest {
         let board = new Board();
         let creature = new Creature();
 
-        let unitTestPoint = new Point(1);
+        let unitTestPoint = 1;
         board.add(unitTestPoint, creature);
 
         if (board.getVal(unitTestPoint) === undefined) {
@@ -18,7 +17,7 @@ export default class boardTest {
         let board = new Board()
         let creature = new Creature();
 
-        let unitTestPoint = new Point(0);
+        let unitTestPoint = 0;
         board.add(unitTestPoint, creature);
 
         if (board.getPoint(creature) !== unitTestPoint) {
@@ -30,13 +29,10 @@ export default class boardTest {
         let board = new Board();
         let creature = new Creature();
 
-        let unitTestPoint = new Point(0);
+        let unitTestPoint = 0;
         board.add(unitTestPoint, creature);
 
-        // let unitTestPoint2 = new Point(1, 1)
-        // board.add(unitTestPoint2, creature);
-
-        let newUnitTestPoint = new Point(1);
+        let newUnitTestPoint = 1;
         board.move(unitTestPoint, newUnitTestPoint);
 
         if (board.getVal(unitTestPoint)) {

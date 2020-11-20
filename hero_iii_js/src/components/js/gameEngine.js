@@ -22,7 +22,7 @@ export default class GameEngine {
     }
     // interactions
     move(_targetPoint) {
-        this.board.movebyCreature(this.queue.getActiveCreature, _targetPoint)
+        this.board.moveByCreature(this.queue.getActiveCreature, _targetPoint)
     }
     pass() {
         this.queue.next();

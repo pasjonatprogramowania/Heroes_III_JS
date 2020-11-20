@@ -4,10 +4,6 @@ export default class Board {
         this.boardSize = 300;
     }
     add(_point, _creature) {
-        let mapToString = ``;
-        this.map.forEach((val, key) => {
-            mapToString += ` ${JSON.stringify(key)} ${JSON.stringify(val)} `;
-        });
 
         if (this.map.has(_point)) {
             throw "Exception: => To pole jest zajete, nie mozesz tam dodac jednostki";
@@ -18,7 +14,7 @@ export default class Board {
 
         this.map.set(_point, _creature);
 
-        if (mapToString.includes(JSON.stringify(_point))) {
+        if (JSON.stringify(this.map.get(_point)) === JSON.stringify(_creature.stats)) {
             throw "Exception: => Klucz nie jest równy tej wartosci która powinna byc wpisana";
         }
     }
@@ -32,19 +28,15 @@ export default class Board {
             }
         }
     }
-    movebyCreature(_creature, _newPoint) {
+    moveByCreature(_creature, _newPoint) {
         this.move(this.getPoint(_creature), _newPoint);
     }
     move(_point, _newPoint) {
-        let mapToString = ``;
-        this.map.forEach((val, key) => {
-            mapToString += ` ${JSON.stringify(key)} ${JSON.stringify(val)} `;
-        });
-
         if (_newPoint.position > this.boardSize) {
             throw "Exception: => Creature nie zostala ruszona, wskazaany pkt jest poza mapa";
         }
-        if (mapToString.includes(JSON.stringify(_newPoint))) {
+        console.log('this.map', this.map)
+        if (this.map.has(_newPoint)) {
             throw "Exception: => To pole jest zajete, nie mozesz tam ruszyc jednostki";
         }
 

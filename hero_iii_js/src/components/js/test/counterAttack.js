@@ -19,7 +19,6 @@ export default class CounterAttackTest {
         let defender = new Creature('Defender', 20, 20, 100, this.notImportant);
 
         attacker.attack(defender)
-        console.log('attacker.getCurrentHp()', attacker.getCurrentHp())
         if (attacker.getCurrentHp() != 85 || attacker2.getCurrentHp() != 100) {
             throw 'Exception: => Creatura atakuje wiecej niz raz'
         }
