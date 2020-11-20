@@ -14,13 +14,13 @@ export default class Creature {
             _moveRange || 10
         );
     }
-    setDeafoult() {
+    setDefaultStats() {
         this.stats.wasCounterAttack = false
         this.stats.currentHp = this.stats.currentHp != undefined ? this.stats.currentHp : this.stats.maxHp;
     }
     attack(_defender) {
-        _defender.setDeafoult();
-        this.setDeafoult();
+        _defender.setDefaultStats();
+        this.setDefaultStats();
 
         if (_defender.isAlive()) {
             _defender.stats.currentHp = this.calculateDamage(_defender);

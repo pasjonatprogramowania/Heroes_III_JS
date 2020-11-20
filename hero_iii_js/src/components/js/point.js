@@ -1,6 +1,5 @@
 export default class Point {
-  constructor(aX, aY) {
-    this.x = aX;
-    this.y = aY;
-  }
+    constructor(_position) {
+        this.position = _position;
+    }
 }

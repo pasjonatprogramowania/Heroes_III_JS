@@ -1,8 +1,7 @@
 export default class Board {
     constructor() {
         this.map = new Map();
-        this.boardX = 20;
-        this.boardY = 15;
+        this.boardSize = 300;
     }
     add(_point, _creature) {
         let mapToString = ``;
@@ -13,7 +12,7 @@ export default class Board {
         if (this.map.has(_point)) {
             throw "Exception: => To pole jest zajete, nie mozesz tam dodac jednostki";
         }
-        if (_point.x > this.boardX || _point.y > this.boardY) {
+        if (_point.position > this.boardSize) {
             throw "Exception: => Creature nie zostala ruszona, wskazaany pkt jest poza mapa";
         }
 
@@ -42,7 +41,7 @@ export default class Board {
             mapToString += ` ${JSON.stringify(key)} ${JSON.stringify(val)} `;
         });
 
-        if (_newPoint.x > this.boardX || _newPoint.y > this.boardY) {
+        if (_newPoint.position > this.boardSize) {
             throw "Exception: => Creature nie zostala ruszona, wskazaany pkt jest poza mapa";
         }
         if (mapToString.includes(JSON.stringify(_newPoint))) {

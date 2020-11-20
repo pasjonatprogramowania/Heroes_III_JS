@@ -7,7 +7,7 @@ export default class boardTest {
         let board = new Board();
         let creature = new Creature();
 
-        let unitTestPoint = new Point(0, 0);
+        let unitTestPoint = new Point(1);
         board.add(unitTestPoint, creature);
 
         if (board.getVal(unitTestPoint) === undefined) {
@@ -18,7 +18,7 @@ export default class boardTest {
         let board = new Board()
         let creature = new Creature();
 
-        let unitTestPoint = new Point(0, 0);
+        let unitTestPoint = new Point(0);
         board.add(unitTestPoint, creature);
 
         if (board.getPoint(creature) !== unitTestPoint) {
@@ -30,13 +30,13 @@ export default class boardTest {
         let board = new Board();
         let creature = new Creature();
 
-        let unitTestPoint = new Point(0, 0);
+        let unitTestPoint = new Point(0);
         board.add(unitTestPoint, creature);
 
         // let unitTestPoint2 = new Point(1, 1)
         // board.add(unitTestPoint2, creature);
 
-        let newUnitTestPoint = new Point(1, 1);
+        let newUnitTestPoint = new Point(1);
         board.move(unitTestPoint, newUnitTestPoint);
 
         if (board.getVal(unitTestPoint)) {
