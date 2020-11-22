@@ -43,6 +43,8 @@ export default {
   data() {
     return {
       gameEngine: new Creature(),
+      myCreature: [],
+      ennemyCreature: [],
     };
   },
   methods: {
@@ -55,30 +57,27 @@ export default {
       let newCreature5 = new Creature();
       let newCreature6 = new Creature();
 
-      let myCreature = [];
-      myCreature.push(newCreature1);
-      myCreature.push(newCreature2);
-      myCreature.push(newCreature3);
+      this.myCreature.push(newCreature1);
+      this.myCreature.push(newCreature2);
+      this.myCreature.push(newCreature3);
 
-      let ennemyCreature = [];
-      ennemyCreature.push(newCreature4);
-      ennemyCreature.push(newCreature5);
-      ennemyCreature.push(newCreature6);
+      this.ennemyCreature.push(newCreature4);
+      this.ennemyCreature.push(newCreature5);
+      this.ennemyCreature.push(newCreature6);
 
-      this.gameEngine = new GameEngine(myCreature, ennemyCreature);
+      this.gameEngine = new GameEngine(this.myCreature, this.ennemyCreature);
     },
     putCreaturesOnBoard() {
-      for (let [key, val] of this.gameEngine.board.map.entries()) {
-        key += 1;
-        if (key < 15) {
-          document.querySelector(`div[positionOnEnnemy="${key}"]`).innerHTML =
-            val.stats.name;
-        } else {
-          document.querySelector(
-            `div[positionOnPlayer="${key - 285}"]`
-          ).innerHTML = val.stats.name;
-        }
-      }
+      this.myCreature.forEach((item, index) => {
+        document.querySelector(
+          `div[positionOnEnnemy='${index + 1}']`
+        ).innerHTML = item.stats.name;
+      });
+      this.ennemyCreature.forEach((item, index) => {
+        document.querySelector(
+          `div[positionOnPlayer='${index + 1}']`
+        ).innerHTML = item.stats.name;
+      });
     },
   },
   created() {

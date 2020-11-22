@@ -10,9 +10,18 @@ export default class GameEngine {
         this.putCreatureToBoard(_myCreatures, _EnnemyCreatures)
     }
     putCreatureToBoard(_myCreatures, _EnnemyCreatures) {
-        _myCreatures.forEach(item => this.twoSidesCretures.push(item))
-        _EnnemyCreatures.forEach(item => this.twoSidesCretures.push(item))
-
+        _myCreatures.forEach(item => {
+            this.twoSidesCretures.push({
+                player: 'ennemy',
+                creature: item.stats
+            })
+        });
+        _EnnemyCreatures.forEach(item => {
+            this.twoSidesCretures.push({
+                player: 'player',
+                creature: item.stats
+            })
+        });
         this.putCreaturesFromeOneSideToBoard(_myCreatures, 'left')
         this.putCreaturesFromeOneSideToBoard(_EnnemyCreatures, 'right')
     }
