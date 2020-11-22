@@ -1,15 +1,37 @@
 <template>
   <div class="container">
-    <h1>Player 1 vs Player 2</h1>
-    <div class="board">
-      <div v-for="index in this.gameEngine.board.boardSize" :key="index">
-        <div class="board-field" :position="`_${index}`">{{ index }}</div>
+    <div class="wrapper">
+      <h1>Player 1 vs Player 2</h1>
+    </div>
+    <div class="wrapper">
+      <div class="side-board">
+        <div v-for="index in this.gameEngine.board.boardY" :key="index">
+          <div class="my-creature field" :positionOnPlayer="`${index}`">
+            {{ index }}
+          </div>
+        </div>
+      </div>
+      <div class="board">
+        <div v-for="index in this.gameEngine.board.boardSize" :key="index">
+          <div class="field board-creture" :positionOnBoard="`${index}`">
+            {{ index }}
+          </div>
+        </div>
+      </div>
+      <div class="side-board">
+        <div v-for="index in this.gameEngine.board.boardY" :key="index">
+          <div class="ennemy-creature field" :positionOnPlayer="`${index}`">
+            {{ index }}
+          </div>
+        </div>
       </div>
     </div>
-    <div>
-      <button @click="updateCretureOnBoard()">Pass</button>
-      <button>Defend</button>
-      <button>Run</button>
+    <div class="wrapper">
+      <div>
+        <button>Pass</button>
+        <button>Defend</button>
+        <button>Run</button>
+      </div>
     </div>
   </div>
 </template>
@@ -46,7 +68,7 @@ export default {
     },
     putCreaturesOnBoard() {
       for (const [key, val] of this.gameEngine.board.map.entries()) {
-        document.querySelector(`div[position="${key + 1}"]`).innerHTML =
+        document.querySelector(`div[positionOnBoard="${key + 1}"]`).innerHTML =
           val.stats.name;
       }
     },
@@ -79,20 +101,33 @@ html {
   filter: invert(1) hue-rotate(180deg);
 }  */
 .container {
-  margin: 10px 140px 10px 140px;
+  /* margin: 10px 140px 10px 140px; */
+}
+.wrapper {
+  display: flex;
+  justify-content: center;
 }
 .board {
   display: grid;
-  grid-template-rows: repeat(15, 1fr);
-  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(15, minmax(50px, 1fr));
+  grid-template-columns: repeat(20, minmax(50px, 1fr));
   grid-auto-flow: column;
 }
-.board-field {
+side-board {
+  display: grid;
+  grid-template-rows: repeat(auto-fill, 1fr);
+}
+.field.my-creature,
+.field.ennemy-creature {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.field {
   border: 2px solid var(--mainTextColor);
   width: 50px;
   height: 50px;
 }
-h1 {
+.container h1 {
   margin: 0 auto 40px auto;
 }
 button {
