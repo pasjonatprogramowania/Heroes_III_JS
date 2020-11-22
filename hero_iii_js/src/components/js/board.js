@@ -2,6 +2,8 @@ export default class Board {
     constructor() {
         this.map = new Map();
         this.boardSize = 300;
+        this.boardX = 20;
+        this.boardY = 15;
     }
     add(_point, _creature) {
 

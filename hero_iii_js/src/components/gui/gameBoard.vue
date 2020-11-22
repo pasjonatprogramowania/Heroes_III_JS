@@ -2,39 +2,60 @@
   <div class="container">
     <h1>Player 1 vs Player 2</h1>
     <div class="board">
-      <div v-for="index in this.board.boardSize" :key="index">
-        <div class="board-field" :id="index"></div>
+      <div v-for="index in this.gameEngine.board.boardSize" :key="index">
+        <div class="board-field" :position="`_${index}`">{{ index }}</div>
       </div>
     </div>
     <div>
-      <button @click="addCreaturesToGui()">Pass</button>
+      <button @click="updateCretureOnBoard()">Pass</button>
       <button>Defend</button>
       <button>Run</button>
     </div>
   </div>
 </template>
 <script>
-import Board from "../js/board.js";
 import Creature from "../js/creature.js";
-// import GameEngine from "../js/gameEngine.js";
+import GameEngine from "../js/gameEngine.js";
 export default {
   data() {
     return {
-      board: new Board(),
-      
+      gameEngine: new Creature(),
     };
   },
   methods: {
-    addCreaturesToGui() {
-      let newCreature = new Creature();
-      let newPoint = 1;
-      this.board.add(newPoint, newCreature);
-      //Zrob tak aby to game engine robil to a ty tylko wysylasz
-      this.renderCreature(newPoint, newCreature);
+    createGameEngineObjectAndBoard() {
+      let newCreature1 = new Creature();
+      let newCreature2 = new Creature();
+      let newCreature3 = new Creature();
+
+      let newCreature4 = new Creature();
+      let newCreature5 = new Creature();
+      let newCreature6 = new Creature();
+
+      let myCreature = [];
+      myCreature.push(newCreature1);
+      myCreature.push(newCreature2);
+      myCreature.push(newCreature3);
+
+      let ennemyCreature = [];
+      ennemyCreature.push(newCreature4);
+      ennemyCreature.push(newCreature5);
+      ennemyCreature.push(newCreature6);
+
+      this.gameEngine = new GameEngine(myCreature, ennemyCreature);
     },
-    renderCreature(_point, _creature) {
-      document.getElementById(_point).innerHTML = _creature.stats.name;
+    putCreaturesOnBoard() {
+      for (const [key, val] of this.gameEngine.board.map.entries()) {
+        document.querySelector(`div[position="${key + 1}"]`).innerHTML =
+          val.stats.name;
+      }
     },
+  },
+  created() {
+    this.createGameEngineObjectAndBoard();
+  },
+  mounted() {
+    this.putCreaturesOnBoard();
   },
 };
 </script>
@@ -64,6 +85,7 @@ html {
   display: grid;
   grid-template-rows: repeat(15, 1fr);
   grid-template-columns: repeat(20, 1fr);
+  grid-auto-flow: column;
 }
 .board-field {
   border: 2px solid var(--mainTextColor);

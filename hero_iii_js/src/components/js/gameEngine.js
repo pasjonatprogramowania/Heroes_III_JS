@@ -1,5 +1,6 @@
-import Board from './board';
-import CreatureTurnQueue from './creatureTurnQueue';
+import Board from './board.js';
+import CreatureTurnQueue from './creatureTurnQueue.js';
+// import Creature from './creature.js';
 
 export default class GameEngine {
     constructor(_myCreatures, _EnnemyCreatures) {
@@ -12,22 +13,22 @@ export default class GameEngine {
         _myCreatures.forEach(item => this.twoSidesCretures.push(item))
         _EnnemyCreatures.forEach(item => this.twoSidesCretures.push(item))
 
-        putCreaturesFromeOneSideToBoard(_myCreatures, 0)
-        putCreaturesFromeOneSideToBoard(_EnnemyCreatures, board.boardX - 1)
+        this.putCreaturesFromeOneSideToBoard(_myCreatures, 'left')
+        this.putCreaturesFromeOneSideToBoard(_EnnemyCreatures, 'right')
     }
     putCreaturesFromeOneSideToBoard(_creatures, _site) {
         _creatures.forEach(((item, index) => {
-            this.board.add(new Point(_site, index * 2), item)
+            this.board.add((_site === 'right' ? index + 285 : index), item)
         }))
+        console.log('this.board', this.board)
     }
-    // interactions
     move(_targetPoint) {
         this.board.moveByCreature(this.queue.getActiveCreature, _targetPoint)
     }
     pass() {
         this.queue.next();
     }
-    attack(x, y) {
-        this.queue.getActiveCreature().attack(board.get(x, y))
+    attack(_point) {
+        this.queue.getActiveCreature().attack(this.board.getVal(_point))
     }
 }
