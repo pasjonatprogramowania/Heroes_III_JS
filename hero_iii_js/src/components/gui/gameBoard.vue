@@ -13,14 +13,14 @@
       </div>
       <div class="board">
         <div v-for="index in this.gameEngine.board.boardSize" :key="index">
-          <div class="field board-creture" :positionOnBoard="`${index}`">
+          <div class="board-creture field" :positionOnBoard="`${index}`">
             {{ index }}
           </div>
         </div>
       </div>
       <div class="side-board">
         <div v-for="index in this.gameEngine.board.boardY" :key="index">
-          <div class="ennemy-creature field" :positionOnPlayer="`${index}`">
+          <div class="ennemy-creature field" :positionOnEnnemy="`${index}`">
             {{ index }}
           </div>
         </div>
@@ -28,6 +28,7 @@
     </div>
     <div class="wrapper">
       <div>
+        <button>Spell Book</button>
         <button>Pass</button>
         <button>Defend</button>
         <button>Run</button>
@@ -67,9 +68,16 @@ export default {
       this.gameEngine = new GameEngine(myCreature, ennemyCreature);
     },
     putCreaturesOnBoard() {
-      for (const [key, val] of this.gameEngine.board.map.entries()) {
-        document.querySelector(`div[positionOnBoard="${key + 1}"]`).innerHTML =
-          val.stats.name;
+      for (let [key, val] of this.gameEngine.board.map.entries()) {
+        key += 1;
+        if (key < 15) {
+          document.querySelector(`div[positionOnEnnemy="${key}"]`).innerHTML =
+            val.stats.name;
+        } else {
+          document.querySelector(
+            `div[positionOnPlayer="${key - 285}"]`
+          ).innerHTML = val.stats.name;
+        }
       }
     },
   },
@@ -97,12 +105,6 @@ export default {
 html {
   background-color: var(--mainBackgoundColor);
 }
-/* html[theme="dark-mode"] img {
-  filter: invert(1) hue-rotate(180deg);
-}  */
-.container {
-  /* margin: 10px 140px 10px 140px; */
-}
 .wrapper {
   display: flex;
   justify-content: center;
@@ -115,12 +117,12 @@ html {
 }
 side-board {
   display: grid;
-  grid-template-rows: repeat(auto-fill, 1fr);
+  grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
 }
 .field.my-creature,
 .field.ennemy-creature {
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 .field {
   border: 2px solid var(--mainTextColor);
@@ -134,7 +136,7 @@ button {
   background-color: var(--mainBackgoundColor);
   border-radius: 20%;
   color: var(--mainTextColor);
-  margin: 20px 5px auto;
+  margin: 20px 10px auto;
   padding: 10px;
   font-size: 1.2rem;
   -webkit-box-shadow: 7px 3px 15px 0px rgba(0, 0, 0, 0.36);
