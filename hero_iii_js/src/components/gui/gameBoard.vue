@@ -5,22 +5,43 @@
     </div>
     <div class="wrapper">
       <div class="side-board">
-        <div v-for="index in this.gameEngine.board.boardY" :key="index">
-          <div class="my-creature field" :positionOnPlayer="`${index}`">
+        <div v-for="index in gameEngine.board.boardY" :key="index">
+          <div
+            class="my-creature field"
+            name=""
+            id=""
+            player=""
+            position=""
+            :positionOnPlayer="`${index}`"
+          >
             {{ index }}
           </div>
         </div>
       </div>
       <div class="board">
-        <div v-for="index in this.gameEngine.board.boardSize" :key="index">
-          <div class="board-creture field" :positionOnBoard="`${index}`">
+        <div v-for="index in gameEngine.board.boardSize" :key="index">
+          <div
+            class="board-creature field"
+            name=""
+            id=""
+            player=""
+            position=""
+            :positionOnBoard="`${index}`"
+          >
             {{ index }}
           </div>
         </div>
       </div>
       <div class="side-board">
-        <div v-for="index in this.gameEngine.board.boardY" :key="index">
-          <div class="ennemy-creature field" :positionOnEnnemy="`${index}`">
+        <div v-for="index in gameEngine.board.boardY" :key="index">
+          <div
+            class="ennemy-creature field"
+            name=""
+            id=""
+            player=""
+            position=""
+            :positionOnEnnemy="`${index}`"
+          >
             {{ index }}
           </div>
         </div>
@@ -29,7 +50,7 @@
     <div class="wrapper">
       <div>
         <button>Spell Book</button>
-        <button>Pass</button>
+        <button @click="passCreature()">Pass</button>
         <button>Defend</button>
         <button>Run</button>
       </div>
@@ -47,44 +68,77 @@ export default {
       ennemyCreature: [],
     };
   },
-  methods: {
-    createGameEngineObjectAndBoard() {
-      let newCreature1 = new Creature();
-      let newCreature2 = new Creature();
-      let newCreature3 = new Creature();
-
-      let newCreature4 = new Creature();
-      let newCreature5 = new Creature();
-      let newCreature6 = new Creature();
-
-      this.myCreature.push(newCreature1);
-      this.myCreature.push(newCreature2);
-      this.myCreature.push(newCreature3);
-
-      this.ennemyCreature.push(newCreature4);
-      this.ennemyCreature.push(newCreature5);
-      this.ennemyCreature.push(newCreature6);
-
-      this.gameEngine = new GameEngine(this.myCreature, this.ennemyCreature);
-    },
-    putCreaturesOnBoard() {
-      this.myCreature.forEach((item, index) => {
-        document.querySelector(
-          `div[positionOnEnnemy='${index + 1}']`
-        ).innerHTML = item.stats.name;
-      });
-      this.ennemyCreature.forEach((item, index) => {
-        document.querySelector(
-          `div[positionOnPlayer='${index + 1}']`
-        ).innerHTML = item.stats.name;
-      });
-    },
-  },
   created() {
     this.createGameEngineObjectAndBoard();
   },
   mounted() {
     this.putCreaturesOnBoard();
+  },
+  methods: {
+    createGameEngineObjectAndBoard() {
+      let newCreature1 = new Creature("smok1");
+      let newCreature2 = new Creature("smok2");
+      let newCreature3 = new Creature("smok3");
+
+      let newCreature4 = new Creature("smok4");
+      let newCreature5 = new Creature("smok5");
+      let newCreature6 = new Creature("smok6");
+
+      this.myCreature.push(newCreature1, newCreature2, newCreature3);
+
+      this.ennemyCreature.push(newCreature4, newCreature5, newCreature6);
+
+      this.gameEngine = new GameEngine(this.myCreature, this.ennemyCreature);
+    },
+    putCreaturesOnBoard() {
+      // prettier-ignore
+      this.gameEngine.creaturesOnBoard.forEach((item, index) => {
+        if (item.position + 1 <= 15) {
+          if (item.creature.stats.name ||item.creature.stats.attack ||item.creature.stats.armor ||item.creature.stats.maxHp ||item.creature.stats.moveRange) {
+
+            let selectorPositionDiv = document.querySelector(`div[positionOnPlayer='${item.position + 1}']`);
+            this.addAtrToCreatureField(selectorPositionDiv,item)
+          }
+        } else {
+          if (item.creature.stats.name ||item.creature.stats.attack ||item.creature.stats.armor ||item.creature.stats.maxHp ||item.creature.stats.moveRange) {
+
+            let selectorPositionDiv = document.querySelector(`div[positionOnEnnemy='${(item.position + 1 ) - 285}']`);
+            this.addAtrToCreatureField(selectorPositionDiv,item)
+          }
+        }
+        if(item.creature === this.gameEngine.queue.getActiveCreature()){
+            document.querySelector(`div[id='${index}']`).setAttribute('style','background-color:green')
+        }
+      });
+    },
+    addAtrToCreatureField(selectorPositionDiv, item) {
+      selectorPositionDiv.innerHTML = item.creature.stats.name;
+      selectorPositionDiv.setAttribute("name", `${item.creature.stats.name}`);
+      selectorPositionDiv.setAttribute("id", `${item.id}`);
+      selectorPositionDiv.setAttribute("player", `${item.player}`);
+      selectorPositionDiv.setAttribute("position", `${item.position + 1}`);
+    },
+    passCreature() {
+      this.gameEngine.pass();
+      this.refreshGui();
+    },
+    refreshGui() {
+      this.gameEngine.creaturesOnBoard.forEach((item, index) => {
+        let selectorByIdCreature = document.querySelector(`div[id='${index}']`);
+        if (!this.gameEngine.queue.getActiveCreature()) {
+          this.gameEngine = new GameEngine(
+            this.myCreature,
+            this.ennemyCreature
+          );
+        }
+        if (selectorByIdCreature.getAttribute("style")) {
+          selectorByIdCreature.removeAttribute("style");
+        }
+        if (item.creature === this.gameEngine.queue.getActiveCreature()) {
+          selectorByIdCreature.setAttribute("style", "background-color:green");
+        }
+      });
+    },
   },
 };
 </script>

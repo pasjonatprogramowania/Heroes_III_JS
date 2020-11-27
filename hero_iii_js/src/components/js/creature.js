@@ -3,7 +3,8 @@ import CreatureStatistics from "./creatureStatistics.js";
 export default class Creature {
     constructor(_name, _attack, _armor, _maxHp, _moveRange) {
         this.stats = this.createCreature(_name, _attack, _armor, _maxHp, _moveRange);
-        this.stats.currentHp = this.stats.maxHp
+        this.stats.currentHp = this.stats.maxHp;
+        this.stats.wasCounterAttack = false;
     }
     createCreature(_name, _attack, _armor, _maxHp, _moveRange) {
         return new CreatureStatistics(
@@ -15,9 +16,10 @@ export default class Creature {
         );
     }
     setDefaultStats() {
-        this.stats.wasCounterAttack = false
+        // this.stats.wasCounterAttack == true ? this.stats.wasCounterAttack = false : this.stats.wasCounterAttack = true
         this.stats.currentHp = this.stats.currentHp != undefined ? this.stats.currentHp : this.stats.maxHp;
     }
+    // popraw counter atack
     attack(_defender) {
         _defender.setDefaultStats();
         this.setDefaultStats();
@@ -43,4 +45,12 @@ export default class Creature {
     getCurrentHp() {
         return this.stats.currentHp;
     }
+    resetCounterAttack() {
+        this.stats.wasCounterAttack = false;
+    }
+    canCounterAttack() {
+        return !this.stats.wasCounterAttack
+    }
+
 }
+

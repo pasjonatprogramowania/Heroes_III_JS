@@ -20,7 +20,7 @@ export default class CreatureTurnQueueTest {
             if (item !== creatureTurnQueue.getActiveCreature()) {
                 throw `Exception: => Kolejka nie dziala poprawnie`;
             }
-            if (creatureTurnQueue.next()) {
+            if (creatureTurnQueue.next(creatureMap)) {
                 creatureTurnQueue.initQueue(creatureMap);
             }
         });

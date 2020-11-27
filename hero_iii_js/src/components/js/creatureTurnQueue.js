@@ -1,23 +1,35 @@
 export default class CreatureTurnQueue {
     constructor() {
-        this.creatureList = new Map();
-        this.counterToRemove;
+        this.creatureMap = new Map();
+        this.creatureArray = [];
+        this.observersArray = [];
     }
-    initQueue(list) {
-        this.creatureList = list;
-        this.counterToRemove = 0;
+    initQueue(list = {}) {
+        this.creatureMap = list;
+        list.forEach(val => this.creatureArray.push(val));
     }
     getActiveCreature() {
         let creatureListArray = [];
-        this.creatureList.forEach((val, key) => (creatureListArray[key] = val));
-        this.creatureList.delete(this.counterToRemove);
-        this.counterToRemove++;
+        this.creatureMap.forEach((val, key) => creatureListArray[key] = val);
+
         let [first] = creatureListArray.filter(el => el);
         return first;
     }
-    next() {
-        if (this.creatureList.size == 0) {
+    next(list = {}) {
+        this.creatureMap.delete(this.creatureMap.keys().next().value);
+        if (this.creatureMap.size == 0) {
+            this.notifyObserver();
+            this.initQueue(list);
             return true;
         }
+    }
+    addObserver(_observer) {
+        this.observersArray.push(_observer)
+    }
+    removeObserver(_observer) {
+        this.observersArray.pull(_observer)
+    }
+    notifyObserver() {
+        this.observersArray.forEach(item => item.resetCounterAttack())
     }
 }
