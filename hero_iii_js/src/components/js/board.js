@@ -11,7 +11,7 @@ export default class Board {
         if (this.map.has(_point)) {
             throw "Exception: => To pole jest zajete, nie mozesz tam dodac jednostki";
         }
-        if (_point.position > this.boardSize) {
+        if (_point.x > this.boardX || _point.y > this.boardY) {
             throw "Exception: => Creature nie zostala ruszona, wskazaany pkt jest poza mapa";
         }
         this.map.set(_point, _creature);
@@ -33,10 +33,10 @@ export default class Board {
         this.move(this.getPoint(_creature), _newPoint);
     }
     move(_point, _newPoint) {
-        if (_newPoint.position > this.boardSize) {
+        if (_newPoint.x > this.boardX || _newPoint.y > this.boardY) {
             throw "Exception: => Creature nie zostala ruszona, wskazaany pkt jest poza mapa";
         }
-        if (this.map.has(_newPoint)) {
+        if (JSON.stringify(this.map.keys().next().value) === JSON.stringify(_newPoint)) {
             throw "Exception: => To pole jest zajete, nie mozesz tam ruszyc jednostki";
         }
 
@@ -44,4 +44,7 @@ export default class Board {
         this.map.delete(_point);
         this.map.set(_newPoint, creature);
     }
+    // canMove(_creature, _point) {
+
+    // }
 }

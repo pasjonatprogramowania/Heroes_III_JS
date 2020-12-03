@@ -1,3 +1,4 @@
+
 <template>
   <div class="container">
     <div class="wrapper">
@@ -6,47 +7,29 @@
     <div class="wrapper">
       <div class="side-board">
         <div v-for="index in gameEngine.board.boardY" :key="index">
-          <div
-            class="my-creature field"
-            name=""
-            id=""
-            player=""
-            position=""
-            :positionOnPlayer="`${index}`"
-          >
+          <div class="my-creature field" :positionOnPlayer="`${index}`">
             {{ index }}
           </div>
         </div>
       </div>
       <div class="board">
-        <div v-for="index in gameEngine.board.boardSize" :key="index">
-          <div
-            class="board-creature field"
-            name=""
-            id=""
-            player=""
-            position=""
-            :positionOnBoard="`${index}`"
-          >
-            {{ index }}
+        <div v-for="x in gameEngine.board.boardX" :key="x">
+          <div v-for="y in gameEngine.board.boardY" :key="y">
+            <div class="board-creature field" :x="`${x}`" :y="`${y}`">
+              {{ x }},{{ y }}
+            </div>
           </div>
         </div>
       </div>
       <div class="side-board">
         <div v-for="index in gameEngine.board.boardY" :key="index">
-          <div
-            class="ennemy-creature field"
-            name=""
-            id=""
-            player=""
-            position=""
-            :positionOnEnnemy="`${index}`"
-          >
+          <div class="ennemy-creature field" :positionOnEnnemy="`${index}`">
             {{ index }}
           </div>
         </div>
       </div>
     </div>
+
     <div class="wrapper">
       <div>
         <button>Spell Book</button>
@@ -91,32 +74,31 @@ export default {
       this.gameEngine = new GameEngine(this.myCreature, this.ennemyCreature);
     },
     putCreaturesOnBoard() {
-      // prettier-ignore
+
       this.gameEngine.creaturesOnBoard.forEach((item, index) => {
-        if (item.position + 1 <= 15) {
-          if (item.creature.stats.name ||item.creature.stats.attack ||item.creature.stats.armor ||item.creature.stats.maxHp ||item.creature.stats.moveRange) {
-
-            let selectorPositionDiv = document.querySelector(`div[positionOnPlayer='${item.position + 1}']`);
-            this.addAtrToCreatureField(selectorPositionDiv,item)
-          }
-        } else {
-          if (item.creature.stats.name ||item.creature.stats.attack ||item.creature.stats.armor ||item.creature.stats.maxHp ||item.creature.stats.moveRange) {
-
-            let selectorPositionDiv = document.querySelector(`div[positionOnEnnemy='${(item.position + 1 ) - 285}']`);
-            this.addAtrToCreatureField(selectorPositionDiv,item)
-          }
+          let activeCreture = this.gameEngine.queue.getActiveCreature()
+        if (item.player === 'player') {
+            this.addAtrToCreatureField(item)
+        } else {          
+            this.addAtrToCreatureField(item)
         }
-        if(item.creature === this.gameEngine.queue.getActiveCreature()){
+        if(JSON.stringify(item.creature) === JSON.stringify(activeCreture)){
             document.querySelector(`div[id='${index}']`).setAttribute('style','background-color:green')
         }
       });
+      console.log(this.gameEngine.creaturesOnBoard);
     },
-    addAtrToCreatureField(selectorPositionDiv, item) {
+    addAtrToCreatureField(item) {
+      // prettier-ignore
+      if (item.creature.stats.name ||item.creature.stats.attack ||item.creature.stats.armor ||item.creature.stats.maxHp ||item.creature.stats.moveRange) {
+      let selectorPositionDiv = document.querySelector(`div[Y='${item.positionY}'][ X='${item.positionX}']`);
       selectorPositionDiv.innerHTML = item.creature.stats.name;
       selectorPositionDiv.setAttribute("name", `${item.creature.stats.name}`);
       selectorPositionDiv.setAttribute("id", `${item.id}`);
       selectorPositionDiv.setAttribute("player", `${item.player}`);
-      selectorPositionDiv.setAttribute("position", `${item.position + 1}`);
+      selectorPositionDiv.setAttribute("positionX", `${item.positionX}`);
+      selectorPositionDiv.setAttribute("positionY", `${item.positionY}`);
+        }
     },
     passCreature() {
       this.gameEngine.pass();
@@ -124,19 +106,17 @@ export default {
     },
     refreshGui() {
       this.gameEngine.creaturesOnBoard.forEach((item, index) => {
+        let activeCreature = this.gameEngine.queue.getActiveCreature();
         let selectorByIdCreature = document.querySelector(`div[id='${index}']`);
-        if (!this.gameEngine.queue.getActiveCreature()) {
-          this.gameEngine = new GameEngine(
-            this.myCreature,
-            this.ennemyCreature
-          );
-        }
         if (selectorByIdCreature.getAttribute("style")) {
           selectorByIdCreature.removeAttribute("style");
         }
-        if (item.creature === this.gameEngine.queue.getActiveCreature()) {
+        if (item.creature === activeCreature) {
           selectorByIdCreature.setAttribute("style", "background-color:green");
         }
+        //     // if (this.gameEngine.canMove()) {
+        //     //   selectorByIdCreature.setAttribute("style", "background-color:gray");
+        //     // }
       });
     },
   },
@@ -164,7 +144,6 @@ html {
 }
 .board {
   display: grid;
-  grid-template-rows: repeat(15, minmax(50px, 1fr));
   grid-template-columns: repeat(20, minmax(50px, 1fr));
   grid-auto-flow: column;
 }

@@ -5,22 +5,20 @@ export default class CreatureTurnQueue {
         this.observersArray = [];
     }
     initQueue(list = {}) {
-        this.creatureMap = list;
-        list.forEach(val => this.creatureArray.push(val));
+        this.creatureMap = new Map(list)
+        this.observersArray = Array.from(list.values());
+        this.creatureArray = Array.from(list.values());
     }
     getActiveCreature() {
-        let creatureListArray = [];
-        this.creatureMap.forEach((val, key) => creatureListArray[key] = val);
-
-        let [first] = creatureListArray.filter(el => el);
+        let [first] = this.creatureArray.filter(el => el);
         return first;
     }
     next(list = {}) {
+        this.creatureArray.shift()
         this.creatureMap.delete(this.creatureMap.keys().next().value);
         if (this.creatureMap.size == 0) {
             this.notifyObserver();
             this.initQueue(list);
-            return true;
         }
     }
     addObserver(_observer) {

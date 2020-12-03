@@ -1,5 +1,6 @@
 import Creature from "../creature.js";
 import CreatureTurnQueue from "../creatureTurnQueue.js";
+import Point from './../point';
 
 export default class CreatureTurnQueueTest {
     queueShoulChangeActiveCreature() {
@@ -9,20 +10,22 @@ export default class CreatureTurnQueueTest {
         let creture2 = new Creature("bbbb", 1, 1, 1, 1);
         let creture3 = new Creature("cccc", 1, 1, 1, 1);
 
+        let point1 = new Point(1, 0)
+        let point2 = new Point(2, 0)
+        let point3 = new Point(3, 0)
+
         let creatureMap = new Map();
-        creatureMap.set(0, creture1);
-        creatureMap.set(1, creture2);
-        creatureMap.set(2, creture3);
+        creatureMap.set(point1, creture1);
+        creatureMap.set(point2, creture2);
+        creatureMap.set(point3, creture3);
 
         creatureTurnQueue.initQueue(creatureMap);
 
         creatureMap.forEach(item => {
-            if (item !== creatureTurnQueue.getActiveCreature()) {
-                throw `Exception: => Kolejka nie dziala poprawnie`;
+            if (JSON.stringify(item) !== JSON.stringify(creatureTurnQueue.getActiveCreature())) {
+                throw `Exception: => Kolejka nie dziala poprawnie zwracana aktywna creatura jest inna`;
             }
-            if (creatureTurnQueue.next(creatureMap)) {
-                creatureTurnQueue.initQueue(creatureMap);
-            }
+            creatureTurnQueue.next(creatureMap)
         });
     }
 }
