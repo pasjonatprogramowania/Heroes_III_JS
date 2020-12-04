@@ -23,9 +23,9 @@ creatureTurnQueueTest.queueShoulChangeActiveCreature();
 boardTest.mapShouldHaveKeyAndValue();
 boardTest.shouldReturnCorrectLocationForCreatureByCreature();
 boardTest.cretureShouldMoveCorrectly();
+boardTest.canMoveWhenCreatureHasEnoughtMovingPoint();
+boardTest.canMoveWhenCreatureHasNotEnoughtMovingPoint();
 endTourTest.shouldResetCounterAttackAtTurnEnd();
-
-
 
 export default {
   data() {

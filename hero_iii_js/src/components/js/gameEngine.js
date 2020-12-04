@@ -25,17 +25,16 @@ export default class GameEngine {
                 id: this.i,
                 creature: item,
                 oldCreature: item,
-                position: _site ? index + 285 : index,
                 player: _site ? 'ennemy' : 'player',
-                positionX: _site ? 20 : 1,
-                positionY: index + 1,
+                x: _site ? 20 : 1,
+                y: index + 1,
             });
             this.i++;
         }))
     }
-    // canMove(_point) {
-    //     return this.board.canMove(this.queue.getActiveCreature(), _point)
-    // }
+    canMove(_x, _y) {
+        return this.board.canMove(this.queue.getActiveCreature(), _x, _y)
+    }
     move(_targetPoint) {
         this.board.moveByCreature(this.queue.getActiveCreature(), _targetPoint)
     }

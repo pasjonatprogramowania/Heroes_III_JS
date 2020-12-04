@@ -43,18 +43,47 @@ export default class boardTest {
             throw "Exception: => Creature nie zostala poprawnie usunieta, w jej nowym miejscu nie ma tej samej creatury";
         }
     }
-    // canMoveWhenCreatureHasEnoughtMovingPoint() {
-    //     let board = new Board();
-    //     let creature = new Creature();
+    canMoveWhenCreatureHasEnoughtMovingPoint() {
+        let board = new Board();
+        let creature1 = new Creature('Satan', 1, 1, 1, 1);
+        let unitTestPoint = new Point(5, 5)
 
-    //     let unitTestPoint = [0, 0]
-    //     let creature1 = new creature('Satan', 1, 1, 1, 1)
-    //     board.add(unitTestPoint, creature1)
+        board.add(unitTestPoint, creature1)
 
+        let result1 = board.canMove(creature1, 6, 5)
+        let result2 = board.canMove(creature1, 4, 5)
+        let result3 = board.canMove(creature1, 5, 4)
+        let result4 = board.canMove(creature1, 5, 6)
 
-    //     let result = board.canMove(creature1, 0)
-    //     if (!result) {
-    //         throw "Exception: => Creature nie mozee ruszych sie na to pole, a rusza sie";
-    //     }
-    // }
+        if (!result1) {
+            throw "Exception: => Creature mozee ruszych sie na to pole, a nie rusza sie (6,5)";
+        }
+        if (!result2) {
+            throw "Exception: => Creature mozee ruszych sie na to pole, a nie rusza sie (4,5)";
+        }
+        if (!result3) {
+            throw "Exception: => Creature mozee ruszych sie na to pole, a nie rusza sie (5,4)";
+        }
+        if (!result4) {
+            throw "Exception: => Creature mozee ruszych sie na to pole, a nie rusza sie (5,6)";
+        }
+    }
+    canMoveWhenCreatureHasNotEnoughtMovingPoint() {
+        let board = new Board();
+        let creature1 = new Creature('Satan', 1, 1, 1, 1);
+        let unitTestPoint = new Point(5, 5)
+
+        board.add(unitTestPoint, creature1)
+
+        let result1 = board.canMove(creature1, 9, 9)
+        let result2 = board.canMove(creature1, 7, 6)
+
+        if (result1) {
+            throw "Exception: => Creature nie mozee ruszych sie na to pole, a rusza sie (9,9)";
+        }
+        if (result2) {
+            throw "Exception: => Creature nie mozee ruszych sie na to pole, a rusza sie (7,6)";
+        }
+
+    }
 }

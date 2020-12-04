@@ -43,6 +43,7 @@
 <script>
 import Creature from "../js/creature.js";
 import GameEngine from "../js/gameEngine.js";
+import Point from "../js/point.js";
 export default {
   data() {
     return {
@@ -74,31 +75,40 @@ export default {
       this.gameEngine = new GameEngine(this.myCreature, this.ennemyCreature);
     },
     putCreaturesOnBoard() {
-
       this.gameEngine.creaturesOnBoard.forEach((item, index) => {
-          let activeCreture = this.gameEngine.queue.getActiveCreature()
-        if (item.player === 'player') {
-            this.addAtrToCreatureField(item)
-        } else {          
-            this.addAtrToCreatureField(item)
+        let activeCreture = this.gameEngine.queue.getActiveCreature();
+
+        if (item.player === "player") {
+          this.addAtrToCreatureField(item);
+        } else {
+          this.addAtrToCreatureField(item);
         }
-        if(JSON.stringify(item.creature) === JSON.stringify(activeCreture)){
-            document.querySelector(`div[id='${index}']`).setAttribute('style','background-color:green')
+        if (JSON.stringify(item.creature) === JSON.stringify(activeCreture)) {
+          document
+            .querySelector(`div[id='${index}']`)
+            .setAttribute("style", "background-color:green");
         }
       });
-      console.log(this.gameEngine.creaturesOnBoard);
+      this.refreshGui();
     },
     addAtrToCreatureField(item) {
-      // prettier-ignore
-      if (item.creature.stats.name ||item.creature.stats.attack ||item.creature.stats.armor ||item.creature.stats.maxHp ||item.creature.stats.moveRange) {
-      let selectorPositionDiv = document.querySelector(`div[Y='${item.positionY}'][ X='${item.positionX}']`);
-      selectorPositionDiv.innerHTML = item.creature.stats.name;
-      selectorPositionDiv.setAttribute("name", `${item.creature.stats.name}`);
-      selectorPositionDiv.setAttribute("id", `${item.id}`);
-      selectorPositionDiv.setAttribute("player", `${item.player}`);
-      selectorPositionDiv.setAttribute("positionX", `${item.positionX}`);
-      selectorPositionDiv.setAttribute("positionY", `${item.positionY}`);
-        }
+      if (
+        item.creature.stats.name ||
+        item.creature.stats.attack ||
+        item.creature.stats.armor ||
+        item.creature.stats.maxHp ||
+        item.creature.stats.moveRange
+      ) {
+        let selectorPositionDiv = document.querySelector(
+          `div[Y='${item.y}'][ X='${item.x}']`
+        );
+        selectorPositionDiv.innerHTML = item.creature.stats.name;
+        selectorPositionDiv.setAttribute("name", `${item.creature.stats.name}`);
+        selectorPositionDiv.setAttribute("id", `${item.id}`);
+        selectorPositionDiv.setAttribute("player", `${item.player}`);
+        selectorPositionDiv.setAttribute("x", `${item.x}`);
+        selectorPositionDiv.setAttribute("y", `${item.y}`);
+      }
     },
     passCreature() {
       this.gameEngine.pass();
@@ -107,16 +117,27 @@ export default {
     refreshGui() {
       this.gameEngine.creaturesOnBoard.forEach((item, index) => {
         let activeCreature = this.gameEngine.queue.getActiveCreature();
+        console.log("~ activeCreature", activeCreature.stats.name);
         let selectorByIdCreature = document.querySelector(`div[id='${index}']`);
         if (selectorByIdCreature.getAttribute("style")) {
           selectorByIdCreature.removeAttribute("style");
         }
         if (item.creature === activeCreature) {
           selectorByIdCreature.setAttribute("style", "background-color:green");
+          for (let x = 1; x <= this.gameEngine.board.boardX; x++) {
+            for (let y = 1; y <= this.gameEngine.board.boardY; y++) {
+              console.log(
+                "~ this.gameEngine.canMove(x, y)",
+                this.gameEngine.canMove(x, y)
+              );
+              if (this.gameEngine.canMove(x, y)) {
+                document
+                  .querySelector(`[x="${x}"][y="${y}"]`)
+                  .setAttribute("style", "background-color:gray");
+              }
+            }
+          }
         }
-        //     // if (this.gameEngine.canMove()) {
-        //     //   selectorByIdCreature.setAttribute("style", "background-color:gray");
-        //     // }
       });
     },
   },

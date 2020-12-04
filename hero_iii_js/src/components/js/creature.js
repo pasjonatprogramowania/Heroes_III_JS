@@ -45,6 +45,9 @@ export default class Creature {
     getCurrentHp() {
         return this.stats.currentHp;
     }
+    getMoveRange() {
+        return this.stats.moveRange;
+    }
     resetCounterAttack() {
         this.stats.wasCounterAttack = false;
     }
