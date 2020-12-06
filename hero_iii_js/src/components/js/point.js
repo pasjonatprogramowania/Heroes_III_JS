@@ -10,7 +10,6 @@ export default class Point {
         return this.y;
     }
     distanse(_point) {
-
         let x = Math.abs(this.x - _point.x)
         let y = Math.abs(this.y - _point.y)
 

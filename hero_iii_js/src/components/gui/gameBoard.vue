@@ -55,11 +55,6 @@ export default {
       gameEngine: new Creature(),
       myCreature: [],
       ennemyCreature: [],
-      name: [],
-      id: [],
-      player: [],
-      x: [],
-      y: [],
     };
   },
   created() {
@@ -85,45 +80,26 @@ export default {
       this.gameEngine = new GameEngine(this.myCreature, this.ennemyCreature);
     },
     putCreaturesOnBoard() {
-      this.gameEngine.creaturesOnBoard.forEach((item) => {
-        let activeCreture = this.gameEngine.queue.getActiveCreature();
-
+      this.creaturesOnBoard().forEach((item) => {
         if (item.player === "player") {
           this.addAtrToCreatureField(item);
         } else {
           this.addAtrToCreatureField(item);
         }
-        if (JSON.stringify(item.creature) === JSON.stringify(activeCreture)) {
-          document
-            .getElementById(item.id)
-            .setAttribute("style", "background-color:green");
-        }
       });
       this.refreshGui();
     },
+    // prettier-ignore
     addAtrToCreatureField(item) {
-      if (
-        item.creature.stats.name ||
-        item.creature.stats.attack ||
-        item.creature.stats.armor ||
-        item.creature.stats.maxHp ||
-        item.creature.stats.moveRange
-      ) {
-        let selectorPositionDiv = document.querySelector(
-          `div[y='${item.y}'][ x='${item.x}']`
-        );
-        selectorPositionDiv.innerHTML = item.creature.stats.name;
-        selectorPositionDiv.setAttribute("name", `${item.creature.stats.name}`);
-        selectorPositionDiv.setAttribute("id", `${item.id}`);
-        selectorPositionDiv.setAttribute("player", `${item.player}`);
-        selectorPositionDiv.setAttribute("x", `${item.x}`);
-        selectorPositionDiv.setAttribute("y", `${item.y}`);
+      if (item.creature.stats.name ||item.creature.stats.attack ||item.creature.stats.armor ||item.creature.stats.maxHp ||item.creature.stats.moveRange) {
+        let newCreaturePosition = document.querySelector(`div[y='${item.y}'][ x='${item.x}']`);
 
-        this.name.push(item.creature.stats.name);
-        this.id.push(item.id);
-        this.player.push(item.player);
-        this.x.push(item.x);
-        this.y.push(item.y);
+        newCreaturePosition.innerHTML = item.creature.stats.name;
+        newCreaturePosition.setAttribute("name", `${item.creature.stats.name}`);
+        newCreaturePosition.setAttribute("id", `${item.id}`);
+        newCreaturePosition.setAttribute("player", `${item.player}`);
+        newCreaturePosition.setAttribute("x", `${item.x}`);
+        newCreaturePosition.setAttribute("y", `${item.y}`);
       }
     },
     passCreature() {
@@ -131,21 +107,18 @@ export default {
       this.refreshGui();
     },
     refreshGui() {
-      this.gameEngine.creaturesOnBoard.forEach((item) => {
-        let activeCreature = this.gameEngine.queue.getActiveCreature();
-        let selectorActiveCreatureById = document.getElementById(item.id);
+      this.creaturesOnBoard().forEach((item) => {
+        let activeCreatureIdSelector = document.getElementById(item.id);
 
-        if (selectorActiveCreatureById.getAttribute("style")) {
-          selectorActiveCreatureById.removeAttribute("style");
+        activeCreatureIdSelector.classList.remove("green");
+
+        if (item.creature === this.activeCreature()) {
+          document.getElementById(item.id).classList.add("green");
         }
-        if (item.creature === activeCreature) {
-          selectorActiveCreatureById.setAttribute(
-            "style",
-            "background-color:green"
-          );
-          for (let x = 1; x <= this.gameEngine.board.boardX; x++) {
-            for (let y = 1; y <= this.gameEngine.board.boardY; y++) {
-              if (this.gameEngine.canMove(x, y)) {
+        if (item.creature === this.activeCreature()) {
+          for (let x = 1; x <= this.board().boardX; x++) {
+            for (let y = 1; y <= this.board().boardY; y++) {
+              if (this.canMove(x, y)) {
                 document
                   .querySelector(`[x="${x}"][y="${y}"]`)
                   .setAttribute("style", "background-color:gray");
@@ -159,17 +132,51 @@ export default {
         }
       });
     },
-    // refreshCreature() {
-    //   if (selectorActiveCreatureById) {
-    //     selectorActiveCreatureById.removeAttribute("id");
-    //     selectorActiveCreatureById.removeAttribute("player");
-    //     selectorActiveCreatureById.removeAttribute("x");
-    //     selectorActiveCreatureById.removeAttribute("y");
-    //   }
-    // },
+    refreshCreature(_x, _y) {
+      this.creaturesOnBoard().forEach((item) => {
+        if (item.creature === this.activeCreature()) {
+          this.removeOldCreatureFromBoard(item);
+          this.addNewCreatureValueToBoard(item, _x, _y);
+        }
+      });
+    },
+    removeOldCreatureFromBoard(item) {
+      let oldCreaturePosition = document.getElementById(item.id);
+
+      oldCreaturePosition.removeAttribute("id");
+      oldCreaturePosition.removeAttribute("player");
+      oldCreaturePosition.removeAttribute("name");
+      oldCreaturePosition.classList.remove("green");
+      oldCreaturePosition.innerHTML = "";
+    },
+    // prettier-ignore
+    addNewCreatureValueToBoard(item, _x, _y) {
+      let newCreaturePosition = document.querySelector(`div[x='${_x}'][y='${_y}']`);
+
+      newCreaturePosition.innerHTML = item.creature.stats.name;
+      newCreaturePosition.setAttribute("name", `${item.creature.stats.name}`);
+      newCreaturePosition.setAttribute("id", `${item.id}`);
+      newCreaturePosition.setAttribute("player", `${item.player}`);
+    },
+    move(_targetPoint) {
+      return this.gameEngine.move(_targetPoint);
+    },
+    activeCreature() {
+      return this.gameEngine.queue.getActiveCreature();
+    },
+    board() {
+      return this.gameEngine.board;
+    },
+    creaturesOnBoard() {
+      return this.gameEngine.creaturesOnBoard;
+    },
+    canMove(_x, _y) {
+      return this.gameEngine.canMove(_x, _y);
+    },
     moveCreature(_x, _y) {
-      if (this.gameEngine.canMove(_x, _y)) {
-        this.gameEngine.move(new Point(_x, _y));
+      if (this.canMove(_x, _y)) {
+        this.move(new Point(_x, _y));
+        this.refreshCreature(_x, _y);
         this.passCreature();
       }
     },
@@ -188,6 +195,9 @@ export default {
   box-sizing: border-box;
   font-family: "Lato", sans-serif;
   color: var(--mainTextColor);
+}
+div[name] {
+  color: gold;
 }
 html {
   background-color: var(--mainBackgoundColor);
@@ -228,5 +238,8 @@ button {
   -webkit-box-shadow: 7px 3px 15px 0px rgba(0, 0, 0, 0.36);
   -moz-box-shadow: 7px 3px 15px 0px rgba(0, 0, 0, 0.36);
   box-shadow: 7px 3px 15px 0px rgba(0, 0, 0, 0.36);
+}
+.green {
+  background-color: green;
 }
 </style>

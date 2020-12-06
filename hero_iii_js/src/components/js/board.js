@@ -35,6 +35,15 @@ export default class Board {
         this.map.delete(_point);
         this.map.set(_newPoint, creature);
     }
+    pass(_creature) {
+        for (const [key, val] of this.map.entries()) {
+            if (val === _creature) {
+                this.map.delete(key);
+                this.map.set(key, _creature);
+                break;
+            }
+        }
+    }
     canMove(_creature, _x, _y) {
         this.isThatPointOnMap(_x, _y)
 

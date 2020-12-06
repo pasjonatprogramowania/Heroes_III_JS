@@ -16,10 +16,8 @@ export default class Creature {
         );
     }
     setDefaultStats() {
-        // this.stats.wasCounterAttack == true ? this.stats.wasCounterAttack = false : this.stats.wasCounterAttack = true
         this.stats.currentHp = this.stats.currentHp != undefined ? this.stats.currentHp : this.stats.maxHp;
     }
-    // popraw counter atack
     attack(_defender) {
         _defender.setDefaultStats();
         this.setDefaultStats();

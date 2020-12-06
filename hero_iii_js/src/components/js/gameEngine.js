@@ -7,7 +7,6 @@ export default class GameEngine {
         this.board = new Board();
         this.queue = new CreatureTurnQueue()
         this.creaturesOnBoard = [];
-        this.creatureObserver = [];
         this.i = 0;
         this.putCreatureToBoard(_myCreatures, _EnnemyCreatures)
     }
@@ -33,7 +32,7 @@ export default class GameEngine {
         }))
     }
     canMove(_x, _y) {
-        return this.board.canMove(this.queue.getActiveCreature(), _x, _y)
+        return this.board.canMove(this.queue.getActiveCreature(), _x, _y);
     }
     move(_targetPoint) {
         this.board.moveByCreature(this.queue.getActiveCreature(), _targetPoint)
@@ -47,6 +46,7 @@ export default class GameEngine {
     pass() {
         // let oldActiveCreature = this.queue.getActiveCreature()
         this.queue.next(this.board.map);
+        this.board.pass(this.queue.getActiveCreature());
         // let newActiveCreture = this.queue.getActiveCreature()
     }
     attack(_point) {
