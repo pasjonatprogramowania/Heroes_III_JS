@@ -12,7 +12,7 @@ export default class Creature {
             _attack || 1,
             _armor || 1,
             _maxHp || 100,
-            _moveRange || 10
+            _moveRange || 5
         );
     }
     setDefaultStats() {

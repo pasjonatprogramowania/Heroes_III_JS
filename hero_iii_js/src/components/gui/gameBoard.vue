@@ -15,7 +15,12 @@
       <div class="board">
         <div v-for="x in gameEngine.board.boardX" :key="x">
           <div v-for="y in gameEngine.board.boardY" :key="y">
-            <div class="board-creature field" :x="`${x}`" :y="`${y}`">
+            <div
+              class="board-creature field"
+              :x="`${x}`"
+              :y="`${y}`"
+              @click="moveCreature(x, y)"
+            >
               {{ x }},{{ y }}
             </div>
           </div>
@@ -50,6 +55,11 @@ export default {
       gameEngine: new Creature(),
       myCreature: [],
       ennemyCreature: [],
+      name: [],
+      id: [],
+      player: [],
+      x: [],
+      y: [],
     };
   },
   created() {
@@ -75,7 +85,7 @@ export default {
       this.gameEngine = new GameEngine(this.myCreature, this.ennemyCreature);
     },
     putCreaturesOnBoard() {
-      this.gameEngine.creaturesOnBoard.forEach((item, index) => {
+      this.gameEngine.creaturesOnBoard.forEach((item) => {
         let activeCreture = this.gameEngine.queue.getActiveCreature();
 
         if (item.player === "player") {
@@ -85,7 +95,7 @@ export default {
         }
         if (JSON.stringify(item.creature) === JSON.stringify(activeCreture)) {
           document
-            .querySelector(`div[id='${index}']`)
+            .getElementById(item.id)
             .setAttribute("style", "background-color:green");
         }
       });
@@ -100,7 +110,7 @@ export default {
         item.creature.stats.moveRange
       ) {
         let selectorPositionDiv = document.querySelector(
-          `div[Y='${item.y}'][ X='${item.x}']`
+          `div[y='${item.y}'][ x='${item.x}']`
         );
         selectorPositionDiv.innerHTML = item.creature.stats.name;
         selectorPositionDiv.setAttribute("name", `${item.creature.stats.name}`);
@@ -108,6 +118,12 @@ export default {
         selectorPositionDiv.setAttribute("player", `${item.player}`);
         selectorPositionDiv.setAttribute("x", `${item.x}`);
         selectorPositionDiv.setAttribute("y", `${item.y}`);
+
+        this.name.push(item.creature.stats.name);
+        this.id.push(item.id);
+        this.player.push(item.player);
+        this.x.push(item.x);
+        this.y.push(item.y);
       }
     },
     passCreature() {
@@ -115,30 +131,47 @@ export default {
       this.refreshGui();
     },
     refreshGui() {
-      this.gameEngine.creaturesOnBoard.forEach((item, index) => {
+      this.gameEngine.creaturesOnBoard.forEach((item) => {
         let activeCreature = this.gameEngine.queue.getActiveCreature();
-        console.log("~ activeCreature", activeCreature.stats.name);
-        let selectorByIdCreature = document.querySelector(`div[id='${index}']`);
-        if (selectorByIdCreature.getAttribute("style")) {
-          selectorByIdCreature.removeAttribute("style");
+        let selectorActiveCreatureById = document.getElementById(item.id);
+
+        if (selectorActiveCreatureById.getAttribute("style")) {
+          selectorActiveCreatureById.removeAttribute("style");
         }
         if (item.creature === activeCreature) {
-          selectorByIdCreature.setAttribute("style", "background-color:green");
+          selectorActiveCreatureById.setAttribute(
+            "style",
+            "background-color:green"
+          );
           for (let x = 1; x <= this.gameEngine.board.boardX; x++) {
             for (let y = 1; y <= this.gameEngine.board.boardY; y++) {
-              console.log(
-                "~ this.gameEngine.canMove(x, y)",
-                this.gameEngine.canMove(x, y)
-              );
               if (this.gameEngine.canMove(x, y)) {
                 document
                   .querySelector(`[x="${x}"][y="${y}"]`)
                   .setAttribute("style", "background-color:gray");
+              } else {
+                document
+                  .querySelector(`[x="${x}"][y="${y}"]`)
+                  .removeAttribute("style");
               }
             }
           }
         }
       });
+    },
+    // refreshCreature() {
+    //   if (selectorActiveCreatureById) {
+    //     selectorActiveCreatureById.removeAttribute("id");
+    //     selectorActiveCreatureById.removeAttribute("player");
+    //     selectorActiveCreatureById.removeAttribute("x");
+    //     selectorActiveCreatureById.removeAttribute("y");
+    //   }
+    // },
+    moveCreature(_x, _y) {
+      if (this.gameEngine.canMove(_x, _y)) {
+        this.gameEngine.move(new Point(_x, _y));
+        this.passCreature();
+      }
     },
   },
 };

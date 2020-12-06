@@ -6,8 +6,8 @@ export default class Board {
         this.boardY = 15;
     }
     add(_point, _creature) {
-        this.isThisTileTaken(_point)
         this.isThatPointOnMap(_point.x, _point.y)
+        this.isThisTileTaken(_point)
 
         this.map.set(_point, _creature);
         if (this.equals(this.map.get(_point), _creature.stats)) {
@@ -36,15 +36,13 @@ export default class Board {
         this.map.set(_newPoint, creature);
     }
     canMove(_creature, _x, _y) {
-        // console.log("~ _y", _y)
-        // console.log("~  _x", _x)
         this.isThatPointOnMap(_x, _y)
-        this.isThisTileTaken(this.map.get(this.getPoint(_creature)))
 
         let pointToMoveCreature = new Point(_x, _y);
         let currentCreaturePoint = this.getPoint(_creature)
 
         let distanse = currentCreaturePoint.distanse(pointToMoveCreature)
+
         return distanse <= _creature.getMoveRange() && !this.isThisTileTaken(pointToMoveCreature);
     }
     isThatPointOnMap(_x, _y) {
@@ -56,9 +54,10 @@ export default class Board {
         for (const [key] of this.map.entries()) {
             if (this.equals(key, _point)) {
                 // throw "Exception: => To pole jest zajete, nie mozesz tam ruszyc jednostki";
-                return false;
+                return true;
             }
         }
+        return false
     }
     equals(val, toAssert) {
         if (JSON.stringify(val) === JSON.stringify(toAssert)) {

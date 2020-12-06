@@ -19,7 +19,7 @@ export default class GameEngine {
     }
     putCreaturesFromeOneSideToBoard(_creatures, _site) {
         _creatures.forEach(((item, index) => {
-            let newPoint = new Point(1, index)
+            let newPoint = new Point(_site ? 20 : 1, index + 1)
             this.board.add(newPoint, item)
             this.creaturesOnBoard.push({
                 id: this.i,
@@ -37,6 +37,12 @@ export default class GameEngine {
     }
     move(_targetPoint) {
         this.board.moveByCreature(this.queue.getActiveCreature(), _targetPoint)
+        this.creaturesOnBoard.forEach(item => {
+            if (item.creature === this.queue.getActiveCreature()) {
+                item.x = _targetPoint.x
+                item.y = _targetPoint.y
+            }
+        })
     }
     pass() {
         // let oldActiveCreature = this.queue.getActiveCreature()
