@@ -86,4 +86,41 @@ export default class boardTest {
         }
 
     }
+    rangeWasRemovedCorrectly() {
+        let board = new Board();
+        let creature1 = new Creature('Satan', 1, 1, 1, 1);
+        let unitTestPoint = new Point(5, 5)
+
+        board.add(unitTestPoint, creature1)
+
+        let result1 = board.canMove(creature1, 5, 6)
+
+        if (result1) {
+            board.reduseMovment(creature1, 5, 6);
+            board.move(creature1, new Point(5, 6));
+        } else {
+            throw "Exception: => Creature ruszyła sie o 5 pol";
+        }
+
+        if (creature1.stats.moveRange !== 0) {
+            throw "Exception: => Creature nie powinna sie ruszyc bo ma 0 ruchu";
+        }
+    }
+    creatureCanAttack() {
+        let board = new Board();
+        let attacker = new Creature('attacker', 1, 1, 1, 1);
+        let defender = new Creature('defender', 1, 1, 1, 1);
+
+        let unitTestPoint = new Point(5, 5);
+        let unitTestPoint2 = new Point(5, 6);
+
+        board.add(unitTestPoint, attacker)
+        board.add(unitTestPoint2, defender)
+
+        let result1 = board.canAttack(attacker, defender)
+        if (!result1) {
+            throw "Exception: => Creature powinna moc zatakowac to pole";
+        }
+
+    }
 }

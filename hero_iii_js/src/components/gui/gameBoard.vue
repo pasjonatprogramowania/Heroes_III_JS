@@ -19,7 +19,7 @@
               class="board-creature field"
               :x="`${x}`"
               :y="`${y}`"
-              @click="moveCreature(x, y)"
+              @click="creatureAction(x, y, $event)"
             >
               {{ x }},{{ y }}
             </div>
@@ -109,28 +109,31 @@ export default {
     refreshGui() {
       this.creaturesOnBoard().forEach((item) => {
         let activeCreatureIdSelector = document.getElementById(item.id);
-
+        item.creature.stats.moveRange = item.creature.stats.maxRange;
         activeCreatureIdSelector.classList.remove("green");
 
         if (item.creature === this.activeCreature()) {
           document.getElementById(item.id).classList.add("green");
         }
         if (item.creature === this.activeCreature()) {
-          for (let x = 1; x <= this.board().boardX; x++) {
-            for (let y = 1; y <= this.board().boardY; y++) {
-              if (this.canMove(x, y)) {
-                document
-                  .querySelector(`[x="${x}"][y="${y}"]`)
-                  .setAttribute("style", "background-color:gray");
-              } else {
-                document
-                  .querySelector(`[x="${x}"][y="${y}"]`)
-                  .removeAttribute("style");
-              }
-            }
-          }
+          this.showUnitRange();
         }
       });
+    },
+    showUnitRange() {
+      for (let x = 1; x <= this.board().boardX; x++) {
+        for (let y = 1; y <= this.board().boardY; y++) {
+          if (this.canMove(x, y)) {
+            document
+              .querySelector(`[x="${x}"][y="${y}"]`)
+              .setAttribute("style", "background-color:gray");
+          } else {
+            document
+              .querySelector(`[x="${x}"][y="${y}"]`)
+              .removeAttribute("style");
+          }
+        }
+      }
     },
     refreshCreature(_x, _y) {
       this.creaturesOnBoard().forEach((item) => {
@@ -158,6 +161,31 @@ export default {
       newCreaturePosition.setAttribute("id", `${item.id}`);
       newCreaturePosition.setAttribute("player", `${item.player}`);
     },
+    creatureAction(_x, _y, _event) {
+      this.actionAttack(_x, _y, _event);
+      this.actionMove(_x, _y);
+    },
+    // prettier-ignore
+    actionAttack(_x, _y, _event) {
+      if (this.board().isThisTileTaken(new Point(_x, _y)) && this.activeCreature().stats.moveRange > 0) {
+        //   Poprawte linie 
+        if (this.activeCreature().stats.player !=_event.currentTarget.getAttribute("player")) {
+        //   this.gameEngine.canAttack(this.activeCreature(),this.getCreatureById(_event.currentTarget.id));
+          console.log(`canAttack`,this.gameEngine.canAttack(this.activeCreature(),this.getCreatureById(_event.currentTarget.id)))
+        }
+      }
+    },
+    actionMove(_x, _y) {
+      if (this.canMove(_x, _y) && this.activeCreature().stats.moveRange > 0) {
+        this.gameEngine.board.reduseMovment(this.activeCreature(), _x, _y);
+        this.move(
+          (this.gameEngine.board.getPoint(this.activeCreature()),
+          new Point(_x, _y))
+        );
+        this.showUnitRange();
+        this.refreshCreature(_x, _y);
+      }
+    },
     move(_targetPoint) {
       return this.gameEngine.move(_targetPoint);
     },
@@ -173,12 +201,8 @@ export default {
     canMove(_x, _y) {
       return this.gameEngine.canMove(_x, _y);
     },
-    moveCreature(_x, _y) {
-      if (this.canMove(_x, _y)) {
-        this.move(new Point(_x, _y));
-        this.refreshCreature(_x, _y);
-        this.passCreature();
-      }
+    getCreatureById(_id) {
+      return this.creaturesOnBoard()[_id].creature;
     },
   },
 };

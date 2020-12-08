@@ -19,7 +19,7 @@ export default class Board {
     }
     getPoint(_creature) {
         for (const [key, val] of this.map.entries()) {
-            if (val === _creature) {
+            if (this.equals(val, _creature)) {
                 return key;
             }
         }
@@ -53,6 +53,27 @@ export default class Board {
         let distanse = currentCreaturePoint.distanse(pointToMoveCreature)
 
         return distanse <= _creature.getMoveRange() && !this.isThisTileTaken(pointToMoveCreature);
+    }
+    canAttack(_attacker, _defender) {
+        this.isThatPointOnMap(this.getPoint(_defender))
+
+        let attackerPoint = this.getPoint(_attacker)
+        let defenderPoint = this.getPoint(_defender)
+
+        let distanse = attackerPoint.distanse(defenderPoint)
+
+        console.log("~ distanse", distanse)
+        return distanse <= 1;
+    }
+    reduseMovment(_creature, _x, _y) {
+        this.isThatPointOnMap(_x, _y)
+        let pointToMoveCreature = new Point(_x, _y);
+        let currentCreaturePoint = this.getPoint(_creature)
+
+        let distanse = currentCreaturePoint.distanse(pointToMoveCreature)
+
+        _creature.stats.moveRange -= distanse;
+
     }
     isThatPointOnMap(_x, _y) {
         if (_x > this.boardX || _y > this.boardY) {

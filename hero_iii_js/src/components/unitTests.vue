@@ -25,6 +25,8 @@ boardTest.shouldReturnCorrectLocationForCreatureByCreature();
 boardTest.cretureShouldMoveCorrectly();
 boardTest.canMoveWhenCreatureHasEnoughtMovingPoint();
 boardTest.canMoveWhenCreatureHasNotEnoughtMovingPoint();
+boardTest.rangeWasRemovedCorrectly();
+boardTest.creatureCanAttack();
 endTourTest.shouldResetCounterAttackAtTurnEnd();
 
 export default {

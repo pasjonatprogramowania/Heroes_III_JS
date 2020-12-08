@@ -5,6 +5,7 @@ export default class CreatureStatistics {
         this.armor = _armor;
         this.maxHp = _maxHp;
         this.moveRange = _moveRange;
+        this.maxRange = _moveRange;
     }
     getName() {
         return this.name;

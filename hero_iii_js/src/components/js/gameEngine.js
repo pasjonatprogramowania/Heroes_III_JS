@@ -34,6 +34,9 @@ export default class GameEngine {
     canMove(_x, _y) {
         return this.board.canMove(this.queue.getActiveCreature(), _x, _y);
     }
+    canAttack(_attacker, _defender) {
+        return this.board.canAttack(_attacker, _defender)
+    }
     move(_targetPoint) {
         this.board.moveByCreature(this.queue.getActiveCreature(), _targetPoint)
         this.creaturesOnBoard.forEach(item => {
@@ -44,10 +47,8 @@ export default class GameEngine {
         })
     }
     pass() {
-        // let oldActiveCreature = this.queue.getActiveCreature()
         this.queue.next(this.board.map);
         this.board.pass(this.queue.getActiveCreature());
-        // let newActiveCreture = this.queue.getActiveCreature()
     }
     attack(_point) {
         this.queue.getActiveCreature().attack(this.board.getVal(_point))
