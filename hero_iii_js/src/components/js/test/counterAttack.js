@@ -9,7 +9,8 @@ export default class CounterAttackTest {
         let defender = new Creature("Defender", 20, 20, 100, this.notImportant);
 
         attacker.attack(defender);
-        if (attacker.getCurrentHp() != 76) {
+        if (this.assertBetween(90, 100, defender)) {
+            console.log("~ attacker.getCurrentHp()", attacker.getCurrentHp())
             throw "Exception: => Creatura zle wykonala kontr attack";
         }
     }
@@ -19,8 +20,14 @@ export default class CounterAttackTest {
         let defender = new Creature('Defender', 20, 20, 100, this.notImportant);
 
         attacker.attack(defender)
-        if (attacker.getCurrentHp() != 76 || attacker2.getCurrentHp() != 100) {
+        if (this.assertBetween(90, 100, defender) || attacker2.getCurrentHp() != 100) {
+            console.log("~ attacker.getCurrentHp()", attacker.getCurrentHp())
             throw 'Exception: => Creatura atakuje wiecej niz raz'
+        }
+    }
+    assertBetween(_low, _high, _creature) {
+        if (_creature.getCurrentHp() > _low && _creature.getCurrentHp() < _high) {
+            return false;
         }
     }
 }

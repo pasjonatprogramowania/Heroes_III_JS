@@ -1,5 +1,6 @@
 import CreatureStatistics from "./creatureStatistics.js";
 import DamageCalculator from './damageCalculator.js';
+import Range from './range.js';
 export default class Creature {
     constructor(_name, _attack, _armor, _maxHp, _moveRange, _damage) {
         this.stats = this.createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage);
@@ -14,7 +15,7 @@ export default class Creature {
             _armor || 1,
             _maxHp || 100,
             _moveRange || 5,
-            _damage || 10
+            _damage || new Range(1, 5)
         );
     }
     setDefaultStats() {
