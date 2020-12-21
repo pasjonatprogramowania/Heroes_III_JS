@@ -91,11 +91,11 @@ export default {
     },
     // prettier-ignore
     addAtrToCreatureField(item) {
-      if (item.creature.stats.name ||item.creature.stats.attack ||item.creature.stats.armor ||item.creature.stats.maxHp ||item.creature.stats.moveRange) {
+      if (item.creature.getName()||item.creature.getAttack() ||item.creature.getArmor() ||item.creature.getMaxHp() ||item.creature.getMoveRange()) {
         let newCreaturePosition = document.querySelector(`div[y='${item.y}'][ x='${item.x}']`);
 
-        newCreaturePosition.innerHTML = item.creature.stats.name;
-        newCreaturePosition.setAttribute("name", `${item.creature.stats.name}`);
+        newCreaturePosition.innerHTML = item.creature.getName();
+        newCreaturePosition.setAttribute("name", `${item.creature.getName()}`);
         newCreaturePosition.setAttribute("id", `${item.id}`);
         newCreaturePosition.setAttribute("player", `${item.player}`);
         newCreaturePosition.setAttribute("x", `${item.x}`);
@@ -109,7 +109,7 @@ export default {
     refreshGui() {
       this.creaturesOnBoard().forEach((item) => {
         let activeCreatureIdSelector = document.getElementById(item.id);
-        item.creature.stats.moveRange = item.creature.stats.maxRange;
+        item.creature.stats.moveRange = item.creature.getMaxRange();
         activeCreatureIdSelector.classList.remove("green");
 
         if (item.creature === this.activeCreature()) {
@@ -121,8 +121,8 @@ export default {
       });
     },
     showUnitRange() {
-      for (let x = 1; x <= this.board().boardX; x++) {
-        for (let y = 1; y <= this.board().boardY; y++) {
+      for (let x = 1; x <= this.gameBoard().boardX; x++) {
+        for (let y = 1; y <= this.gameBoard().boardY; y++) {
           if (this.canMove(x, y)) {
             document
               .querySelector(`[x="${x}"][y="${y}"]`)
@@ -156,8 +156,8 @@ export default {
     addNewCreatureValueToBoard(item, _x, _y) {
       let newCreaturePosition = document.querySelector(`div[x='${_x}'][y='${_y}']`);
 
-      newCreaturePosition.innerHTML = item.creature.stats.name;
-      newCreaturePosition.setAttribute("name", `${item.creature.stats.name}`);
+      newCreaturePosition.innerHTML = item.creature.getName();
+      newCreaturePosition.setAttribute("name", `${item.creature.getName()}`);
       newCreaturePosition.setAttribute("id", `${item.id}`);
       newCreaturePosition.setAttribute("player", `${item.player}`);
     },
@@ -167,20 +167,19 @@ export default {
     },
     // prettier-ignore
     actionAttack(_x, _y, _event) {
-      if (this.board().isThisTileTaken(new Point(_x, _y)) && this.activeCreature().stats.moveRange > 0) {
+      if (this.gameBoard().isThisTileTaken(new Point(_x, _y)) && this.activeCreature().getMoveRange() > 0) {
         //   Poprawte linie 
-        if (this.activeCreature().stats.player !=_event.currentTarget.getAttribute("player")) {
+        // if (this.activeCreature().stats.player !=_event.currentTarget.getAttribute("player")) {
         //   this.gameEngine.canAttack(this.activeCreature(),this.getCreatureById(_event.currentTarget.id));
           console.log(`canAttack`,this.gameEngine.canAttack(this.activeCreature(),this.getCreatureById(_event.currentTarget.id)))
-        }
+        // }
       }
     },
     actionMove(_x, _y) {
-      if (this.canMove(_x, _y) && this.activeCreature().stats.moveRange > 0) {
-        this.gameEngine.board.reduseMovment(this.activeCreature(), _x, _y);
+      if (this.canMove(_x, _y) && this.activeCreature().getMoveRange() > 0) {
+        this.gameBoard().reduseMovment(this.activeCreature(), _x, _y);
         this.move(
-          (this.gameEngine.board.getPoint(this.activeCreature()),
-          new Point(_x, _y))
+          (this.gameBoard().getPoint(this.activeCreature()), new Point(_x, _y))
         );
         this.showUnitRange();
         this.refreshCreature(_x, _y);
@@ -192,7 +191,7 @@ export default {
     activeCreature() {
       return this.gameEngine.queue.getActiveCreature();
     },
-    board() {
+    gameBoard() {
       return this.gameEngine.board;
     },
     creaturesOnBoard() {

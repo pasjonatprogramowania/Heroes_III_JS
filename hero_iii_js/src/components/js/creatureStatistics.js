@@ -1,11 +1,12 @@
 export default class CreatureStatistics {
-    constructor(_name, _attack, _armor, _maxHp, _moveRange) {
+    constructor(_name, _attack, _armor, _maxHp, _moveRange, _damage) {
         this.name = _name;
         this.attack = _attack;
         this.armor = _armor;
         this.maxHp = _maxHp;
         this.moveRange = _moveRange;
         this.maxRange = _moveRange;
+        this.damage = _damage;
     }
     getName() {
         return this.name;
@@ -21,5 +22,8 @@ export default class CreatureStatistics {
     }
     getMoveRange() {
         return this.moveRange;
+    }
+    getMaxRange() {
+        return this.maxRange;
     }
 }

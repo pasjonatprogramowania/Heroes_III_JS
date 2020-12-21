@@ -9,7 +9,7 @@ export default class CounterAttackTest {
         let defender = new Creature("Defender", 20, 20, 100, this.notImportant);
 
         attacker.attack(defender);
-        if (attacker.getCurrentHp() > 85) {
+        if (attacker.getCurrentHp() != 76) {
             throw "Exception: => Creatura zle wykonala kontr attack";
         }
     }
@@ -19,7 +19,7 @@ export default class CounterAttackTest {
         let defender = new Creature('Defender', 20, 20, 100, this.notImportant);
 
         attacker.attack(defender)
-        if (attacker.getCurrentHp() != 85 || attacker2.getCurrentHp() != 100) {
+        if (attacker.getCurrentHp() != 76 || attacker2.getCurrentHp() != 100) {
             throw 'Exception: => Creatura atakuje wiecej niz raz'
         }
     }
