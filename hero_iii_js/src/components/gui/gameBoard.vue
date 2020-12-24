@@ -77,7 +77,7 @@ export default {
         // let newCreature7 = new Creature("Crusader", 12, 12, 35, 6, new Range(7, 10));
         // let newCreature8 = new Creature("Archangel", 30, 30, 250, 18, new Range(50, 50));
 
-       let newCreature1 = new Creature("Skeleton", 5, 4, 6, 4, new Range(1, 3));
+        let newCreature1 = new Creature("Skeleton", 5, 4, 6, 4, new Range(1, 3));
         let newCreature2 = new Creature("WalkingDead", 5, 5, 15, 3, new Range(2, 3));
         let newCreature3 = new Creature("Wight", 7, 7, 18, 5, new Range(3, 5));
         let newCreature4 = new Creature("Vampire", 10, 9, 30, 6, new Range(5, 8));
@@ -91,7 +91,8 @@ export default {
         let newCreature11 = new Creature("VampireLord", 10, 10, 40, 9, new Range(5, 8));
         let newCreature12 = new Creature("PowerLich", 13, 10, 40, 7, new Range(11, 15));
         let newCreature13 = new Creature("DreadKnight", 18, 18, 120, 9, new Range(15, 30));
-        let newCreature14 = new Creature("DreadKnight", 19, 17, 200, 14, new Range(25, 50));
+        let newCreature14 = new Creature("GhostDragon", 19, 17, 200, 14, new Range(25, 50));
+
       this.myCreature.push(newCreature1, newCreature2, newCreature3,newCreature4,newCreature5,newCreature6,newCreature7);
 
       this.ennemyCreature.push(newCreature8,newCreature9,newCreature10,newCreature11,newCreature12,newCreature13,newCreature14);
@@ -108,12 +109,24 @@ export default {
       });
       this.refreshGui();
     },
-    // prettier-ignore
-    addAtrToCreatureField(item) {
-      if (item.creature.getName()||item.creature.getAttack() ||item.creature.getArmor() ||item.creature.getMaxHp() ||item.creature.getMoveRange()) {
-        let newCreaturePosition = document.querySelector(`div[y='${item.y}'][ x='${item.x}']`);
 
-        newCreaturePosition.innerHTML = `<img src="C:/Users/Pawel/Unity/ArCore Portal/Heros_III_JS/hero_iii_js/Castle-img/Necroplis-Unit-Img/${item.creature.getName()}.png">`;
+    addAtrToCreatureField(item) {
+      if (
+        item.creature.getName() ||
+        item.creature.getAttack() ||
+        item.creature.getArmor() ||
+        item.creature.getMaxHp() ||
+        item.creature.getMoveRange()
+      ) {
+        let newCreaturePosition = document.querySelector(
+          `div[y='${item.y}'][ x='${item.x}']`
+        );
+
+        if (item.player !== "player") {
+          newCreaturePosition.innerHTML = `<img src="https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/AfterRangeObject/hero_iii_js/Castle-img/Necroplis-Unit-Img/${item.creature.getName()}.png" class='unit ennemy'>`;
+        } else {
+          newCreaturePosition.innerHTML = `<img src="https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/AfterRangeObject/hero_iii_js/Castle-img/Necroplis-Unit-Img/${item.creature.getName()}.png" class='unit'>`;
+        }
         newCreaturePosition.setAttribute("name", `${item.creature.getName()}`);
         newCreaturePosition.setAttribute("id", `${item.id}`);
         newCreaturePosition.setAttribute("player", `${item.player}`);
@@ -171,11 +184,15 @@ export default {
       oldCreaturePosition.classList.remove("green");
       oldCreaturePosition.innerHTML = "";
     },
-    // prettier-ignore
     addNewCreatureValueToBoard(item, _x, _y) {
-      let newCreaturePosition = document.querySelector(`div[x='${_x}'][y='${_y}']`);
-
-      newCreaturePosition.innerHTML = `${item.creature.getName()} </br> ${item.creature.getCurrentHp()}/${item.creature.getMaxHp()}`;
+      let newCreaturePosition = document.querySelector(
+        `div[x='${_x}'][y='${_y}']`
+      );
+      if (item.player !== "player") {
+        newCreaturePosition.innerHTML = `<img src="https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/AfterRangeObject/hero_iii_js/Castle-img/Necroplis-Unit-Img/${item.creature.getName()}.png" class='unit ennemy'>`;
+      } else {
+        newCreaturePosition.innerHTML = `<img src="https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/AfterRangeObject/hero_iii_js/Castle-img/Necroplis-Unit-Img/${item.creature.getName()}.png" class='unit'>`;
+      }
       newCreaturePosition.setAttribute("name", `${item.creature.getName()}`);
       newCreaturePosition.setAttribute("id", `${item.id}`);
       newCreaturePosition.setAttribute("player", `${item.player}`);
@@ -252,6 +269,7 @@ html {
   display: grid;
   grid-template-columns: repeat(20, minmax(50px, 1fr));
   grid-auto-flow: column;
+  background-image: url("");
 }
 side-board {
   display: grid;
@@ -269,6 +287,14 @@ side-board {
 }
 .container h1 {
   margin: 0 auto 40px auto;
+}
+.unit {
+  max-width: 50px;
+  max-height: 50px;
+  object-fit: cover;
+}
+.ennemy {
+  transform: scaleX(-1);
 }
 button {
   background-color: var(--mainBackgoundColor);
