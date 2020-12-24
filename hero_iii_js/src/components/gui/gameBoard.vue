@@ -49,6 +49,7 @@
 import Creature from "../js/creature.js";
 import GameEngine from "../js/gameEngine.js";
 import Point from "../js/point.js";
+import Range from "../js/range.js";
 export default {
   data() {
     return {
@@ -64,18 +65,36 @@ export default {
     this.putCreaturesOnBoard();
   },
   methods: {
+    // prettier-ignore
     createGameEngineObjectAndBoard() {
-      let newCreature1 = new Creature("smok1");
-      let newCreature2 = new Creature("smok2");
-      let newCreature3 = new Creature("smok3");
+        // let newCreature1 = new Creature("Pikeman", 4, 5, 10, 4, new Range(1, 3));
+        // let newCreature2 = new Creature("Griffin", 8, 3, 25, 6, new Range(2, 3));
+        // let newCreature3 = new Creature("Swordsman", 10, 12, 35, 5, new Range(6, 9));
+        // let newCreature4 = new Creature("Angel", 20, 20, 200, 12, new Range(50, 50));
 
-      let newCreature4 = new Creature("smok4");
-      let newCreature5 = new Creature("smok5");
-      let newCreature6 = new Creature("smok6");
+        // let newCreature5 = new Creature("Halberdier", 6, 5, 10, 5, new Range(2, 3));
+        // let newCreature6 = new Creature("Royal Griffin", 9, 9, 25, 9, new Range(3, 6));
+        // let newCreature7 = new Creature("Crusader", 12, 12, 35, 6, new Range(7, 10));
+        // let newCreature8 = new Creature("Archangel", 30, 30, 250, 18, new Range(50, 50));
 
-      this.myCreature.push(newCreature1, newCreature2, newCreature3);
+       let newCreature1 = new Creature("Skeleton", 5, 4, 6, 4, new Range(1, 3));
+        let newCreature2 = new Creature("WalkingDead", 5, 5, 15, 3, new Range(2, 3));
+        let newCreature3 = new Creature("Wight", 7, 7, 18, 5, new Range(3, 5));
+        let newCreature4 = new Creature("Vampire", 10, 9, 30, 6, new Range(5, 8));
+        let newCreature5 = new Creature("Lich", 13, 10, 30, 6, new Range(11, 13));
+        let newCreature6 = new Creature("BlackKnight", 16, 16, 120, 7, new Range(15, 30));
+        let newCreature7 = new Creature("BoneDragon", 17, 15, 150, 9, new Range(25, 30));
 
-      this.ennemyCreature.push(newCreature4, newCreature5, newCreature6);
+        let newCreature8 = new Creature("SkeletonWarrior", 6, 6, 6, 5, new Range(1, 3));
+        let newCreature9 = new Creature("Zombie", 5, 5, 20, 4, new Range(2, 3));
+        let newCreature10 = new Creature("Wraith", 7, 7, 18, 7, new Range(3, 5));
+        let newCreature11 = new Creature("VampireLord", 10, 10, 40, 9, new Range(5, 8));
+        let newCreature12 = new Creature("PowerLich", 13, 10, 40, 7, new Range(11, 15));
+        let newCreature13 = new Creature("DreadKnight", 18, 18, 120, 9, new Range(15, 30));
+        let newCreature14 = new Creature("DreadKnight", 19, 17, 200, 14, new Range(25, 50));
+      this.myCreature.push(newCreature1, newCreature2, newCreature3,newCreature4,newCreature5,newCreature6,newCreature7);
+
+      this.ennemyCreature.push(newCreature8,newCreature9,newCreature10,newCreature11,newCreature12,newCreature13,newCreature14);
 
       this.gameEngine = new GameEngine(this.myCreature, this.ennemyCreature);
     },
@@ -94,7 +113,7 @@ export default {
       if (item.creature.getName()||item.creature.getAttack() ||item.creature.getArmor() ||item.creature.getMaxHp() ||item.creature.getMoveRange()) {
         let newCreaturePosition = document.querySelector(`div[y='${item.y}'][ x='${item.x}']`);
 
-        newCreaturePosition.innerHTML = item.creature.getName();
+        newCreaturePosition.innerHTML = `<img src="C:/Users/Pawel/Unity/ArCore Portal/Heros_III_JS/hero_iii_js/Castle-img/Necroplis-Unit-Img/${item.creature.getName()}.png">`;
         newCreaturePosition.setAttribute("name", `${item.creature.getName()}`);
         newCreaturePosition.setAttribute("id", `${item.id}`);
         newCreaturePosition.setAttribute("player", `${item.player}`);
@@ -156,7 +175,7 @@ export default {
     addNewCreatureValueToBoard(item, _x, _y) {
       let newCreaturePosition = document.querySelector(`div[x='${_x}'][y='${_y}']`);
 
-      newCreaturePosition.innerHTML = item.creature.getName();
+      newCreaturePosition.innerHTML = `${item.creature.getName()} </br> ${item.creature.getCurrentHp()}/${item.creature.getMaxHp()}`;
       newCreaturePosition.setAttribute("name", `${item.creature.getName()}`);
       newCreaturePosition.setAttribute("id", `${item.id}`);
       newCreaturePosition.setAttribute("player", `${item.player}`);

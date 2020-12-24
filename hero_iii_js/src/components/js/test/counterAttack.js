@@ -13,6 +13,8 @@ export default class CounterAttackTest {
             console.log("~ attacker.getCurrentHp()", attacker.getCurrentHp())
             throw "Exception: => Creatura zle wykonala kontr attack";
         }
+
+
     }
     creatureShouldCounterAttackOnlyOnceAtTour() {
         let attacker = new Creature('Attack', 5, 5, 100, this.notImportant);

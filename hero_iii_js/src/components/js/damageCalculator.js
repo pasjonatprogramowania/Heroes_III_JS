@@ -1,10 +1,8 @@
 export default class DamageCalculator {
     calculate(_attacker, _defender) {
         let randValue = Math.floor(Math.random() * (_attacker.getDamage().getUpperPoint() - _attacker.getDamage().getLowerPoint() + 1) + _attacker.getDamage().getLowerPoint())
-        console.log("~ randValue", randValue)
         let ret;
         if (_attacker.getAttack() >= _defender.getArmor()) {
-            console.log("~ _attacker.getDamage().getUpperPoint()", _attacker.getDamage().getUpperPoint())
             let attackPoints = _attacker.getAttack() - _defender.getArmor();
             if (attackPoints > 60) {
                 attackPoints = 60;
