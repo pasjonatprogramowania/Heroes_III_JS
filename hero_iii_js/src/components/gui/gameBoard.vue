@@ -108,7 +108,7 @@ export default {
       );
     },
     getImgUrl(_creatureOnBoardItem) {
-      return `https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/AfterRangeObject/hero_iii_js/src/assets/Castle-img/Necroplis-Unit-Img/${_creatureOnBoardItem.creature.stats.name}.png`;
+      return `https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/main/hero_iii_js/src/assets/Castle-img/Necroplis-Unit-Img/${_creatureOnBoardItem.creature.stats.name}.png`;
     },
     ennemyField(_x, _y) {
       return this.cretureOnBoardItem(_x, _y).player === "ennemy";
