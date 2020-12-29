@@ -18,7 +18,6 @@ export default class GameEngine {
     }
     putCreaturesFromeOneSideToBoard(_creatures, _site) {
         _creatures.forEach(((item, index) => {
-            let creatureInfo = [];
             let newPoint = new Point(_site ? 20 : 1, index + 1)
             this.board.add(newPoint, item)
             this.creaturesOnBoard.push({
@@ -28,13 +27,6 @@ export default class GameEngine {
                 x: _site ? 20 : 1,
                 y: index + 1,
             });
-            creatureInfo.push({
-                id: this.i,
-                player: _site ? 'ennemy' : 'player',
-                x: _site ? 20 : 1,
-                y: index + 1,
-            });
-            _creatures.creatureInfo = creatureInfo;
             this.i++;
         }))
     }

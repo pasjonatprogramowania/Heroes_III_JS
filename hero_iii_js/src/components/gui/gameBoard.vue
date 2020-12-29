@@ -19,19 +19,27 @@
             <div
               v-if="fieldHaveCreture(x, y)"
               class="board-creature field"
-              :x="getCreature(x, y).x"
-              :y="getCreature(x, y).y"
-              :id="getCreature(x, y).id"
-              @click="creatureAction(x, y, $event)"
+              :x="cretureOnBoardItem(x, y).x"
+              :y="cretureOnBoardItem(x, y).y"
+              :id="cretureOnBoardItem(x, y).id"
+              :class="
+                isThisCreatureActive(cretureOnBoardItem(x, y)) ? 'green' : ''
+              "
+              @click="
+                creatureAction(
+                  cretureOnBoardItem(x, y).x,
+                  cretureOnBoardItem(x, y).y
+                )
+              "
             >
               <div class="creature-container">
                 <div class="creature-info">
-                  {{ getCreature(x, y).creature.getCurrentHp() }} /
-                  {{ getCreature(x, y).creature.getMaxHp() }}
+                  {{ cretureOnBoardItem(x, y).creature.getCurrentHp() }} /
+                  {{ cretureOnBoardItem(x, y).creature.getMaxHp() }}
                 </div>
                 <img
                   loading="lazy"
-                  :src="getImgUrl(getCreature(x, y))"
+                  :src="getImgUrl(cretureOnBoardItem(x, y))"
                   class="unit"
                   :class="ennemyField(x, y) ? 'ennemy' : ''"
                 />
@@ -40,9 +48,10 @@
             <div
               v-else
               class="board-creature field"
+              :class="canMove(x, y) ? 'gray' : ''"
               :x="`${x}`"
               :y="`${y}`"
-              @click="creatureAction(x, y, $event)"
+              @click="creatureAction(x, y)"
             >
               {{ x }},{{ y }}
             </div>
@@ -76,18 +85,11 @@ export default {
   data() {
     return {
       gameEngine: "",
-      myCreature: [],
-      ennemyCreature: [],
-      creatures: [],
     };
   },
   created() {
     this.createGameEngineObjectAndBoard();
   },
-  mounted() {
-    // this.putCreaturesOnBoard();
-  },
-
   methods: {
     fieldHaveCreture(_x, _y) {
       for (let i = 0; i < this.gameEngine.creaturesOnBoard.length; i++) {
@@ -100,16 +102,29 @@ export default {
       }
       return false;
     },
-    getCreature(_x, _y) {
+    cretureOnBoardItem(_x, _y) {
       return this.gameEngine.creaturesOnBoard.find(
         (creature) => creature.x === _x && creature.y === _y
       );
     },
-    getImgUrl(_creature) {
-      return `https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/AfterRangeObject/hero_iii_js/Castle-img/Necroplis-Unit-Img/${_creature.creature.stats.name}.png`;
+    getImgUrl(_creatureOnBoardItem) {
+      return `https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/AfterRangeObject/hero_iii_js/src/assets/Castle-img/Necroplis-Unit-Img/${_creatureOnBoardItem.creature.stats.name}.png`;
     },
     ennemyField(_x, _y) {
-      return this.getCreature(_x, _y).player === "ennemy";
+      return this.cretureOnBoardItem(_x, _y).player === "ennemy";
+    },
+    isThisCreatureActive(_creatureOnBoardItem) {
+      if (this.activeCreature() === _creatureOnBoardItem.creature) {
+        return true;
+      }
+      return false;
+    },
+    activeItemFromCreaturesOnBoard(_creature) {
+      for (let i = 0; i < this.creaturesOnBoard().length; i++) {
+        if (this.creaturesOnBoard()[i].creature === _creature) {
+          return this.creaturesOnBoard()[i];
+        }
+      }
     },
     // prettier-ignore
     createGameEngineObjectAndBoard() {
@@ -123,179 +138,63 @@ export default {
         // let newCreature7 = new Creature("Crusader", 12, 12, 35, 6, new Range(7, 10));
         // let newCreature8 = new Creature("Archangel", 30, 30, 250, 18, new Range(50, 50));
 
-        let newCreature1 = new Creature("Skeleton", 5, 4, 6, 4, new Range(1, 3));
-        let newCreature2 = new Creature("WalkingDead", 5, 5, 15, 3, new Range(2, 3));
-        let newCreature3 = new Creature("Wight", 7, 7, 18, 5, new Range(3, 5));
-        let newCreature4 = new Creature("Vampire", 10, 9, 30, 6, new Range(5, 8));
-        let newCreature5 = new Creature("Lich", 13, 10, 30, 6, new Range(11, 13));
-        let newCreature6 = new Creature("BlackKnight", 16, 16, 120, 7, new Range(15, 30));
-        let newCreature7 = new Creature("BoneDragon", 17, 15, 150, 9, new Range(25, 30));
+      let newCreature1 = new Creature("Skeleton", 5, 4, 6, 4, new Range(1, 3));
+      let newCreature2 = new Creature("WalkingDead", 5, 5, 15, 3, new Range(2, 3));
+      let newCreature3 = new Creature("Wight", 7, 7, 18, 5, new Range(3, 5));
+      let newCreature4 = new Creature("Vampire", 10, 9, 30, 6, new Range(5, 8));
+      let newCreature5 = new Creature("Lich", 13, 10, 30, 6, new Range(11, 13));
+      let newCreature6 = new Creature("BlackKnight", 16, 16, 120, 7, new Range(15, 30));
+      let newCreature7 = new Creature("BoneDragon", 17, 15, 150, 9, new Range(25, 30));
+  
+      let newCreature8 = new Creature("SkeletonWarrior", 6, 6, 6, 5, new Range(1, 3));
+      let newCreature9 = new Creature("Zombie", 5, 5, 20, 4, new Range(2, 3));
+      let newCreature10 = new Creature("Wraith", 7, 7, 18, 7, new Range(3, 5));
+      let newCreature11 = new Creature("VampireLord", 10, 10, 40, 9, new Range(5, 8));
+      let newCreature12 = new Creature("PowerLich", 13, 10, 40, 7, new Range(11, 15));
+      let newCreature13 = new Creature("DreadKnight", 18, 18, 120, 9, new Range(15, 30));
+      let newCreature14 = new Creature("GhostDragon", 19, 17, 200, 14, new Range(25, 50));
 
-        let newCreature8 = new Creature("SkeletonWarrior", 6, 6, 6, 5, new Range(1, 3));
-        let newCreature9 = new Creature("Zombie", 5, 5, 20, 4, new Range(2, 3));
-        let newCreature10 = new Creature("Wraith", 7, 7, 18, 7, new Range(3, 5));
-        let newCreature11 = new Creature("VampireLord", 10, 10, 40, 9, new Range(5, 8));
-        let newCreature12 = new Creature("PowerLich", 13, 10, 40, 7, new Range(11, 15));
-        let newCreature13 = new Creature("DreadKnight", 18, 18, 120, 9, new Range(15, 30));
-        let newCreature14 = new Creature("GhostDragon", 19, 17, 200, 14, new Range(25, 50));
+      let myCreature = [];
+      myCreature.push(newCreature1,newCreature2,newCreature3,newCreature4,newCreature5,newCreature6,newCreature7);
 
-      this.myCreature.push(newCreature1, newCreature2, newCreature3,newCreature4,newCreature5,newCreature6,newCreature7);
+      let ennemyCreature = [];
+      ennemyCreature.push(newCreature8,newCreature9,newCreature10,newCreature11,newCreature12,newCreature13,newCreature14);
 
-      this.ennemyCreature.push(newCreature8,newCreature9,newCreature10,newCreature11,newCreature12,newCreature13,newCreature14);
-
-      this.gameEngine = new GameEngine(this.myCreature, this.ennemyCreature);
+      this.gameEngine = new GameEngine(myCreature, ennemyCreature);
       this.creatures = this.gameEngine.creaturesOnBoard;
-    },
-    putCreaturesOnBoard() {
-      this.creaturesOnBoard().forEach((item) => {
-        if (item.player === "player") {
-          this.addAtrToCreatureField(item);
-        } else {
-          this.addAtrToCreatureField(item);
-        }
-      });
-      this.refreshGui();
-    },
-
-    addAtrToCreatureField(item) {
-      if (
-        item.creature.getName() ||
-        item.creature.getAttack() ||
-        item.creature.getArmor() ||
-        item.creature.getMaxHp() ||
-        item.creature.getMoveRange()
-      ) {
-        let newCreaturePosition = document.querySelector(
-          `div[y='${item.y}'][ x='${item.x}']`
-        );
-
-        console.log("~ this.activeCreature()", this.activeCreature());
-        if (item.player !== "player") {
-          newCreaturePosition.innerHTML = `
-          <div  class='creature-container'>
-            <div class='creature-info'>${item.creature.getCurrentHp()} / ${item.creature.getMaxHp()}</div>
-            <img loading="lazy" src="https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/AfterRangeObject/hero_iii_js/Castle-img/Necroplis-Unit-Img/${item.creature.getName()}.png" class='unit ennemy'>
-          </div>`;
-        } else {
-          newCreaturePosition.innerHTML = `
-          <div class='creature-container'>
-            <div class='creature-info'>${item.creature.getCurrentHp()} / ${item.creature.getMaxHp()}</div>
-            <img loading="lazy" src="https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/AfterRangeObject/hero_iii_js/Castle-img/Necroplis-Unit-Img/${item.creature.getName()}.png" class='unit'>
-          </div>`;
-        }
-        newCreaturePosition.setAttribute("name", `${item.creature.getName()}`);
-        newCreaturePosition.setAttribute("id", `${item.id}`);
-        newCreaturePosition.setAttribute("player", `${item.player}`);
-        newCreaturePosition.setAttribute("x", `${item.x}`);
-        newCreaturePosition.setAttribute("y", `${item.y}`);
-      }
     },
     passCreature() {
       this.gameEngine.pass();
-      this.refreshGui();
+      this.activeCreature().stats.moveRange = this.activeCreature().getMaxRange();
     },
-    refreshGui() {
-      this.creaturesOnBoard().forEach((item) => {
-        let activeCreatureIdSelector = document.getElementById(item.id);
-        item.creature.stats.moveRange = item.creature.getMaxRange();
-        activeCreatureIdSelector.classList.remove("green");
-
-        if (item.creature === this.activeCreature()) {
-          document.getElementById(item.id).classList.add("green");
-        }
-        if (item.creature === this.activeCreature()) {
-          this.showUnitRange();
-        }
-      });
-    },
-    showUnitRange() {
-      for (let x = 1; x <= this.gameBoard().boardX; x++) {
-        for (let y = 1; y <= this.gameBoard().boardY; y++) {
-          if (this.canMove(x, y)) {
-            document
-              .querySelector(`[x="${x}"][y="${y}"]`)
-              .setAttribute("style", "background-color:gray");
-          } else {
-            document
-              .querySelector(`[x="${x}"][y="${y}"]`)
-              .removeAttribute("style");
-          }
-        }
-      }
-    },
-    refreshCreature(_x, _y) {
-      this.creaturesOnBoard().forEach((item) => {
-        if (item.creature === this.activeCreature()) {
-          this.removeOldCreatureFromBoard(item);
-          this.addNewCreatureValueToBoard(item, _x, _y);
-        }
-      });
-    },
-    removeOldCreatureFromBoard(item) {
-      let oldCreaturePosition = document.getElementById(item.id);
-
-      oldCreaturePosition.removeAttribute("id");
-      oldCreaturePosition.removeAttribute("player");
-      oldCreaturePosition.removeAttribute("name");
-      oldCreaturePosition.classList.remove("green");
-      oldCreaturePosition.innerHTML = "";
-    },
-    addNewCreatureValueToBoard(item, _x, _y) {
-      let newCreaturePosition = document.querySelector(
-        `div[x='${_x}'][y='${_y}']`
-      );
-
-      if (item.player !== "player") {
-        newCreaturePosition.innerHTML = `
-        <div class='creature-container'>
-            <div class='creature-info'>${this.activeCreature().getCurrentHp()} / ${this.activeCreature().getMaxHp()}</div>
-            <img loading="lazy" src="https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/AfterRangeObject/hero_iii_js/Castle-img/Necroplis-Unit-Img/${item.creature.getName()}.png" class='unit ennemy'>
-        </div>`;
-      } else {
-        newCreaturePosition.innerHTML = `
-        <div class='creature-container'>
-            <div class='creature-info'>${this.activeCreature().getCurrentHp()} / ${this.activeCreature().getMaxHp()}</div>
-            <img loading="lazy" src="https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/AfterRangeObject/hero_iii_js/Castle-img/Necroplis-Unit-Img/${item.creature.getName()}.png" class='unit'>
-        </div>`;
-      }
-      newCreaturePosition.setAttribute("name", `${item.creature.getName()}`);
-      newCreaturePosition.setAttribute("id", `${item.id}`);
-      newCreaturePosition.setAttribute("player", `${item.player}`);
-    },
-    creatureAction(_x, _y, _event) {
-      this.actionAttack(_x, _y, _event);
+    creatureAction(_x, _y) {
+      this.actionAttack(_x, _y);
       this.actionMove(_x, _y);
-      //   this.refreshCreature(_x, _y);
     },
-    actionAttack(_x, _y, _event) {
+    actionAttack(_x, _y) {
       if (
         this.gameBoard().isThisTileTaken(new Point(_x, _y)) &&
         this.activeCreature().getMoveRange() > 0
       ) {
-        let defender;
-        this.creaturesOnBoard().forEach((item) => {
-          if (item.id === parseInt(_event.currentTarget.getAttribute("id"))) {
-            defender = item.creature;
+        if (
+          this.cretureOnBoardItem(_x, _y).player !==
+          this.activeItemFromCreaturesOnBoard(this.activeCreature()).player
+        ) {
+          if (
+            this.gameEngine.canAttack(
+              this.activeCreature(),
+              this.activeItemFromCreaturesOnBoard(this.activeCreature())
+                .creature
+            )
+          ) {
+            this.gameEngine.attack(
+              this.gameBoard().getPoint(
+                this.cretureOnBoardItem(_x, _y).creature
+              )
+            );
+            this.passCreature();
           }
-          if (this.activeCreature() === item.creature) {
-            if (item.player !== _event.currentTarget.getAttribute("player")) {
-              this.gameEngine.canAttack(
-                this.activeCreature(),
-                this.getCreatureById(_event.currentTarget.id)
-              );
-              if (
-                this.gameEngine.canAttack(
-                  this.activeCreature(),
-                  this.getCreatureById(_event.currentTarget.id)
-                )
-              ) {
-                this.gameEngine.attack(this.gameBoard().getPoint(defender));
-                console.log("~ defender", defender);
-                console.log(this.activeCreature().name, this.activeCreature());
-              }
-            }
-          }
-        });
+        }
       }
     },
     actionMove(_x, _y) {
@@ -304,7 +203,6 @@ export default {
         this.move(
           (this.gameBoard().getPoint(this.activeCreature()), new Point(_x, _y))
         );
-        this.showUnitRange();
       }
     },
     move(_targetPoint) {
@@ -322,9 +220,6 @@ export default {
     canMove(_x, _y) {
       return this.gameEngine.canMove(_x, _y);
     },
-    getCreatureById(_id) {
-      return this.creaturesOnBoard()[_id].creature;
-    },
   },
 };
 </script>
@@ -340,9 +235,6 @@ export default {
   box-sizing: border-box;
   font-family: "Lato", sans-serif;
   color: var(--mainTextColor);
-}
-div[name] {
-  color: gold;
 }
 html {
   background-color: var(--mainBackgoundColor);
@@ -404,5 +296,8 @@ button {
 }
 .green {
   background-color: green;
+}
+.gray {
+  background-color: gray;
 }
 </style>

@@ -24,12 +24,11 @@ export default class Creature {
     attack(_defender) {
         _defender.setDefaultStats();
         this.setDefaultStats();
-
         if (_defender.isAlive()) {
             _defender.stats.currentHp = _defender.getCurrentHp() - this.damageCalculator.calculate(this, _defender)
             if (_defender.isAlive() && !_defender.stats.wasCounterAttack) {
                 _defender.stats.wasCounterAttack = true;
-                this.stats.currentHp = _defender.getCurrentHp() - this.damageCalculator.calculate(_defender, this)
+                this.stats.currentHp = this.getCurrentHp() - this.damageCalculator.calculate(_defender, this)
             }
         }
     }
