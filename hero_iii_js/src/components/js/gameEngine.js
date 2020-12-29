@@ -1,13 +1,11 @@
 import Board from './board.js';
 import CreatureTurnQueue from './creatureTurnQueue.js';
 import Point from './point';
-// import Observer from './observer.js'
 
 export default class GameEngine {
     constructor(_myCreatures, _EnnemyCreatures) {
         this.board = new Board();
         this.queue = new CreatureTurnQueue()
-        // this.observer = new Observer();
         this.creaturesOnBoard = [];
         this.i = 0;
         this.putCreatureToBoard(_myCreatures, _EnnemyCreatures)
@@ -25,7 +23,6 @@ export default class GameEngine {
             this.creaturesOnBoard.push({
                 id: this.i,
                 creature: item,
-                oldCreature: item,
                 player: _site ? 'ennemy' : 'player',
                 x: _site ? 20 : 1,
                 y: index + 1,
@@ -36,15 +33,6 @@ export default class GameEngine {
     canMove(_x, _y) {
         return this.board.canMove(this.queue.getActiveCreature(), _x, _y);
     }
-    // addToObservation(_id) {
-    //     this.observer.subscribe(this.creaturesOnBoard[_id])
-    // }
-    // removeObservator(_id) {
-    //     this.observer.unsubscribe(this.creaturesOnBoard[_id])
-    // }
-    // notifyObserver(_id, _creatures, _oldCreature, _player, _x, _y) {
-    //     this.observer.notify()
-    // }
     canAttack(_attacker, _defender) {
         return this.board.canAttack(_attacker, _defender)
     }
