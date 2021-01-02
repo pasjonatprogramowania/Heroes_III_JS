@@ -1,6 +1,7 @@
 import CreatureStatistics from "./creatureStatistics.js";
 import DamageCalculator from './damageCalculator.js';
 import DamageCalculatorMultipleyDamage from './damageCalculatorMultipleyDamage.js';
+import DamageCalculatorWithHealingAttacker from './damageCalculatorWithHealingAttacker.js'
 import Range from './range.js';
 export default class Creature {
     constructor(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator) {
@@ -8,8 +9,6 @@ export default class Creature {
         this.stats.currentHp = this.stats.maxHp;
         this.stats.wasCounterAttack = false;
         this.damageCalculator = _calculator || new DamageCalculator();
-        // console.log("~ this.damageCalculator", this.damageCalculator)
-        // console.log("~ _calculator", _calculator)
     }
     createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount) {
         return new CreatureStatistics(
@@ -38,21 +37,8 @@ export default class Creature {
                 this.applayDamage(counterAttackDamageToDeal)
             }
         }
-
     }
     applayDamage(_damageToDeal) {
-        // let totalAmountHp = this.getAmount() * this.getCurrentHp();
-        // if (_damageToDeal >= this.getCurrentHp()) {
-        //     let savedAmmounts = (totalAmountHp - _damageToDeal) / this.getMaxHp();
-        //     if (savedAmmounts % 1 === 0) {
-        //         this.stats.amount = Math.floor(savedAmmounts)
-        //     } else {
-        //         this.stats.amount = Math.floor(savedAmmounts)
-        //         this.stats.currentHp = (savedAmmounts - Math.floor(savedAmmounts)) * this.getMaxHp();
-        //     }
-        // } else {
-        //     this.stats.currentHp -= _damageToDeal;
-        // }
         let totalAmountHp = (this.getMaxHp() * (this.getAmount() - 1)) + this.stats.currentHp - _damageToDeal
         if (totalAmountHp <= 0) {
             this.stats.amount = 0;
@@ -64,9 +50,9 @@ export default class Creature {
             } else {
                 this.stats.currentHp = totalAmountHp % this.getMaxHp();
                 if (_damageToDeal >= 0) {
-                    this.stats.amount = (totalAmountHp / this.getMaxHp()) + 1
+                    this.stats.amount = parseInt(totalAmountHp / this.getMaxHp()) + 1
                 } else {
-                    this.stats.amount = (totalAmountHp / this.getMaxHp())
+                    this.stats.amount = parseInt(totalAmountHp / this.getMaxHp())
                 }
             }
         }
@@ -114,3 +100,4 @@ export default class Creature {
 
 
 console.log("~ DamageCalculatorMultipleDamage", DamageCalculatorMultipleyDamage)
+console.log("~ DamageCalculatorWithHealingAttacker", DamageCalculatorWithHealingAttacker)

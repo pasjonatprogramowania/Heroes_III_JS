@@ -288,8 +288,6 @@ button {
 }
 </style>
 
-// stackcreaur
-// applayDamage do staka
 
 
 

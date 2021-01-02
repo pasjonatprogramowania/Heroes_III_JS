@@ -1,4 +1,5 @@
 import DamageCalculatorMultipleyDamage from '../damageCalculatorMultipleyDamage.js';
+import DamageCalculatorWithHealingAttacker from '../damageCalculatorWithHealingAttacker.js'
 import Creature from './../creature.js';
 import Range from './../range.js';
 export default class SpecialAbilitiesTest {
@@ -8,7 +9,7 @@ export default class SpecialAbilitiesTest {
         let result = new DamageCalculatorMultipleyDamage(0.2, 2, 100).calculate(attacker, defender)
         if (result !== 200) {
             console.log("~ result", result)
-            throw "Exception: => DreadKnight powienien zadac 200dmg ";
+            throw `Exception: => DreadKnight powienien zadac 200dmg zadała ${result}dmg`;
         }
     }
     DreadKnightShouldDealNormalDamage() {
@@ -18,16 +19,18 @@ export default class SpecialAbilitiesTest {
         let result = new DamageCalculatorMultipleyDamage(20, 2, 0).calculate(attacker, defender)
         if (result !== 100) {
             console.log("~ result", result)
-            throw "Exception: => DreadKnight powienien zadac 100dmg ";
+            throw `Exception: => DreadKnight powienien zadac 100dmg zadała ${result}dmg`;
         }
     }
     VampireLordShouldHealAfterDealDamage() {
-        let attacker = new Creature('DreadKnight', 5, 5, 100, 5, new Range(100, 100), 1, new DamageCalculatorMultipleyDamage(20, 2, 0))
-        let defender = new Creature('Defender', 5, 5, 100, 1, new Range(0, 0), 1, new DamageCalculatorMultipleyDamage(20, 2, 0))
+        let attacker = new Creature('VampireLord', 5, 5, 100, 5, new Range(100, 100), 10, new DamageCalculatorWithHealingAttacker(100))
+        let defender = new Creature('Defender', 5, 5, 100, 1, new Range(0, 0), 10, new DamageCalculatorWithHealingAttacker(100))
 
         attacker.attack(defender)
-        if (attacker.getCurrentHp() !== 110) {
-            throw "Exception: => VampireLord powienien uleczyc sie za  ";
+        if (attacker.getCurrentHp() !== 100 || attacker.getAmount() !== 11) {
+            console.log("~ attacker.getAmount()", attacker.getAmount())
+            console.log("~ attacker.getCurrentHp()", attacker.getCurrentHp())
+            throw `Exception: => VampireLord powienien miec powyzej 100 zdrowa a ma ${attacker.getCurrentHp()}HP i ${attacker.getAmount()} Staków`;
         }
     }
 }

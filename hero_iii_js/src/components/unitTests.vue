@@ -38,6 +38,7 @@ amountDamageTest.attckerShouldLoseOneCreatureFromStackAndTheRestHave75CurrnetHp(
 amountDamageTest.defenderSholudLose3UnitAndand50HpAfterTwoAttacks();
 specialAbilitiesTest.DreadKnightShouldDealDoubleDamage();
 specialAbilitiesTest.DreadKnightShouldDealNormalDamage();
+specialAbilitiesTest.VampireLordShouldHealAfterDealDamage();
 
 export default {
   data() {

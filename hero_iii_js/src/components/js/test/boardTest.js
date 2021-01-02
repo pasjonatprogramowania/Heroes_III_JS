@@ -97,7 +97,7 @@ export default class boardTest {
 
         if (result1) {
             board.reduseMovment(creature1, 5, 6);
-            board.move(creature1, new Point(5, 6));
+            board.move(creature1, new Point(5, 6));//nwm dlaczego nie moge wysłąc tego 2 parametru jako zmienna tylko jako obiekt z new
         } else {
             throw "Exception: => Creature ruszyła sie o 5 pol";
         }
