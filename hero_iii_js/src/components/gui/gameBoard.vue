@@ -5,23 +5,16 @@
       <h1>Player 1 vs Player 2</h1>
     </div>
     <div class="wrapper">
-      <div class="side-board">
-        <div v-for="index in gameEngine.board.boardY" :key="index">
-          <div class="my-creature field" :positionOnPlayer="`${index}`">
-            {{ index }}
-          </div>
-        </div>
-      </div>
       <div class="board">
         <div v-for="x in gameEngine.board.boardX" :key="x">
           <div v-for="y in gameEngine.board.boardY" :key="y">
             <!-- zabinduj tutaj wszytskie dane z cretureonboard -->
             <div
               v-if="fieldHaveCreture(x, y)"
-              class="board-creature field"
+              :id="cretureOnBoardItem(x, y).id"
               :x="cretureOnBoardItem(x, y).x"
               :y="cretureOnBoardItem(x, y).y"
-              :id="cretureOnBoardItem(x, y).id"
+              class="board-creature field"
               :class="
                 isThisCreatureActive(cretureOnBoardItem(x, y)) ? 'green' : ''
               "
@@ -47,20 +40,13 @@
             </div>
             <div
               v-else
-              class="board-creature field"
-              :class="canMove(x, y) ? 'gray' : ''"
               :x="`${x}`"
               :y="`${y}`"
+              class="board-creature field"
+              :class="canMove(x, y) ? 'gray' : ''"
               @click="creatureAction(x, y)"
             >
               {{ x }},{{ y }}
-            </div>
-          </div>
-        </div>
-        <div class="side-board">
-          <div v-for="index in gameEngine.board.boardY" :key="index">
-            <div class="ennemy-creature field" :positionOnEnnemy="`${index}`">
-              {{ index }}
             </div>
           </div>
         </div>
@@ -301,3 +287,13 @@ button {
   background-color: gray;
 }
 </style>
+
+// stackcreaur
+// applayDamage do staka
+
+
+
+
+
+
+
