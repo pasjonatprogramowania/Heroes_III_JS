@@ -1,4 +1,7 @@
-export default class DamageCalculator {
+export default class damageCalculatorWithHealingAttacker {
+    constructor(_selfHealingPercentage) {
+        this.selfHealingPercentage = _selfHealingPercentage
+    }
     calculate(_attacker, _defender) {
         let randValue = Math.floor(Math.random() * (_attacker.getDamage().getUpperPoint() - _attacker.getDamage().getLowerPoint() + 1) + _attacker.getDamage().getLowerPoint())
         let ret;
@@ -15,7 +18,10 @@ export default class DamageCalculator {
             }
             ret = randValue * (1 - defencePoint * 0.025)
         }
+        if (ret < 0) {
+            ret = 0;
+        }
+        _attacker.applayDamage((parseInt(ret * (100 / this.selfHealingPercentage))) * -1)
         return parseInt(ret);
-
     }
-}
+} 
