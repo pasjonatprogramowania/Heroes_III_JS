@@ -50,9 +50,9 @@ export default class Creature {
             } else {
                 this.stats.currentHp = totalAmountHp % this.getMaxHp();
                 if (_damageToDeal >= 0) {
-                    this.stats.amount = parseInt(totalAmountHp / this.getMaxHp()) + 1
+                    this.stats.amount = Math.floor(totalAmountHp / this.getMaxHp()) + 1
                 } else {
-                    this.stats.amount = parseInt(totalAmountHp / this.getMaxHp())
+                    this.stats.amount = Math.floor(totalAmountHp / this.getMaxHp())
                 }
             }
         }
