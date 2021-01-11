@@ -1,9 +1,11 @@
-export default class observer {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class observer {
     constructor() {
-        this.observer = []
+        this.observers = [];
     }
     subscribe(_itemInObserver) {
-        this.observer.push(_itemInObserver)
+        this.observers.push(_itemInObserver);
     }
     unsubscribe(_itemInObserver) {
         this.observers = this.observers.filter(subscriber => subscriber !== _itemInObserver);
@@ -12,3 +14,4 @@ export default class observer {
         this.observers.forEach(observer => observer(_dataInObserver));
     }
 }
+exports.default = observer;

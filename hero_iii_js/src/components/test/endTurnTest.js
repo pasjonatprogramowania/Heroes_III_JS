@@ -1,5 +1,5 @@
-import Creature from "../creature";
-import GameEngine from './../gameEngine';
+import Creature from "../js/creature.js";
+import GameEngine from '../js/gameEngine.js';
 
 export default class EndTurnTest {
     shouldResetCounterAttackAtTurnEnd() {

@@ -1,5 +1,5 @@
-import Creature from "../creature.js";
-import Range from './../range';
+import Creature from "../js/creature.js";
+import Range from '../js/range.js';
 
 export default class AttackTest {
     constructor() {

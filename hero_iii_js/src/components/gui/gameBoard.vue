@@ -8,31 +8,30 @@
       <div class="board">
         <div v-for="x in gameEngine.board.boardX" :key="x">
           <div v-for="y in gameEngine.board.boardY" :key="y">
-            <!-- zabinduj tutaj wszytskie dane z cretureonboard -->
             <div
-              v-if="fieldHaveCreture(x, y)"
-              :id="cretureOnBoardItem(x, y).id"
-              :x="cretureOnBoardItem(x, y).x"
-              :y="cretureOnBoardItem(x, y).y"
+              v-if="fieldHaveCreature(x, y)"
+              :id="creatureOnBoardItem(x, y).id"
+              :x="creatureOnBoardItem(x, y).x"
+              :y="creatureOnBoardItem(x, y).y"
               class="board-creature field"
               :class="
-                isThisCreatureActive(cretureOnBoardItem(x, y)) ? 'green' : ''
+                isThisCreatureActive(creatureOnBoardItem(x, y)) ? 'green' : ''
               "
               @click="
                 creatureAction(
-                  cretureOnBoardItem(x, y).x,
-                  cretureOnBoardItem(x, y).y
+                  creatureOnBoardItem(x, y).x,
+                  creatureOnBoardItem(x, y).y
                 )
               "
             >
               <div class="creature-container">
                 <div class="creature-info">
-                  {{ cretureOnBoardItem(x, y).creature.getCurrentHp() }} /
-                  {{ cretureOnBoardItem(x, y).creature.getMaxHp() }}
+                  {{ creatureOnBoardItem(x, y).creature.getCurrentHp() }} /
+                  {{ creatureOnBoardItem(x, y).creature.getMaxHp() }}
                 </div>
                 <img
                   loading="lazy"
-                  :src="getImgUrl(cretureOnBoardItem(x, y))"
+                  :src="getImgUrl(creatureOnBoardItem(x, y))"
                   class="unit"
                   :class="ennemyField(x, y) ? 'ennemy' : ''"
                 />
@@ -77,7 +76,7 @@ export default {
     this.createGameEngineObjectAndBoard();
   },
   methods: {
-    fieldHaveCreture(_x, _y) {
+    fieldHaveCreature(_x, _y) {
       for (let i = 0; i < this.gameEngine.creaturesOnBoard.length; i++) {
         if (
           this.gameEngine.creaturesOnBoard[i].x === _x &&
@@ -88,7 +87,7 @@ export default {
       }
       return false;
     },
-    cretureOnBoardItem(_x, _y) {
+    creatureOnBoardItem(_x, _y) {
       return this.gameEngine.creaturesOnBoard.find(
         (creature) => creature.x === _x && creature.y === _y
       );
@@ -97,7 +96,7 @@ export default {
       return `https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/main/hero_iii_js/src/assets/Castle-img/Necroplis-Unit-Img/${_creatureOnBoardItem.creature.stats.name}.png`;
     },
     ennemyField(_x, _y) {
-      return this.cretureOnBoardItem(_x, _y).player === "ennemy";
+      return this.creatureOnBoardItem(_x, _y).player === "ennemy";
     },
     isThisCreatureActive(_creatureOnBoardItem) {
       if (this.activeCreature() === _creatureOnBoardItem.creature) {
@@ -163,7 +162,7 @@ export default {
         this.activeCreature().getMoveRange() > 0
       ) {
         if (
-          this.cretureOnBoardItem(_x, _y).player !==
+          this.creatureOnBoardItem(_x, _y).player !==
           this.activeItemFromCreaturesOnBoard(this.activeCreature()).player
         ) {
           if (
@@ -175,7 +174,7 @@ export default {
           ) {
             this.gameEngine.attack(
               this.gameBoard().getPoint(
-                this.cretureOnBoardItem(_x, _y).creature
+                this.creatureOnBoardItem(_x, _y).creature
               )
             );
             this.passCreature();

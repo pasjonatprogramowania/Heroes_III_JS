@@ -3,13 +3,13 @@
 </template>
 
 <script>
-import BoardTest from "./js/test/boardTest.js";
-import CreatureTurnQueueTest from "./js/test/creatureTurnQueueTest.js";
-import AttackTest from "./js/test/attackTest.js";
-import CounterAttackTest from "./js/test/counterAttack.js";
-import EndTourTest from "./js/test/endTurnTest.js";
-import AmountDamageTest from "./js/test/amountDamageTest.js";
-import SpecialAbilitiesTest from "./js/test/specialAbilitiesTest.js";
+import BoardTest from "./test/boardTest.js";
+import CreatureTurnQueueTest from "./test/creatureTurnQueueTest.js";
+import AttackTest from "./test/attackTest.js";
+import CounterAttackTest from "./test/counterAttack.js";
+import EndTourTest from "./test/endTurnTest.js";
+import AmountDamageTest from "./test/amountDamageTest.js";
+import SpecialAbilitiesTest from "./test/specialAbilitiesTest.js";
 
 let boardTest = new BoardTest();
 let creatureTurnQueueTest = new CreatureTurnQueueTest();

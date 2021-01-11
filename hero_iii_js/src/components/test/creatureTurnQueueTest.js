@@ -1,6 +1,6 @@
-import Creature from "../creature.js";
-import CreatureTurnQueue from "../creatureTurnQueue.js";
-import Point from './../point';
+import Creature from "../js/creature.js";
+import CreatureTurnQueue from "../js/creatureTurnQueue.js";
+import Point from '../js/point.js';
 
 export default class CreatureTurnQueueTest {
     queueShoulChangeActiveCreature() {

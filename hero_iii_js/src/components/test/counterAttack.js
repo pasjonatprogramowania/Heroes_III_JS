@@ -1,4 +1,4 @@
-import Creature from "../creature.js";
+import Creature from "../js/creature.js";
 
 export default class CounterAttackTest {
     constructor() {
