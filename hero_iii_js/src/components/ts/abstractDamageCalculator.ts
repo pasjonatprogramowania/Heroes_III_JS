@@ -1,4 +1,4 @@
-// import Creature from './creature'; 
+import Creature from './creature'; 
 export default abstract class DamageCalculator {
     calculate(_attacker:any, _defender:any) {
         let randValue = Math.floor(Math.random() * (_attacker.getDamage().getUpperPoint() - _attacker.getDamage().getLowerPoint() + 1) + _attacker.getDamage().getLowerPoint())
@@ -19,12 +19,10 @@ export default abstract class DamageCalculator {
         if (oneCreatureToDeal < 0) {
             oneCreatureToDeal = 0;
         }
-        // let wholeStackDamageToDeal = Math.floor(_attacker.getAmount() * oneCreatureToDeal);
-        // let wholeStackDamageToDealAfterChange = this.changeDamageAfter(wholeStackDamageToDeal, _attacker)
+        // let wholeStackDamageToDeal:number = Math.floor(_attacker.getAmount() * oneCreatureToDeal);
+        let wholeStackDamageToDealAfterChange = this.changeDamageAfter(oneCreatureToDeal,_attacker)
 
-        return Math.round(oneCreatureToDeal);
+        return Math.round(wholeStackDamageToDealAfterChange);
     }
-    changeDamageAfter(){
-
-    }
+    abstract changeDamageAfter(_damageToDeal:number,_attacker:Creature):any;
 }

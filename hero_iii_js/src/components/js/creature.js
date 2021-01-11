@@ -4,12 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const creatureStatistics_1 = __importDefault(require("./creatureStatistics"));
-const damageCalculator_1 = __importDefault(require("./damageCalculator"));
+const damageCalculatorDefault_1 = __importDefault(require("./damageCalculatorDefault"));
 const range_1 = __importDefault(require("./range"));
 class Creature {
     constructor(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator) {
         this.stats = this.createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount);
-        this.damageCalculator = _calculator || new damageCalculator_1.default();
+        this.damageCalculator = _calculator || new damageCalculatorDefault_1.default();
     }
     createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount) {
         return new creatureStatistics_1.default(_name || "Smok", _attack || 5, _armor || 5, _maxHp || 100, _moveRange || 5, _damage || new range_1.default(5, 5), _amount || 1, this.damageCalculator);

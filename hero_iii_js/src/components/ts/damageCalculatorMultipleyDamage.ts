@@ -1,11 +1,10 @@
-// import DamageCalculator from "./damageCalculator";
-
-
-export default class damageCalculatorMultipleyDamage {
+import AbstractDamageCalculator from "./abstractDamageCalculator";
+export default class damageCalculatorMultipleyDamage extends AbstractDamageCalculator {
     min:number;
     multiplayer:number;
     unitTestProcentChance:number;
-    constructor(_min:number, _multiplayer:number, _unitTestProcentChance:number) {
+    constructor(_min:number,_multiplayer:number,_unitTestProcentChance:number){
+        super();
         this.min = _min
         this.multiplayer = _multiplayer
         this.unitTestProcentChance = _unitTestProcentChance

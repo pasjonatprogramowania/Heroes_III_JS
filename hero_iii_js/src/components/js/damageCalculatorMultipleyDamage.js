@@ -1,8 +1,12 @@
 "use strict";
-// import DamageCalculator from "./damageCalculator";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-class damageCalculatorMultipleyDamage {
+const abstractDamageCalculator_1 = __importDefault(require("./abstractDamageCalculator"));
+class damageCalculatorMultipleyDamage extends abstractDamageCalculator_1.default {
     constructor(_min, _multiplayer, _unitTestProcentChance) {
+        super();
         this.min = _min;
         this.multiplayer = _multiplayer;
         this.unitTestProcentChance = _unitTestProcentChance;

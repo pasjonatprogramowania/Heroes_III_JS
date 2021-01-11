@@ -1,12 +1,12 @@
 import CreatureStatistics from './creatureStatistics';
-import DamageCalculator from './damageCalculator';
+import DamageCalculatorDefault from './damageCalculatorDefault';
 import Range from './range';
 export default class Creature {
     damageCalculator:any
     stats:CreatureStatistics
     constructor(_name:string, _attack:number, _armor:number, _maxHp:number, _moveRange:number, _damage:any, _amount:number, _calculator:any) {
         this.stats = this.createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount);
-        this.damageCalculator = _calculator || new DamageCalculator();
+        this.damageCalculator = _calculator || new DamageCalculatorDefault();
     }
     createCreature(_name:string, _attack:number, _armor:number, _maxHp:number, _moveRange:number, _damage:any, _amount:number) {
         return new CreatureStatistics(
