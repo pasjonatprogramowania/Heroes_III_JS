@@ -10,6 +10,7 @@ export default class CreatureStatistics {
     calculator:any;
     currentHp:number;
     wasCounterAttack:boolean;
+
     constructor(_name:string, _attack:number, _armor:number, _maxHp:number, _moveRange:number, _damage:any, _amount:number, _calculator:any) {
         this.name = _name;
         this.attack = _attack;

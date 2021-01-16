@@ -21,7 +21,7 @@ class DamageCalculator {
         if (oneCreatureToDeal < 0) {
             oneCreatureToDeal = 0;
         }
-        // let wholeStackDamageToDeal:number = Math.floor(_attacker.getAmount() * oneCreatureToDeal);
+        // let wholeStackDamageToDeal:number = Math.floor(_attacker.getAmount() * oneCreatureToDeal); 
         let wholeStackDamageToDealAfterChange = this.changeDamageAfter(oneCreatureToDeal, _attacker);
         return Math.round(wholeStackDamageToDealAfterChange);
     }

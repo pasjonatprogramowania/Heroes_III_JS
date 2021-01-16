@@ -1,4 +1,3 @@
-import Creature from './creature';
 export default class CreatureTurnQueue {
     creatureMap:any;
     creatureArray:any;

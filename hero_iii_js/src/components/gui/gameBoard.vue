@@ -11,16 +11,16 @@
             <div
               v-if="fieldHaveCreature(x, y)"
               :id="creatureOnBoardItem(x, y).id"
-              :x="creatureOnBoardItem(x, y).x"
-              :y="creatureOnBoardItem(x, y).y"
+              :x="creatureOnBoardItem(x, y).point.getX()"
+              :y="creatureOnBoardItem(x, y).point.getY()"
               class="board-creature field"
               :class="
                 isThisCreatureActive(creatureOnBoardItem(x, y)) ? 'green' : ''
               "
               @click="
                 creatureAction(
-                  creatureOnBoardItem(x, y).x,
-                  creatureOnBoardItem(x, y).y
+                  creatureOnBoardItem(x, y).point.getX(),
+                  creatureOnBoardItem(x, y).point.getY()
                 )
               "
             >
@@ -28,6 +28,7 @@
                 <div class="creature-info">
                   {{ creatureOnBoardItem(x, y).creature.getCurrentHp() }} /
                   {{ creatureOnBoardItem(x, y).creature.getMaxHp() }}
+                  Amo: {{ creatureOnBoardItem(x, y).creature.getAmount() }}
                 </div>
                 <img
                   loading="lazy"
@@ -79,8 +80,8 @@ export default {
     fieldHaveCreature(_x, _y) {
       for (let i = 0; i < this.gameEngine.creaturesOnBoard.length; i++) {
         if (
-          this.gameEngine.creaturesOnBoard[i].x === _x &&
-          this.gameEngine.creaturesOnBoard[i].y === _y
+          this.gameEngine.creaturesOnBoard[i].point.getX() === _x &&
+          this.gameEngine.creaturesOnBoard[i].point.getY() === _y
         ) {
           return true;
         }
@@ -89,7 +90,8 @@ export default {
     },
     creatureOnBoardItem(_x, _y) {
       return this.gameEngine.creaturesOnBoard.find(
-        (creature) => creature.x === _x && creature.y === _y
+        (creature) =>
+          creature.point.getX() === _x && creature.point.getY() === _y
       );
     },
     getImgUrl(_creatureOnBoardItem) {
@@ -129,7 +131,7 @@ export default {
       let newCreature4 = new Creature("Vampire", 10, 9, 30, 6, new Range(5, 8));
       let newCreature5 = new Creature("Lich", 13, 10, 30, 6, new Range(11, 13));
       let newCreature6 = new Creature("BlackKnight", 16, 16, 120, 7, new Range(15, 30));
-      let newCreature7 = new Creature("BoneDragon", 17, 15, 150, 9, new Range(25, 30));
+      let newCreature7 = new Creature("BoneDragon", 17, 15, 150, 9, new Range(25, 30),5);
   
       let newCreature8 = new Creature("SkeletonWarrior", 6, 6, 6, 5, new Range(1, 3));
       let newCreature9 = new Creature("Zombie", 5, 5, 20, 4, new Range(2, 3));

@@ -5,14 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const creatureStatistics_1 = __importDefault(require("./creatureStatistics"));
 const damageCalculatorDefault_1 = __importDefault(require("./damageCalculatorDefault"));
+// import CreatureWithSelfHealing from './creatureWithSelfHealing'
 const range_1 = __importDefault(require("./range"));
 class Creature {
     constructor(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator) {
-        this.stats = this.createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount);
-        this.damageCalculator = _calculator || new damageCalculatorDefault_1.default();
+        this.stats = this.createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator);
     }
-    createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount) {
-        return new creatureStatistics_1.default(_name || "Smok", _attack || 5, _armor || 5, _maxHp || 100, _moveRange || 5, _damage || new range_1.default(5, 5), _amount || 1, this.damageCalculator);
+    createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator) {
+        return new creatureStatistics_1.default(_name || "Smok", _attack || 5, _armor || 5, _maxHp || 100, _moveRange || 5, _damage || new range_1.default(5, 5), _amount || 1, _calculator || new damageCalculatorDefault_1.default());
     }
     setDefaultStats() {
         this.stats.currentHp = this.getCurrentHp() != undefined ? this.getCurrentHp() : this.getMaxHp();
@@ -21,15 +21,20 @@ class Creature {
         _defender.setDefaultStats();
         this.setDefaultStats();
         if (_defender.isAlive()) {
-            let damageToDeal = this.damageCalculator.calculate(this, _defender);
+            let damageToDeal = _defender.getCalculator().calculate(this, _defender);
             _defender.applayDamage(damageToDeal);
+            // _defender.performAfterAttack(damageToDeal)
             if (_defender.isAlive() && !_defender.stats.wasCounterAttack) {
                 _defender.stats.wasCounterAttack = true;
-                let counterAttackDamageToDeal = this.damageCalculator.calculate(_defender, this);
+                let counterAttackDamageToDeal = this.getCalculator().calculate(_defender, this);
+                // this.performAfterAttack(counterAttackDamageToDeal)
                 this.applayDamage(counterAttackDamageToDeal);
             }
         }
     }
+    // performAfterAttack(_damageToDeal:number){
+    //  new CreatureWithSelfHealing(_damageToDeal,100,this)
+    // }
     applayDamage(_damageToDeal) {
         let totalAmountHp = (this.getMaxHp() * (this.getAmount() - 1)) + this.stats.currentHp - _damageToDeal;
         if (totalAmountHp <= 0) {
@@ -53,7 +58,7 @@ class Creature {
         }
     }
     isAlive() {
-        if (this.stats.currentHp > 0) {
+        if (this.getCurrentHp() > 0) {
             return true;
         }
         // return false;
@@ -91,7 +96,8 @@ class Creature {
     getAmount() {
         return this.stats.amount;
     }
+    getCalculator() {
+        return this.stats.calculator;
+    }
 }
 exports.default = Creature;
-// console.log("~ DamageCalculatorMultipleDamage", DamageCalculatorMultipleyDamage)
-// console.log("~ DamageCalculatorWithHealingAttacker", DamageCalculatorWithHealingAttacker)

@@ -20,15 +20,18 @@ class GameEngine {
         this.queue.initQueue(this.board.map);
     }
     putCreaturesFromeOneSideToBoard(_creatures, _site) {
+        // Zapytaj przemka jak mozna zastapic takiego pojaczka 
         _creatures.forEach(((item, index) => {
-            let newPoint = new point_1.default(_site ? 20 : 1, index + 1);
+            let newPointX = _site ? 20 : 1;
+            let newPointY = index + 1;
+            let creatureSite = _site ? 'ennemy' : 'player';
+            let newPoint = new point_1.default(newPointX, newPointY);
             this.board.add(newPoint, item);
             this.creaturesOnBoard.push({
                 id: this.i,
                 creature: item,
-                player: _site ? 'ennemy' : 'player',
-                x: _site ? 20 : 1,
-                y: index + 1,
+                player: creatureSite,
+                point: newPoint
             });
             this.i++;
         }));
@@ -43,8 +46,8 @@ class GameEngine {
         this.board.moveByCreature(this.queue.getActiveCreature(), _targetPoint);
         this.creaturesOnBoard.forEach((item) => {
             if (item.creature === this.queue.getActiveCreature()) {
-                item.x = _targetPoint.x;
-                item.y = _targetPoint.y;
+                item.point.x = _targetPoint.getX();
+                item.point.y = _targetPoint.getY();
             }
         });
     }
