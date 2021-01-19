@@ -59,7 +59,7 @@ class Board {
         let attackerPoint = this.getPoint(_attacker);
         let defenderPoint = this.getPoint(_defender);
         let distanse = attackerPoint.distanse(defenderPoint);
-        return parseInt(distanse) <= 1;
+        return Math.floor(distanse) <= 1;
     }
     reduseMovment(_creature, _x, _y) {
         this.isThatPointOnMap(_x, _y);

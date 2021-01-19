@@ -1,7 +1,8 @@
 import DamageCalculatorMultipleyDamage from '../js/damageCalculatorMultipleyDamage.js';
-import Creature from '../js/creature.js';
-import Range from '../js/range.js';
 import DamageCalculatorDefault from '../js/damageCalculatorDefault';
+import Creature from '../js/creature.js';
+// import CreatureWithSelfHealing from './../ts/creatureWithSelfHealing';
+import Range from '../js/range.js';
 export default class SpecialAbilitiesTest {
     DreadKnightShouldDealDoubleDamage() {
         let attacker = new Creature('DreadKnight', 5, 5, 9999, 5, new Range(100, 100), 1, new DamageCalculatorMultipleyDamage(0.2, 2, 100))
@@ -25,6 +26,9 @@ export default class SpecialAbilitiesTest {
     VampireLordShouldHealAfterDealDamage() {
         let attacker = new Creature('VampireLord', 5, 5, 100, 5, new Range(100, 100), 10, new DamageCalculatorDefault(), 100, 100)
         let defender = new Creature('Defender', 5, 5, 100, 1, new Range(0, 0), 10, new DamageCalculatorDefault(), 100, 100)
+
+        // let VampireLord = new CreatureWithSelfHealing(100, 100, attacker) //<= tak robie instancje tej klasy ?
+        // console.log("~ VampireLord", VampireLord)
 
         attacker.attack(defender)
         // if (attacker.getCurrentHp() !== 100 || attacker.getAmount() !== 11) {

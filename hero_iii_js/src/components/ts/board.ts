@@ -66,7 +66,7 @@ export default class Board {
 
         let distanse = attackerPoint.distanse(defenderPoint)
 
-        return parseInt(distanse) <= 1;
+        return Math.floor(distanse) <= 1;
     }
     reduseMovment(_creature:Creature, _x:number, _y:number) {
         this.isThatPointOnMap(_x, _y)

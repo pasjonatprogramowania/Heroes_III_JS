@@ -22,19 +22,17 @@ class Creature {
         this.setDefaultStats();
         if (_defender.isAlive()) {
             let damageToDeal = _defender.getCalculator().calculate(this, _defender);
-            _defender.applayDamage(damageToDeal);
-            // _defender.performAfterAttack(damageToDeal)
+            _defender.performAfterAttack(damageToDeal);
             if (_defender.isAlive() && !_defender.stats.wasCounterAttack) {
                 _defender.stats.wasCounterAttack = true;
                 let counterAttackDamageToDeal = this.getCalculator().calculate(_defender, this);
-                // this.performAfterAttack(counterAttackDamageToDeal)
-                this.applayDamage(counterAttackDamageToDeal);
+                this.performAfterAttack(counterAttackDamageToDeal);
             }
         }
     }
-    // performAfterAttack(_damageToDeal:number){
-    //  new CreatureWithSelfHealing(_damageToDeal,100,this)
-    // }
+    performAfterAttack(_damageToDeal) {
+        this.applayDamage(_damageToDeal);
+    }
     applayDamage(_damageToDeal) {
         let totalAmountHp = (this.getMaxHp() * (this.getAmount() - 1)) + this.stats.currentHp - _damageToDeal;
         if (totalAmountHp <= 0) {

@@ -161,7 +161,11 @@ export default {
     actionAttack(_x, _y) {
       if (
         this.gameBoard().isThisTileTaken(new Point(_x, _y)) &&
-        this.activeCreature().getMoveRange() > 0
+        this.activeCreature().getMoveRange() > 0 &&
+        this.gameEngine.canAttack(
+          this.activeCreature(),
+          this.creatureOnBoardItem(_x, _y).creature
+        )
       ) {
         if (
           this.creatureOnBoardItem(_x, _y).player !==
@@ -234,7 +238,7 @@ html {
   display: grid;
   grid-template-columns: repeat(20, minmax(50px, 1fr));
   grid-auto-flow: column;
-  /* background-image: url("https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/AfterRangeObject/hero_iii_js/Castle-img/Necroplis-Unit-Img/BattleField/Highlands.gif"); */
+  background-image: url("https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/AfterRangeObject/hero_iii_js/Castle-img/Necroplis-Unit-Img/BattleField/Highlands.gif") !important;
 }
 side-board {
   display: grid;
@@ -249,14 +253,20 @@ side-board {
   border: 2px solid var(--mainTextColor);
   width: 50px;
   height: 50px;
+  position: relative;
 }
 .container h1 {
   margin: 0 auto 40px auto;
 }
 .unit {
-  max-width: 50px;
-  max-height: 50px;
+  max-width: 100px;
+  max-height: 100px;
   object-fit: cover;
+  position: absolute;
+  top: -35px;
+  right: 0px;
+  bottom: 0px;
+  left: -30px;
 }
 .ennemy {
   transform: scaleX(-1);
