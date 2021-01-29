@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const creature_1 = __importDefault(require("./creature"));
 class CreatureShooting extends creature_1.default {
     constructor(_creature) {
-        super(_creature.getName(), _creature.getAttack(), _creature.getArmor(), _creature.getMaxHp(), _creature.getMoveRange(), _creature.getDamage, _creature.getAmount(), _creature.getCalculator());
+        super(_creature.getName(), _creature.getAttack(), _creature.getArmor(), _creature.getMaxHp(), _creature.getMoveRange(), _creature.getDamage(), _creature.getAmount(), _creature.getCalculator());
     }
     getMoveRange() {
         return 100;

@@ -10,3 +10,6 @@ dodatkowe
 Jak skonfigurowac prettiera dla tsc ?
 Czy pisanie w tsc w pliku vue ma sens ?
 powiedz przemkowi o plikach def
+
+
+Jaki serwer  moge postawic do tej aplikacji aby zbadac najwiecej tehcnilogi ? (Docker i Laraver/PHP) ?

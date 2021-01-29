@@ -39,6 +39,7 @@ amountDamageTest.defenderSholudLose3UnitAndand50HpAfterTwoAttacks();
 specialAbilitiesTest.DreadKnightShouldDealDoubleDamage();
 specialAbilitiesTest.DreadKnightShouldDealNormalDamage();
 specialAbilitiesTest.VampireLordShouldHealAfterDealDamage();
+specialAbilitiesTest.ShootingCreatureShouldHaveUnlimitedRange();
 
 export default {
   data() {

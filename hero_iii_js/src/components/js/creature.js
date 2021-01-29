@@ -12,7 +12,7 @@ class Creature {
         this.stats = this.createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator);
     }
     createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator) {
-        return new creatureStatistics_1.default(_name || "Smok", _attack || 5, _armor || 5, _maxHp || 100, _moveRange || 5, _damage || new range_1.default(5, 5), _amount || 1, _calculator || new damageCalculatorDefault_1.default());
+        return new creatureStatistics_1.default(_name !== null && _name !== void 0 ? _name : "Smok", _attack !== null && _attack !== void 0 ? _attack : 5, _armor !== null && _armor !== void 0 ? _armor : 5, _maxHp !== null && _maxHp !== void 0 ? _maxHp : 100, _moveRange !== null && _moveRange !== void 0 ? _moveRange : 5, _damage !== null && _damage !== void 0 ? _damage : new range_1.default(5, 5), _amount !== null && _amount !== void 0 ? _amount : 1, _calculator !== null && _calculator !== void 0 ? _calculator : new damageCalculatorDefault_1.default(), 10);
     }
     setDefaultStats() {
         this.stats.currentHp = this.getCurrentHp() != undefined ? this.getCurrentHp() : this.getMaxHp();
@@ -22,16 +22,21 @@ class Creature {
         this.setDefaultStats();
         if (_defender.isAlive()) {
             let damageToDeal = _defender.getCalculator().calculate(this, _defender);
-            _defender.performAfterAttack(damageToDeal);
+            this.performAfterAttack(damageToDeal);
+            _defender.applayDamage(damageToDeal);
             if (_defender.isAlive() && !_defender.stats.wasCounterAttack) {
                 _defender.stats.wasCounterAttack = true;
                 let counterAttackDamageToDeal = this.getCalculator().calculate(_defender, this);
-                this.performAfterAttack(counterAttackDamageToDeal);
+                _defender.performAfterAttack(counterAttackDamageToDeal);
+                this.applayDamage(counterAttackDamageToDeal);
             }
         }
     }
     performAfterAttack(_damageToDeal) {
-        this.applayDamage(_damageToDeal);
+        if (_damageToDeal) {
+            return this;
+        }
+        return this;
     }
     applayDamage(_damageToDeal) {
         let totalAmountHp = (this.getMaxHp() * (this.getAmount() - 1)) + this.stats.currentHp - _damageToDeal;
@@ -96,6 +101,12 @@ class Creature {
     }
     getCalculator() {
         return this.stats.calculator;
+    }
+    getAttackRange() {
+        return this.stats.attackRange;
+    }
+    getMaxAttackRange() {
+        return this.stats.maxAttackRange;
     }
 }
 exports.default = Creature;

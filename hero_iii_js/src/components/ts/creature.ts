@@ -10,14 +10,15 @@ export default class Creature {
     }
     createCreature(_name:string, _attack:number, _armor:number, _maxHp:number, _moveRange:number, _damage:any, _amount:number,_calculator:any) {
         return new CreatureStatistics(
-            _name || "Smok",
-            _attack || 5,
-            _armor || 5,
-            _maxHp || 100,
-            _moveRange || 5,
-            _damage || new Range(5, 5),
-            _amount || 1,
-            _calculator || new DamageCalculatorDefault()
+            _name ?? "Smok",
+            _attack ?? 5,
+            _armor ?? 5,
+            _maxHp ?? 100,
+            _moveRange ?? 5,
+            _damage ?? new Range(5, 5),
+            _amount ?? 1,
+            _calculator ?? new DamageCalculatorDefault(),
+            10,
         );
     }
     setDefaultStats() {
@@ -28,16 +29,21 @@ export default class Creature {
         this.setDefaultStats();
         if (_defender.isAlive()) {
             let damageToDeal = _defender.getCalculator().calculate(this, _defender)
-            _defender.performAfterAttack(damageToDeal)
+            this.performAfterAttack(damageToDeal)
+            _defender.applayDamage(damageToDeal)
             if (_defender.isAlive() && !_defender.stats.wasCounterAttack) {
                 _defender.stats.wasCounterAttack = true;
                 let counterAttackDamageToDeal = this.getCalculator().calculate(_defender, this)
-                this.performAfterAttack(counterAttackDamageToDeal)
+                _defender.performAfterAttack(counterAttackDamageToDeal)
+                this.applayDamage(counterAttackDamageToDeal);
             }
         }
     }
     performAfterAttack(_damageToDeal:number){
-        this.applayDamage(_damageToDeal);
+        if(_damageToDeal){
+            return this;
+        }        
+        return this;
     }
     applayDamage(_damageToDeal:number) {
         let totalAmountHp = (this.getMaxHp() * (this.getAmount() - 1)) + this.stats.currentHp - _damageToDeal
@@ -99,5 +105,11 @@ export default class Creature {
     }
     getCalculator(){
         return this.stats.calculator;
+    }
+    getAttackRange(){
+        return this.stats.attackRange;
+    }
+    getMaxAttackRange(){
+        return this.stats.maxAttackRange;
     }
 }

@@ -15,11 +15,11 @@ class GameEngine {
         this.putCreatureToBoard(_myCreatures, _EnnemyCreatures);
     }
     putCreatureToBoard(_myCreatures, _EnnemyCreatures) {
-        this.putCreaturesFromeOneSideToBoard(_myCreatures, false);
-        this.putCreaturesFromeOneSideToBoard(_EnnemyCreatures, true);
+        this.putCreaturesFromOneSideToBoard(_myCreatures, false);
+        this.putCreaturesFromOneSideToBoard(_EnnemyCreatures, true);
         this.queue.initQueue(this.board.map);
     }
-    putCreaturesFromeOneSideToBoard(_creatures, _site) {
+    putCreaturesFromOneSideToBoard(_creatures, _site) {
         // Zapytaj przemka jak mozna zastapic takiego pojaczka 
         _creatures.forEach(((item, index) => {
             let newPointX = _site ? 20 : 1;
