@@ -11,8 +11,14 @@ class CreatureShooting extends creature_1.default {
     getAttackRange() {
         return 100;
     }
-    counterAttack() {
-        return;
+    attack(_defender) {
+        _defender.setDefaultStats();
+        this.setDefaultStats();
+        if (_defender.isAlive()) {
+            let damageToDeal = _defender.getCalculator().calculate(this, _defender);
+            this.performAfterAttack(damageToDeal);
+            _defender.applayDamage(damageToDeal);
+        }
     }
 }
 exports.default = CreatureShooting;

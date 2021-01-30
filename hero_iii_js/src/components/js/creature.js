@@ -5,14 +5,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const creatureStatistics_1 = __importDefault(require("./creatureStatistics"));
 const damageCalculatorDefault_1 = __importDefault(require("./damageCalculatorDefault"));
-// import CreatureWithSelfHealing from './creatureWithSelfHealing'
 const range_1 = __importDefault(require("./range"));
 class Creature {
-    constructor(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator) {
-        this.stats = this.createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator);
+    constructor(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator, _attackRange) {
+        this.stats = this.createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator, _attackRange);
     }
-    createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator) {
-        return new creatureStatistics_1.default(_name !== null && _name !== void 0 ? _name : "Smok", _attack !== null && _attack !== void 0 ? _attack : 5, _armor !== null && _armor !== void 0 ? _armor : 5, _maxHp !== null && _maxHp !== void 0 ? _maxHp : 100, _moveRange !== null && _moveRange !== void 0 ? _moveRange : 5, _damage !== null && _damage !== void 0 ? _damage : new range_1.default(5, 5), _amount !== null && _amount !== void 0 ? _amount : 1, _calculator !== null && _calculator !== void 0 ? _calculator : new damageCalculatorDefault_1.default(), 10);
+    createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator, _attackRange) {
+        return new creatureStatistics_1.default(_name !== null && _name !== void 0 ? _name : "Smok", _attack !== null && _attack !== void 0 ? _attack : 5, _armor !== null && _armor !== void 0 ? _armor : 5, _maxHp !== null && _maxHp !== void 0 ? _maxHp : 100, _moveRange !== null && _moveRange !== void 0 ? _moveRange : 5, _damage !== null && _damage !== void 0 ? _damage : new range_1.default(5, 5), _amount !== null && _amount !== void 0 ? _amount : 1, _calculator !== null && _calculator !== void 0 ? _calculator : new damageCalculatorDefault_1.default(), _attackRange !== null && _attackRange !== void 0 ? _attackRange : 1);
     }
     setDefaultStats() {
         this.stats.currentHp = this.getCurrentHp() != undefined ? this.getCurrentHp() : this.getMaxHp();
@@ -24,12 +23,15 @@ class Creature {
             let damageToDeal = _defender.getCalculator().calculate(this, _defender);
             this.performAfterAttack(damageToDeal);
             _defender.applayDamage(damageToDeal);
-            if (_defender.isAlive() && !_defender.stats.wasCounterAttack) {
-                _defender.stats.wasCounterAttack = true;
-                let counterAttackDamageToDeal = this.getCalculator().calculate(_defender, this);
-                _defender.performAfterAttack(counterAttackDamageToDeal);
-                this.applayDamage(counterAttackDamageToDeal);
-            }
+            this.counterAttack(_defender);
+        }
+    }
+    counterAttack(_defender) {
+        if (_defender.isAlive() && !_defender.stats.wasCounterAttack) {
+            _defender.stats.wasCounterAttack = true;
+            let counterAttackDamageToDeal = this.getCalculator().calculate(_defender, this);
+            _defender.performAfterAttack(counterAttackDamageToDeal);
+            this.applayDamage(counterAttackDamageToDeal);
         }
     }
     performAfterAttack(_damageToDeal) {
@@ -104,9 +106,6 @@ class Creature {
     }
     getAttackRange() {
         return this.stats.attackRange;
-    }
-    getMaxAttackRange() {
-        return this.stats.maxAttackRange;
     }
 }
 exports.default = Creature;

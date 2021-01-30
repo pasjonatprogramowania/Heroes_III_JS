@@ -11,7 +11,6 @@ class GameEngine {
         this.board = new board_1.default();
         this.queue = new creatureTurnQueue_1.default();
         this.creaturesOnBoard = [];
-        this.i = 0;
         this.putCreatureToBoard(_myCreatures, _EnnemyCreatures);
     }
     putCreatureToBoard(_myCreatures, _EnnemyCreatures) {
@@ -28,12 +27,10 @@ class GameEngine {
             let newPoint = new point_1.default(newPointX, newPointY);
             this.board.add(newPoint, item);
             this.creaturesOnBoard.push({
-                id: this.i,
                 creature: item,
                 player: creatureSite,
                 point: newPoint
             });
-            this.i++;
         }));
     }
     canMove(_x, _y) {

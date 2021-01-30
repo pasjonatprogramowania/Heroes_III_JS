@@ -1,8 +1,7 @@
-import Creature from "./creature";
-export default class CreatureShooting extends Creature{
+import Creature from './creature';
+export default class blockCreatureCounterAttack extends Creature {
     constructor(_creature:Creature){
-        super(
-        _creature.getName(),
+        super(_creature.getName(),
         _creature.getAttack(),
         _creature.getArmor(),
         _creature.getMaxHp(),
@@ -10,13 +9,10 @@ export default class CreatureShooting extends Creature{
         _creature.getDamage(),
         _creature.getAmount(),
         _creature.getCalculator(),
-        100
+        _creature.getAttackRange()
         )
-    }
-    getAttackRange(){
-        return 100;
     }
     counterAttack(){
         return;
     }
-} 
+}

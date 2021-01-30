@@ -13,7 +13,6 @@ export default class GameEngine {
         this.board = new Board();
         this.queue = new CreatureTurnQueue()
         this.creaturesOnBoard = [];
-        this.i = 0;
         this.putCreatureToBoard(_myCreatures, _EnnemyCreatures)
     }
     putCreatureToBoard(_myCreatures:Creature, _EnnemyCreatures:Creature) {
@@ -32,12 +31,10 @@ export default class GameEngine {
             let newPoint = new Point(newPointX, newPointY)
             this.board.add(newPoint, item)
             this.creaturesOnBoard.push({
-                id: this.i,
                 creature: item,
                 player: creatureSite,
                 point: newPoint
             });
-            this.i++;
         }))
     }
     canMove(_x:number, _y:number) {

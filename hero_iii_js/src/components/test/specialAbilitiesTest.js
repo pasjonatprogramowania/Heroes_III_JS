@@ -1,9 +1,12 @@
 import DamageCalculatorMultipleyDamage from '../js/damageCalculatorMultipleyDamage.js';
-import DamageCalculatorDefault from '../js/damageCalculatorDefault';
+import DamageCalculatorDefault from '../js/damageCalculatorDefault.js';
 import Creature from '../js/creature.js';
-import CreatureWithSelfHealing from '../js/creatureWithSelfHealing';
+import CreatureWithSelfHealing from '../js/creatureWithSelfHealing.js';
+import CreatureShooting from '../js/creatureShooting.js';
 import Range from '../js/range.js';
-import CreatureShooting from '../js/creatureShooting';
+import Board from '../js/board.js';
+import Point from '../js/point.js';
+import blockCreatureCounterAttack from '../js/blockCreatureCounterAttack';
 export default class SpecialAbilitiesTest {
     DreadKnightShouldDealDoubleDamage() {
         let attacker = new Creature('DreadKnight', 5, 5, 9999, 5, new Range(100, 100), 1, new DamageCalculatorMultipleyDamage(0.2, 2, 100))
@@ -28,8 +31,7 @@ export default class SpecialAbilitiesTest {
         let attacker = new Creature('VampireLord', 5, 5, 100, 5, new Range(100, 100), 10, new DamageCalculatorDefault())
         let defender = new Creature('Defender', 5, 5, 100, 1, new Range(0, 0), 10, new DamageCalculatorDefault())
 
-        let VampireLord = new CreatureWithSelfHealing(attacker, 100) //<= tak robie instancje tej klasy ?
-        console.log("~ VampireLord", VampireLord)
+        let VampireLord = new CreatureWithSelfHealing(attacker, 100)
 
         VampireLord.attack(defender)
         if (VampireLord.getCurrentHp() !== 100 || VampireLord.getAmount() !== 11) {
@@ -41,14 +43,47 @@ export default class SpecialAbilitiesTest {
     ShootingCreatureShouldHaveUnlimitedRange() {
         let attacker = new Creature('Archer', 5, 5, 100, 5, new Range(50, 50), 10, new DamageCalculatorDefault())
         let defender = new Creature('Defender', 5, 5, 100, 1, new Range(0, 0), 10, new DamageCalculatorDefault())
-
         let Archer = new CreatureShooting(attacker)
-        Archer.attack(defender)
-        if (defender.getCurrentHp() === defender.getMaxHp()) {
+
+        let board = new Board();
+        board.add(new Point(1, 1), Archer)
+        board.add(new Point(6, 6), defender)
+
+        if (!board.canAttack(Archer, defender)) {
             console.log("~ defender.getMaxHp()", defender.getMaxHp())
             console.log("~ defender.getCurrentHp()", defender.getCurrentHp())
             throw `Exception: => Archer powienien miec nielimitowany zasieg`;
         }
 
+    }
+    ShootingCreatureShouldNotTakeCounterAttack() {
+        let attacker = new Creature('Archer', 5, 5, 100, 5, new Range(50, 50), 10, new DamageCalculatorDefault())
+        let defender = new Creature('Defender', 5, 5, 100, 1, new Range(0, 0), 10, new DamageCalculatorDefault())
+        let Archer = new CreatureShooting(attacker)
+
+        let board = new Board();
+        board.add(new Point(1, 1), Archer)
+        board.add(new Point(6, 6), defender)
+
+        if (Archer.getMaxHp() !== Archer.getCurrentHp()) {
+            console.log("~ defender.getMaxHp()", Archer.getMaxHp())
+            console.log("~ defender.getCurrentHp()", Archer.getCurrentHp())
+            throw `Exception: => Archer powienien nie otrzymac counterAttacku`;
+        }
+    }
+    VampireShouldNotTakeCounterAttack() {
+        let attacker = new Creature('Archer', 5, 5, 100, 5, new Range(50, 50), 10, new DamageCalculatorDefault())
+        let defender = new Creature('Defender', 5, 5, 100, 1, new Range(0, 0), 10, new DamageCalculatorDefault())
+        let Vampire = new blockCreatureCounterAttack(attacker)
+
+        let board = new Board();
+        board.add(new Point(1, 1), Vampire)
+        board.add(new Point(1, 2), defender)
+
+        if (Vampire.getMaxHp() !== Vampire.getCurrentHp()) {
+            console.log("~ defender.getMaxHp()", Vampire.getMaxHp())
+            console.log("~ defender.getCurrentHp()", Vampire.getCurrentHp())
+            throw `Exception: => Archer powienien nie otrzymac counterAttacku`;
+        }
     }
 }

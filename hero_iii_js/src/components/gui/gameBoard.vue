@@ -10,7 +10,6 @@
           <div v-for="y in gameEngine.board.boardY" :key="y">
             <div
               v-if="fieldHaveCreature(x, y)"
-              :id="creatureOnBoardItem(x, y).id"
               :x="creatureOnBoardItem(x, y).point.getX()"
               :y="creatureOnBoardItem(x, y).point.getY()"
               class="board-creature field"
@@ -68,6 +67,7 @@ import GameEngine from "../js/gameEngine.js";
 import Point from "../js/point.js";
 import Range from "../js/range.js";
 import CreatureWithSelfHealing from "../js/creatureWithSelfHealing.js";
+import creatureShooting from "../js/creatureShooting.js";
 export default {
   data() {
     return {
@@ -127,7 +127,7 @@ export default {
         // let newCreature8 = new Creature("Archangel", 30, 30, 250, 18, new Range(50, 50));
 
       let newCreature1 = new CreatureWithSelfHealing(new Creature("Skeleton", 5, 4, 6, 4, new Range(1, 3)),100);
-      let newCreature2 = new Creature("WalkingDead", 5, 5, 15, 3, new Range(2, 3));
+      let newCreature2 = new creatureShooting(new Creature("WalkingDead", 5, 5, 15, 3, new Range(2, 3)));
       let newCreature3 = new Creature("Wight", 7, 7, 18, 5, new Range(3, 5));
       let newCreature4 = new Creature("Vampire", 10, 9, 30, 6, new Range(5, 8));
       let newCreature5 = new Creature("Lich", 13, 10, 30, 6, new Range(11, 13));
@@ -162,7 +162,6 @@ export default {
     actionAttack(_x, _y) {
       if (
         this.gameBoard().isThisTileTaken(new Point(_x, _y)) &&
-        this.activeCreature().getMoveRange() > 0 &&
         this.gameEngine.canAttack(
           this.activeCreature(),
           this.creatureOnBoardItem(_x, _y).creature

@@ -1,14 +1,13 @@
 import CreatureStatistics from './creatureStatistics';
 import DamageCalculatorDefault from './damageCalculatorDefault';
-// import CreatureWithSelfHealing from './creatureWithSelfHealing'
 import Range from './range';
 export default class Creature {
     damageCalculator:any
     stats:CreatureStatistics
-    constructor(_name:string, _attack:number, _armor:number, _maxHp:number, _moveRange:number, _damage:any, _amount:number, _calculator:any) {
-        this.stats = this.createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount,_calculator);
+    constructor(_name:string, _attack:number, _armor:number, _maxHp:number, _moveRange:number, _damage:any, _amount:number, _calculator:any,_attackRange:number) {
+        this.stats = this.createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount,_calculator,_attackRange);
     }
-    createCreature(_name:string, _attack:number, _armor:number, _maxHp:number, _moveRange:number, _damage:any, _amount:number,_calculator:any) {
+    createCreature(_name:string, _attack:number, _armor:number, _maxHp:number, _moveRange:number, _damage:any, _amount:number,_calculator:any,_attackRange:number) {
         return new CreatureStatistics(
             _name ?? "Smok",
             _attack ?? 5,
@@ -18,7 +17,7 @@ export default class Creature {
             _damage ?? new Range(5, 5),
             _amount ?? 1,
             _calculator ?? new DamageCalculatorDefault(),
-            10,
+            _attackRange ?? 1
         );
     }
     setDefaultStats() {
@@ -31,12 +30,15 @@ export default class Creature {
             let damageToDeal = _defender.getCalculator().calculate(this, _defender)
             this.performAfterAttack(damageToDeal)
             _defender.applayDamage(damageToDeal)
-            if (_defender.isAlive() && !_defender.stats.wasCounterAttack) {
-                _defender.stats.wasCounterAttack = true;
-                let counterAttackDamageToDeal = this.getCalculator().calculate(_defender, this)
-                _defender.performAfterAttack(counterAttackDamageToDeal)
-                this.applayDamage(counterAttackDamageToDeal);
-            }
+            this.counterAttack(_defender);
+        }
+    }
+    counterAttack(_defender: Creature) {
+        if (_defender.isAlive() && !_defender.stats.wasCounterAttack) {
+            _defender.stats.wasCounterAttack = true;
+            let counterAttackDamageToDeal = this.getCalculator().calculate(_defender, this);
+            _defender.performAfterAttack(counterAttackDamageToDeal);
+            this.applayDamage(counterAttackDamageToDeal);
         }
     }
     performAfterAttack(_damageToDeal:number){
@@ -108,8 +110,5 @@ export default class Creature {
     }
     getAttackRange(){
         return this.stats.attackRange;
-    }
-    getMaxAttackRange(){
-        return this.stats.maxAttackRange;
     }
 }

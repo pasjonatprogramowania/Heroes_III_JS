@@ -59,17 +59,16 @@ export default class Board {
         return distanse <= _creature.getMoveRange() && !this.isThisTileTaken(pointToMoveCreature);
     }
     canAttack(_attacker:Creature, _defender:Creature) {
-        this.isThatPointOnMap(this.getPoint(_defender).getX(), this.getPoint(_defender).getY())
-
         let attackerPoint = this.getPoint(_attacker)
         let defenderPoint = this.getPoint(_defender)
 
         let distanse = attackerPoint.distanse(defenderPoint)
 
-        return Math.floor(distanse) <= 1;
+        return Math.floor(distanse) <= _attacker.getAttackRange();
     }
     reduseMovment(_creature:Creature, _x:number, _y:number) {
         this.isThatPointOnMap(_x, _y)
+
         let pointToMoveCreature = new Point(_x, _y);
         let currentCreaturePoint = this.getPoint(_creature)
 

@@ -14,7 +14,6 @@ class CreatureStatistics {
         this.currentHp = _maxHp;
         this.wasCounterAttack = false;
         this.attackRange = _attackRange;
-        this.maxAttackRange = _attackRange;
     }
     getName() {
         return this.name;
@@ -39,9 +38,6 @@ class CreatureStatistics {
     }
     getAttackRange() {
         return this.attackRange;
-    }
-    getMaxAttackRange() {
-        return this.maxAttackRange;
     }
 }
 exports.default = CreatureStatistics;

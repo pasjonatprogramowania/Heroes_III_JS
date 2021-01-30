@@ -11,6 +11,7 @@ export default class CreatureWithSelfHealing extends Creature{
         _creature.getDamage(),
         _creature.getAmount(),
         _creature.getCalculator(),
+        _creature.getAttackRange()
         )
         this.selfHealingChance =_selfHealingChance
     }
