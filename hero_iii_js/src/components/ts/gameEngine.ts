@@ -7,8 +7,6 @@ export default class GameEngine {
     board:Board;
     queue:CreatureTurnQueue;
     creaturesOnBoard:any;
-    i:number;
-
     constructor(_myCreatures:Creature, _EnnemyCreatures:Creature) {
         this.board = new Board();
         this.queue = new CreatureTurnQueue()

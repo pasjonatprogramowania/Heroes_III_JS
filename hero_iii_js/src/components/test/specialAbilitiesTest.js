@@ -74,6 +74,7 @@ export default class SpecialAbilitiesTest {
     VampireShouldNotTakeCounterAttack() {
         let attacker = new Creature('Archer', 5, 5, 100, 5, new Range(50, 50), 10, new DamageCalculatorDefault())
         let defender = new Creature('Defender', 5, 5, 100, 1, new Range(0, 0), 10, new DamageCalculatorDefault())
+       
         let Vampire = new blockCreatureCounterAttack(attacker)
 
         let board = new Board();

@@ -1,5 +1,7 @@
 import Creature from './creature';
 export default class blockCreatureCounterAttack extends Creature {
+
+    decorated:any;
     constructor(_creature:Creature){
         super(_creature.getName(),
         _creature.getAttack(),

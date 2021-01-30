@@ -27,16 +27,19 @@ export default class Creature {
         _defender.setDefaultStats(); 
         this.setDefaultStats();
         if (_defender.isAlive()) {
-            let damageToDeal = _defender.getCalculator().calculate(this, _defender)
+            let damageToDeal = _defender.calculateDamge(this, _defender)
             this.performAfterAttack(damageToDeal)
             _defender.applayDamage(damageToDeal)
             this.counterAttack(_defender);
         }
     }
+    calculateDamge(_attacker:Creature,_defender:Creature){
+        return this.getCalculator().calculate(_attacker, _defender)
+    }
     counterAttack(_defender: Creature) {
         if (_defender.isAlive() && !_defender.stats.wasCounterAttack) {
             _defender.stats.wasCounterAttack = true;
-            let counterAttackDamageToDeal = this.getCalculator().calculate(_defender, this);
+            let counterAttackDamageToDeal = this.calculateDamge(_defender, this);
             _defender.performAfterAttack(counterAttackDamageToDeal);
             this.applayDamage(counterAttackDamageToDeal);
         }
