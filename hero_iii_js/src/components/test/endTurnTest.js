@@ -1,10 +1,10 @@
-import Creature from "../creature";
-import GameEngine from './../gameEngine';
+import Creature from "../js/creature.js";
+import GameEngine from '../js/gameEngine.js';
 
 export default class EndTurnTest {
     shouldResetCounterAttackAtTurnEnd() {
-        let defender = new Creature('endD')
-        let attacker = new Creature('endA')
+        let defender = new Creature('endD', undefined, undefined, 99999, undefined, undefined, undefined, undefined, undefined)
+        let attacker = new Creature('endA', undefined, undefined, 99999, undefined, undefined, undefined, undefined, undefined)
 
         let arr = []
         let arr2 = []

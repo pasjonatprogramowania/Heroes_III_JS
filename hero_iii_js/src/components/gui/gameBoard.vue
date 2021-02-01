@@ -8,31 +8,30 @@
       <div class="board">
         <div v-for="x in gameEngine.board.boardX" :key="x">
           <div v-for="y in gameEngine.board.boardY" :key="y">
-            <!-- zabinduj tutaj wszytskie dane z cretureonboard -->
             <div
-              v-if="fieldHaveCreture(x, y)"
-              :id="cretureOnBoardItem(x, y).id"
-              :x="cretureOnBoardItem(x, y).x"
-              :y="cretureOnBoardItem(x, y).y"
+              v-if="fieldHaveCreature(x, y)"
+              :x="creatureOnBoardItem(x, y).point.getX()"
+              :y="creatureOnBoardItem(x, y).point.getY()"
               class="board-creature field"
               :class="
-                isThisCreatureActive(cretureOnBoardItem(x, y)) ? 'green' : ''
+                isThisCreatureActive(creatureOnBoardItem(x, y)) ? 'green' : ''
               "
               @click="
                 creatureAction(
-                  cretureOnBoardItem(x, y).x,
-                  cretureOnBoardItem(x, y).y
+                  creatureOnBoardItem(x, y).point.getX(),
+                  creatureOnBoardItem(x, y).point.getY()
                 )
               "
             >
               <div class="creature-container">
                 <div class="creature-info">
-                  {{ cretureOnBoardItem(x, y).creature.getCurrentHp() }} /
-                  {{ cretureOnBoardItem(x, y).creature.getMaxHp() }}
+                  {{ creatureOnBoardItem(x, y).creature.getCurrentHp() }} /
+                  {{ creatureOnBoardItem(x, y).creature.getMaxHp() }}
+                  Amo: {{ creatureOnBoardItem(x, y).creature.getAmount() }}
                 </div>
                 <img
                   loading="lazy"
-                  :src="getImgUrl(cretureOnBoardItem(x, y))"
+                  :src="getImgUrl(creatureOnBoardItem(x, y))"
                   class="unit"
                   :class="ennemyField(x, y) ? 'ennemy' : ''"
                 />
@@ -67,6 +66,8 @@ import Creature from "../js/creature.js";
 import GameEngine from "../js/gameEngine.js";
 import Point from "../js/point.js";
 import Range from "../js/range.js";
+import CreatureWithSelfHealing from "../js/creatureWithSelfHealing.js";
+import creatureShooting from "../js/creatureShooting.js";
 export default {
   data() {
     return {
@@ -77,27 +78,28 @@ export default {
     this.createGameEngineObjectAndBoard();
   },
   methods: {
-    fieldHaveCreture(_x, _y) {
+    fieldHaveCreature(_x, _y) {
       for (let i = 0; i < this.gameEngine.creaturesOnBoard.length; i++) {
         if (
-          this.gameEngine.creaturesOnBoard[i].x === _x &&
-          this.gameEngine.creaturesOnBoard[i].y === _y
+          this.gameEngine.creaturesOnBoard[i].point.getX() === _x &&
+          this.gameEngine.creaturesOnBoard[i].point.getY() === _y
         ) {
           return true;
         }
       }
       return false;
     },
-    cretureOnBoardItem(_x, _y) {
+    creatureOnBoardItem(_x, _y) {
       return this.gameEngine.creaturesOnBoard.find(
-        (creature) => creature.x === _x && creature.y === _y
+        (creature) =>
+          creature.point.getX() === _x && creature.point.getY() === _y
       );
     },
     getImgUrl(_creatureOnBoardItem) {
       return `https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/main/hero_iii_js/src/assets/Castle-img/Necroplis-Unit-Img/${_creatureOnBoardItem.creature.stats.name}.png`;
     },
     ennemyField(_x, _y) {
-      return this.cretureOnBoardItem(_x, _y).player === "ennemy";
+      return this.creatureOnBoardItem(_x, _y).player === "ennemy";
     },
     isThisCreatureActive(_creatureOnBoardItem) {
       if (this.activeCreature() === _creatureOnBoardItem.creature) {
@@ -124,13 +126,13 @@ export default {
         // let newCreature7 = new Creature("Crusader", 12, 12, 35, 6, new Range(7, 10));
         // let newCreature8 = new Creature("Archangel", 30, 30, 250, 18, new Range(50, 50));
 
-      let newCreature1 = new Creature("Skeleton", 5, 4, 6, 4, new Range(1, 3));
-      let newCreature2 = new Creature("WalkingDead", 5, 5, 15, 3, new Range(2, 3));
+      let newCreature1 = new CreatureWithSelfHealing(new Creature("Skeleton", 5, 4, 6, 4, new Range(1, 3)),100);
+      let newCreature2 = new creatureShooting(new Creature("WalkingDead", 5, 5, 15, 3, new Range(2, 3)));
       let newCreature3 = new Creature("Wight", 7, 7, 18, 5, new Range(3, 5));
       let newCreature4 = new Creature("Vampire", 10, 9, 30, 6, new Range(5, 8));
       let newCreature5 = new Creature("Lich", 13, 10, 30, 6, new Range(11, 13));
       let newCreature6 = new Creature("BlackKnight", 16, 16, 120, 7, new Range(15, 30));
-      let newCreature7 = new Creature("BoneDragon", 17, 15, 150, 9, new Range(25, 30));
+      let newCreature7 = new Creature("BoneDragon", 17, 15, 150, 9, new Range(25, 30),5);
   
       let newCreature8 = new Creature("SkeletonWarrior", 6, 6, 6, 5, new Range(1, 3));
       let newCreature9 = new Creature("Zombie", 5, 5, 20, 4, new Range(2, 3));
@@ -160,10 +162,13 @@ export default {
     actionAttack(_x, _y) {
       if (
         this.gameBoard().isThisTileTaken(new Point(_x, _y)) &&
-        this.activeCreature().getMoveRange() > 0
+        this.gameEngine.canAttack(
+          this.activeCreature(),
+          this.creatureOnBoardItem(_x, _y).creature
+        )
       ) {
         if (
-          this.cretureOnBoardItem(_x, _y).player !==
+          this.creatureOnBoardItem(_x, _y).player !==
           this.activeItemFromCreaturesOnBoard(this.activeCreature()).player
         ) {
           if (
@@ -175,7 +180,7 @@ export default {
           ) {
             this.gameEngine.attack(
               this.gameBoard().getPoint(
-                this.cretureOnBoardItem(_x, _y).creature
+                this.creatureOnBoardItem(_x, _y).creature
               )
             );
             this.passCreature();
@@ -233,7 +238,7 @@ html {
   display: grid;
   grid-template-columns: repeat(20, minmax(50px, 1fr));
   grid-auto-flow: column;
-  /* background-image: url("https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/AfterRangeObject/hero_iii_js/Castle-img/Necroplis-Unit-Img/BattleField/Highlands.gif"); */
+  background-image: url("https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/AfterRangeObject/hero_iii_js/Castle-img/Necroplis-Unit-Img/BattleField/Highlands.gif") !important;
 }
 side-board {
   display: grid;
@@ -248,14 +253,20 @@ side-board {
   border: 2px solid var(--mainTextColor);
   width: 50px;
   height: 50px;
+  position: relative;
 }
 .container h1 {
   margin: 0 auto 40px auto;
 }
 .unit {
-  max-width: 50px;
-  max-height: 50px;
+  max-width: 100px;
+  max-height: 100px;
   object-fit: cover;
+  position: absolute;
+  top: -35px;
+  right: 0px;
+  bottom: 0px;
+  left: -30px;
 }
 .ennemy {
   transform: scaleX(-1);

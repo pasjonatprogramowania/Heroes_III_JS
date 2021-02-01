@@ -1,7 +1,9 @@
-export default class Range {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class Range {
     constructor(_lower, _upper) {
-        this.lowerPoint = _lower
-        this.upperPoint = _upper
+        this.lowerPoint = _lower;
+        this.upperPoint = _upper;
     }
     getLowerPoint() {
         return this.lowerPoint;
@@ -10,3 +12,4 @@ export default class Range {
         return this.upperPoint;
     }
 }
+exports.default = Range;

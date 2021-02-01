@@ -1,6 +1,6 @@
-import Board from "../board.js";
-import Creature from "../creature.js";
-import Point from './../point.js';
+import Board from "../js/board.js";
+import Creature from "../js/creature.js";
+import Point from '../js/point.js';
 
 export default class boardTest {
     mapShouldHaveKeyAndValue() {

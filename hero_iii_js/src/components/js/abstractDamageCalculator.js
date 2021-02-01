@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// import Creature from './creature'; 
 class DamageCalculator {
     calculate(_attacker, _defender) {
         let randValue = Math.floor(Math.random() * (_attacker.getDamage().getUpperPoint() - _attacker.getDamage().getLowerPoint() + 1) + _attacker.getDamage().getLowerPoint());
@@ -22,9 +21,9 @@ class DamageCalculator {
         if (oneCreatureToDeal < 0) {
             oneCreatureToDeal = 0;
         }
-        // let wholeStackDamageToDeal = Math.floor(_attacker.getAmount() * oneCreatureToDeal);
-        // let wholeStackDamageToDealAfterChange = this.changeDamageAfter(wholeStackDamageToDeal, _attacker)
-        return Math.round(oneCreatureToDeal);
+        // let wholeStackDamageToDeal:number = Math.floor(_attacker.getAmount() * oneCreatureToDeal); 
+        let wholeStackDamageToDealAfterChange = this.changeDamageAfter(oneCreatureToDeal, _attacker);
+        return Math.round(wholeStackDamageToDealAfterChange);
     }
 }
 exports.default = DamageCalculator;
