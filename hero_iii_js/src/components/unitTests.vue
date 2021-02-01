@@ -41,7 +41,7 @@ specialAbilitiesTest.DreadKnightShouldDealNormalDamage();
 specialAbilitiesTest.VampireLordShouldHealAfterDealDamage();
 specialAbilitiesTest.ShootingCreatureShouldHaveUnlimitedRange();
 specialAbilitiesTest.ShootingCreatureShouldNotTakeCounterAttack();
-specialAbilitiesTest.VampireShouldNotTakeCounterAttack();
+specialAbilitiesTest.VampireShouldNotTakeCounterAttackAndHaveUnlimitedRange();
 
 export default {
   data() {

@@ -21,8 +21,8 @@ class Creature {
         this.setDefaultStats();
         if (_defender.isAlive()) {
             let damageToDeal = _defender.calculateDamge(this, _defender);
-            this.performAfterAttack(damageToDeal);
             _defender.applayDamage(damageToDeal);
+            this.performAfterAttack(damageToDeal);
             this.counterAttack(_defender);
         }
     }
@@ -31,10 +31,10 @@ class Creature {
     }
     counterAttack(_defender) {
         if (_defender.isAlive() && !_defender.stats.wasCounterAttack) {
-            _defender.stats.wasCounterAttack = true;
             let counterAttackDamageToDeal = this.calculateDamge(_defender, this);
-            _defender.performAfterAttack(counterAttackDamageToDeal);
             this.applayDamage(counterAttackDamageToDeal);
+            _defender.stats.wasCounterAttack = true;
+            _defender.performAfterAttack(counterAttackDamageToDeal);
         }
     }
     performAfterAttack(_damageToDeal) {
@@ -65,11 +65,11 @@ class Creature {
             }
         }
     }
+    propertyChange() {
+        return;
+    }
     isAlive() {
-        if (this.getCurrentHp() > 0) {
-            return true;
-        }
-        // return false;
+        return this.getAmount() > 0;
     }
     resetCounterAttack() {
         this.stats.wasCounterAttack = false;

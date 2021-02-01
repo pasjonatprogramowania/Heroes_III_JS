@@ -19,6 +19,7 @@ export default class CreatureTurnQueue {
     next(list:any = {}) {
         this.creatureArray.shift()
         this.creatureMap.delete(this.creatureMap.keys().next().value);
+        this.getActiveCreature().propertyChange()
         if (this.creatureMap.size == 0) {
             this.notifyObserver();
             this.initQueue(list);

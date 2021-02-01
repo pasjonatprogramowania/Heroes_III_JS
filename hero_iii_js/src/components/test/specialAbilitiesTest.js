@@ -7,6 +7,9 @@ import Range from '../js/range.js';
 import Board from '../js/board.js';
 import Point from '../js/point.js';
 import blockCreatureCounterAttack from '../js/blockCreatureCounterAttack';
+import RegenerateLostHpAfterTournEnd from '../js/regenerateLostHpAfterTournEnd';
+import CreatureTurnQueue from '../js/creatureTurnQueue';
+
 export default class SpecialAbilitiesTest {
     DreadKnightShouldDealDoubleDamage() {
         let attacker = new Creature('DreadKnight', 5, 5, 9999, 5, new Range(100, 100), 1, new DamageCalculatorMultipleyDamage(0.2, 2, 100))
@@ -71,20 +74,51 @@ export default class SpecialAbilitiesTest {
             throw `Exception: => Archer powienien nie otrzymac counterAttacku`;
         }
     }
-    VampireShouldNotTakeCounterAttack() {
+    VampireShouldNotTakeCounterAttackAndHaveUnlimitedRange() {
         let attacker = new Creature('Archer', 5, 5, 100, 5, new Range(50, 50), 10, new DamageCalculatorDefault())
-        let defender = new Creature('Defender', 5, 5, 100, 1, new Range(0, 0), 10, new DamageCalculatorDefault())
-       
-        let Vampire = new blockCreatureCounterAttack(attacker)
+        let defender = new Creature('Defender', 5, 5, 100, 1, new Range(50, 50), 10, new DamageCalculatorDefault())
 
-        let board = new Board();
-        board.add(new Point(1, 1), Vampire)
-        board.add(new Point(1, 2), defender)
+        let Vampire = new CreatureShooting(new blockCreatureCounterAttack(attacker));
+
+        Vampire.attack(defender)
 
         if (Vampire.getMaxHp() !== Vampire.getCurrentHp()) {
             console.log("~ defender.getMaxHp()", Vampire.getMaxHp())
             console.log("~ defender.getCurrentHp()", Vampire.getCurrentHp())
-            throw `Exception: => Archer powienien nie otrzymac counterAttacku`;
+            throw `Exception: => Vampir powienien ulezyc sie przy ataku`;
+        }
+
+        let board = new Board();
+        board.add(new Point(1, 1), Vampire)
+        board.add(new Point(6, 6), defender)
+
+        if (!board.canAttack(Vampire, defender)) {
+            throw `Exception: => Vampir powienien miec nielimitowany zasieg`;
+        }
+    }
+    LichShouldHaveRegenHpInNewTour() {
+        let attacker = new Creature('Archer', 5, 5, 100, 5, new Range(50, 50), 10, new DamageCalculatorDefault())
+        let defender = new Creature('Defender', 5, 5, 100, 1, new Range(50, 50), 10, new DamageCalculatorDefault())
+
+        let Lich = new RegenerateLostHpAfterTournEnd(attacker)
+
+        let board = new Board();
+        board.add(new Point(1, 1), Lich)
+        board.add(new Point(1, 2), defender)
+
+        defender.attack(Lich);
+
+        let queue = new CreatureTurnQueue();
+        queue.initQueue(board.map);
+
+        queue.pass();
+        queue.pass();
+        queue.pass();
+
+        if (Lich.getCurrentHp() !== Lich.getMaxHp()) {
+            console.log("~ defender.getMaxHp()", Lich.getMaxHp())
+            console.log("~ defender.getCurrentHp()", Lich.getCurrentHp())
+            throw `Exception: => lICH powienien uleczyc sie przy kocu tury`;
         }
     }
 }

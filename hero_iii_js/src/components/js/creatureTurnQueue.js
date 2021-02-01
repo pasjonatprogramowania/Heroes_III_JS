@@ -16,6 +16,7 @@ class CreatureTurnQueue {
         return first;
     }
     next(list = {}) {
+        this.getActiveCreature().propertyChange();
         this.creatureArray.shift();
         this.creatureMap.delete(this.creatureMap.keys().next().value);
         if (this.creatureMap.size == 0) {
