@@ -15,7 +15,7 @@ class Board {
         this.isThisTileTaken(_point);
         this.map.set(_point, _creature);
         if (this.equals(this.map.get(_point), _creature.stats)) {
-            throw "Exception: => Klucz nie jest równy tej wartosci która powinna byc wpisana";
+            throw 'Exception: => Klucz nie jest równy tej wartosci która powinna byc wpisana';
         }
     }
     getVal(_point) {
@@ -69,7 +69,7 @@ class Board {
     }
     isThatPointOnMap(_x, _y) {
         if (_x > this.boardX || _y > this.boardY) {
-            throw "Exception: => Creature nie zostala ruszona, wskazaany pkt jest poza mapa";
+            throw 'Exception: => Creature nie zostala ruszona, wskazaany pkt jest poza mapa';
         }
     }
     isThisTileTaken(_point) {

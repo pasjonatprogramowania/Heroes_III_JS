@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const abstractDamageCalculator_1 = __importDefault(require("./abstractDamageCalculator"));
-class damageCalculatorDefault extends abstractDamageCalculator_1.default {
+class DamageCalculatorDefault extends abstractDamageCalculator_1.default {
     constructor() {
         super();
     }
@@ -12,4 +12,4 @@ class damageCalculatorDefault extends abstractDamageCalculator_1.default {
         return _damageToDeal;
     }
 }
-exports.default = damageCalculatorDefault;
+exports.default = DamageCalculatorDefault;

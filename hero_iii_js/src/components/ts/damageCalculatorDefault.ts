@@ -1,10 +1,10 @@
-import AbstractDamageCalculator from "./abstractDamageCalculator";
+import AbstractDamageCalculator from './abstractDamageCalculator';
 
-export default class damageCalculatorDefault extends AbstractDamageCalculator{
-    constructor(){
+export default class DamageCalculatorDefault extends AbstractDamageCalculator {
+    constructor() {
         super();
     }
-    changeDamageAfter(_damageToDeal:number) {
+    changeDamageAfter(_damageToDeal: number) {
         return _damageToDeal;
     }
 }

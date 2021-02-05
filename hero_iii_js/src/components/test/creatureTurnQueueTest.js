@@ -20,12 +20,11 @@ export default class CreatureTurnQueueTest {
         creatureMap.set(point3, creture3);
 
         creatureTurnQueue.initQueue(creatureMap);
-
-        creatureMap.forEach(item => {
-            if (JSON.stringify(item) !== JSON.stringify(creatureTurnQueue.getActiveCreature())) {
+        for (const [, val] of creatureMap.entries()) {
+            if (val !== creatureTurnQueue.getActiveCreature()) {
                 throw `Exception: => Kolejka nie dziala poprawnie zwracana aktywna creatura jest inna`;
             }
             creatureTurnQueue.next(creatureMap)
-        });
+        }
     }
 }

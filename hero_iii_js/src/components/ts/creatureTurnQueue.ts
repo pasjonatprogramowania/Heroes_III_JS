@@ -1,37 +1,37 @@
 export default class CreatureTurnQueue {
-    creatureMap:any;
-    creatureArray:any;
-    observersArray:any;
+    creatureMap: any;
+    creatureArray: any;
+    observersArray: any;
     constructor() {
         this.creatureMap = new Map();
         this.creatureArray = [];
         this.observersArray = [];
     }
-    initQueue(list:any = {}) {
-        this.creatureMap = new Map(list)
+    initQueue(list: any = {}) {
+        this.creatureMap = new Map(list);
         this.observersArray = Array.from(list.values());
         this.creatureArray = Array.from(list.values());
     }
     getActiveCreature() {
-        let [first] = this.creatureArray.filter((el:any) => el);
+        let [first] = this.creatureArray.filter((el: any) => el);
         return first;
     }
-    next(list:any = {}) {
-        this.creatureArray.shift()
+    next(list: any = {}) {
+        this.getActiveCreature().propertyChange();
+        this.creatureArray.shift();
         this.creatureMap.delete(this.creatureMap.keys().next().value);
-        this.getActiveCreature().propertyChange()
         if (this.creatureMap.size == 0) {
             this.notifyObserver();
             this.initQueue(list);
         }
     }
-    addObserver(_observer:any) {
-        this.observersArray.push(_observer)
+    addObserver(_observer: any) {
+        this.observersArray.push(_observer);
     }
-    removeObserver(_observer:any) {
-        this.observersArray.find(_observer)
+    removeObserver(_observer: any) {
+        this.observersArray.find(_observer);
     }
     notifyObserver() {
-        this.observersArray.forEach((item:any) => item.resetCounterAttack())
+        this.observersArray.forEach((item: any) => item.resetCounterAttack());
     }
 }

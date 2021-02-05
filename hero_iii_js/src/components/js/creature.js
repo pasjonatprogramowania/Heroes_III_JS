@@ -11,7 +11,8 @@ class Creature {
         this.stats = this.createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator, _attackRange);
     }
     createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator, _attackRange) {
-        return new creatureStatistics_1.default(_name !== null && _name !== void 0 ? _name : "Smok", _attack !== null && _attack !== void 0 ? _attack : 5, _armor !== null && _armor !== void 0 ? _armor : 5, _maxHp !== null && _maxHp !== void 0 ? _maxHp : 100, _moveRange !== null && _moveRange !== void 0 ? _moveRange : 5, _damage !== null && _damage !== void 0 ? _damage : new range_1.default(5, 5), _amount !== null && _amount !== void 0 ? _amount : 1, _calculator !== null && _calculator !== void 0 ? _calculator : new damageCalculatorDefault_1.default(), _attackRange !== null && _attackRange !== void 0 ? _attackRange : 1);
+        //prettier-ignore
+        return new creatureStatistics_1.default(_name !== null && _name !== void 0 ? _name : "Smok", _attack !== null && _attack !== void 0 ? _attack : 5, _armor !== null && _armor !== void 0 ? _armor : 5, _maxHp !== null && _maxHp !== void 0 ? _maxHp : 100, _moveRange !== null && _moveRange !== void 0 ? _moveRange : 5, _damage !== null && _damage !== void 0 ? _damage : new range_1.default(1, 1), _amount !== null && _amount !== void 0 ? _amount : 1, _calculator !== null && _calculator !== void 0 ? _calculator : new damageCalculatorDefault_1.default(), _attackRange !== null && _attackRange !== void 0 ? _attackRange : 1);
     }
     setDefaultStats() {
         this.stats.currentHp = this.getCurrentHp() != undefined ? this.getCurrentHp() : this.getMaxHp();
@@ -44,7 +45,7 @@ class Creature {
         return this;
     }
     applayDamage(_damageToDeal) {
-        let totalAmountHp = (this.getMaxHp() * (this.getAmount() - 1)) + this.stats.currentHp - _damageToDeal;
+        let totalAmountHp = this.getMaxHp() * (this.getAmount() - 1) + this.stats.currentHp - _damageToDeal;
         if (totalAmountHp <= 0) {
             this.stats.amount = 0;
             this.stats.currentHp = 0;
@@ -65,9 +66,7 @@ class Creature {
             }
         }
     }
-    propertyChange() {
-        return;
-    }
+    propertyChange() { }
     isAlive() {
         return this.getAmount() > 0;
     }

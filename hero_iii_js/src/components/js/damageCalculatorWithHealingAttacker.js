@@ -10,7 +10,7 @@ class damageCalculatorWithHealingAttacker extends abstractDamageCalculator_1.def
         this.selfHealingPercentage = _selfHealingPercentage;
     }
     changeDamageAfter(_damageToDeal, _attacker) {
-        _attacker.applayDamage((Math.round(_damageToDeal * (100 / this.selfHealingPercentage))) * -1);
+        _attacker.applayDamage(Math.round(_damageToDeal * (100 / this.selfHealingPercentage)) * -1);
         return _damageToDeal;
     }
 }

@@ -11,8 +11,6 @@ class CreatureShooting extends creature_1.default {
     getAttackRange() {
         return 100;
     }
-    counterAttack() {
-        return;
-    }
+    counterAttack() { }
 }
 exports.default = CreatureShooting;

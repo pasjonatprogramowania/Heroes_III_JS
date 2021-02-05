@@ -9,7 +9,7 @@ class DamageCalculator {
             if (attackPoints > 60) {
                 attackPoints = 60;
             }
-            oneCreatureToDeal = randValue * (1 + (attackPoints) * 0.05);
+            oneCreatureToDeal = randValue * (1 + attackPoints * 0.05);
         }
         else {
             let defencePoint = _defender.getArmor() - _attacker.getAttack();
@@ -21,7 +21,7 @@ class DamageCalculator {
         if (oneCreatureToDeal < 0) {
             oneCreatureToDeal = 0;
         }
-        // let wholeStackDamageToDeal:number = Math.floor(_attacker.getAmount() * oneCreatureToDeal); 
+        // let wholeStackDamageToDeal:number = Math.floor(_attacker.getAmount() * oneCreatureToDeal);
         let wholeStackDamageToDealAfterChange = this.changeDamageAfter(oneCreatureToDeal, _attacker);
         return Math.round(wholeStackDamageToDealAfterChange);
     }

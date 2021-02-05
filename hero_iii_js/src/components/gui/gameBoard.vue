@@ -62,12 +62,9 @@
   </div>
 </template>
 <script>
-import Creature from "../js/creature.js";
 import GameEngine from "../js/gameEngine.js";
 import Point from "../js/point.js";
-import Range from "../js/range.js";
-import CreatureWithSelfHealing from "../js/creatureWithSelfHealing.js";
-import creatureShooting from "../js/creatureShooting.js";
+import NacropolisFactory from "../js/necropolisFactory.js";
 export default {
   data() {
     return {
@@ -114,42 +111,20 @@ export default {
         }
       }
     },
-    // prettier-ignore
     createGameEngineObjectAndBoard() {
-        // let newCreature1 = new Creature("Pikeman", 4, 5, 10, 4, new Range(1, 3));
-        // let newCreature2 = new Creature("Griffin", 8, 3, 25, 6, new Range(2, 3));
-        // let newCreature3 = new Creature("Swordsman", 10, 12, 35, 5, new Range(6, 9));
-        // let newCreature4 = new Creature("Angel", 20, 20, 200, 12, new Range(50, 50));
-
-        // let newCreature5 = new Creature("Halberdier", 6, 5, 10, 5, new Range(2, 3));
-        // let newCreature6 = new Creature("Royal Griffin", 9, 9, 25, 9, new Range(3, 6));
-        // let newCreature7 = new Creature("Crusader", 12, 12, 35, 6, new Range(7, 10));
-        // let newCreature8 = new Creature("Archangel", 30, 30, 250, 18, new Range(50, 50));
-
-      let newCreature1 = new CreatureWithSelfHealing(new Creature("Skeleton", 5, 4, 6, 4, new Range(1, 3)),100);
-      let newCreature2 = new creatureShooting(new Creature("WalkingDead", 5, 5, 15, 3, new Range(2, 3)));
-      let newCreature3 = new Creature("Wight", 7, 7, 18, 5, new Range(3, 5));
-      let newCreature4 = new Creature("Vampire", 10, 9, 30, 6, new Range(5, 8));
-      let newCreature5 = new Creature("Lich", 13, 10, 30, 6, new Range(11, 13));
-      let newCreature6 = new Creature("BlackKnight", 16, 16, 120, 7, new Range(15, 30));
-      let newCreature7 = new Creature("BoneDragon", 17, 15, 150, 9, new Range(25, 30),5);
-  
-      let newCreature8 = new Creature("SkeletonWarrior", 6, 6, 6, 5, new Range(1, 3));
-      let newCreature9 = new Creature("Zombie", 5, 5, 20, 4, new Range(2, 3));
-      let newCreature10 = new Creature("Wraith", 7, 7, 18, 7, new Range(3, 5));
-      let newCreature11 = new Creature("VampireLord", 10, 10, 40, 9, new Range(5, 8));
-      let newCreature12 = new Creature("PowerLich", 13, 10, 40, 7, new Range(11, 15));
-      let newCreature13 = new Creature("DreadKnight", 18, 18, 120, 9, new Range(15, 30));
-      let newCreature14 = new Creature("GhostDragon", 19, 17, 200, 14, new Range(25, 50));
+      let nacropolisFactory = new NacropolisFactory();
 
       let myCreature = [];
-      myCreature.push(newCreature1,newCreature2,newCreature3,newCreature4,newCreature5,newCreature6,newCreature7);
+      for (let i = 1; i < 7; i++) {
+        myCreature.push(nacropolisFactory.create(false, i));
+      }
 
       let ennemyCreature = [];
-      ennemyCreature.push(newCreature8,newCreature9,newCreature10,newCreature11,newCreature12,newCreature13,newCreature14);
+      for (let i = 1; i < 7; i++) {
+        ennemyCreature.push(nacropolisFactory.create(true, i));
+      }
 
       this.gameEngine = new GameEngine(myCreature, ennemyCreature);
-      this.creatures = this.gameEngine.creaturesOnBoard;
     },
     passCreature() {
       this.gameEngine.pass();
@@ -238,7 +213,6 @@ html {
   display: grid;
   grid-template-columns: repeat(20, minmax(50px, 1fr));
   grid-auto-flow: column;
-  background-image: url("https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/AfterRangeObject/hero_iii_js/Castle-img/Necroplis-Unit-Img/BattleField/Highlands.gif") !important;
 }
 side-board {
   display: grid;

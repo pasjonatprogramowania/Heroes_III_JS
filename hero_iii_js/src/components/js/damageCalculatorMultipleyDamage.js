@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const abstractDamageCalculator_1 = __importDefault(require("./abstractDamageCalculator"));
-class damageCalculatorMultipleyDamage extends abstractDamageCalculator_1.default {
-    constructor(_min, _multiplayer, _unitTestProcentChance) {
+class DamageCalculatorMultipleyDamage extends abstractDamageCalculator_1.default {
+    constructor(_min, _multiplayer, _unitTestProcentChance = 0) {
         super();
         this.min = _min;
         this.multiplayer = _multiplayer;
@@ -14,7 +14,7 @@ class damageCalculatorMultipleyDamage extends abstractDamageCalculator_1.default
     changeDamageAfter(_damageToDeal) {
         let specialRandValue;
         let max = 100;
-        if (this.unitTestProcentChance === undefined) {
+        if (!this.unitTestProcentChance) {
             specialRandValue = Math.floor(Math.random() * (max - this.min + 1)) + this.min;
         }
         else {
@@ -29,4 +29,4 @@ class damageCalculatorMultipleyDamage extends abstractDamageCalculator_1.default
         }
     }
 }
-exports.default = damageCalculatorMultipleyDamage;
+exports.default = DamageCalculatorMultipleyDamage;

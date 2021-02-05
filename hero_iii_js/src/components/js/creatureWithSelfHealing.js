@@ -11,7 +11,7 @@ class CreatureWithSelfHealing extends creature_1.default {
         this.selfHealingChance = _selfHealingChance;
     }
     performAfterAttack(_damageToDeal) {
-        this.applayDamage((Math.round(_damageToDeal * (100 / this.selfHealingChance))) * -1);
+        this.applayDamage(Math.round(_damageToDeal * (100 / this.selfHealingChance)) * -1);
     }
 }
 exports.default = CreatureWithSelfHealing;
