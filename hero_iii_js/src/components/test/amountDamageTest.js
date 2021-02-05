@@ -1,4 +1,4 @@
-import Creature from '../js/creature.js';
+import Creature from "../js/creature/creature.js";
 import Range from '../js/range.js';
 export default class AmountDamageTest {
     defenderShouldLoseOneCreatureFromStackAndTheRestShouldHaveFullHp() {

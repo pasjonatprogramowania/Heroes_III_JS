@@ -1,4 +1,4 @@
-import Creature from "../js/creature.js";
+import Creature from "../js/creature/creature.js";
 import GameEngine from '../js/gameEngine.js';
 
 export default class EndTurnTest {

@@ -1,7 +1,7 @@
 import Board from './board';
 import CreatureTurnQueue from './creatureTurnQueue';
 import Point from './point';
-import Creature from './creature';
+import Creature from './creature/creature';
 
 export default class GameEngine {
     board: Board;

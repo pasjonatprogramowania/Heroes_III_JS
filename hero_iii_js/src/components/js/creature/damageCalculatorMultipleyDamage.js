@@ -14,7 +14,7 @@ class DamageCalculatorMultipleyDamage extends abstractDamageCalculator_1.default
     changeDamageAfter(_damageToDeal) {
         let specialRandValue;
         let max = 100;
-        if (!this.unitTestProcentChance) {
+        if (this.unitTestProcentChance === 0) {
             specialRandValue = Math.floor(Math.random() * (max - this.min + 1)) + this.min;
         }
         else {

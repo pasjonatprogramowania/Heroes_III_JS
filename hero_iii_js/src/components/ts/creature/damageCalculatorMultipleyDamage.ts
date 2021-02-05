@@ -3,7 +3,7 @@ export default class DamageCalculatorMultipleyDamage extends AbstractDamageCalcu
     min: number;
     multiplayer: number;
     unitTestProcentChance: number;
-    constructor(_min: number, _multiplayer: number, _unitTestProcentChance: number = 0) {
+    constructor(_min: number, _multiplayer: number, _unitTestProcentChance: number | undefined = 0) {
         super();
         this.min = _min;
         this.multiplayer = _multiplayer;
@@ -12,7 +12,7 @@ export default class DamageCalculatorMultipleyDamage extends AbstractDamageCalcu
     changeDamageAfter(_damageToDeal: number) {
         let specialRandValue;
         let max = 100;
-        if (!this.unitTestProcentChance) {
+        if (this.unitTestProcentChance === 0) {
             specialRandValue = Math.floor(Math.random() * (max - this.min + 1)) + this.min;
         } else {
             specialRandValue = this.unitTestProcentChance;

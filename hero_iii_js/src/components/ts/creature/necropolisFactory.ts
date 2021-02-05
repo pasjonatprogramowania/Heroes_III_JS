@@ -1,11 +1,11 @@
 import Creature from './creature';
 import DamageCalculatorDefault from './damageCalculatorDefault';
-import Range from './range';
 import blockCreatureCounterAttack from './blockCreatureCounterAttack';
 import CreatureShooting from './creatureShooting';
 import DamageCalculatorMultipleyDamage from './damageCalculatorMultipleyDamage';
 import DamageCalculatorWithHealingAttacker from './damageCalculatorWithHealingAttacker';
 import RegenerateLostHpAfterTournEnd from './regenerateLostHpAfterTournEnd';
+import Range from './../range';
 export default class necropolisFactory {
     create(_isUpgraded: boolean, _tier: number) {
         const Skeleton = 'Skeleton';
@@ -36,7 +36,7 @@ export default class necropolisFactory {
                 return new blockCreatureCounterAttack(new Creature(Vampier, 10, 9, 30, 6, new Range(5, 8), 1, new DamageCalculatorDefault(), 1));
             }
             if (_tier === 5) {
-                return new CreatureShooting(new Creature(Lich, 13, 10, 30, 6, new Range(11, 13), 1, new DamageCalculatorDefault(), 100));
+                return new blockCreatureCounterAttack(new CreatureShooting(new Creature(Lich, 13, 10, 30, 6, new Range(11, 13), 1, new DamageCalculatorDefault(), 100)));
             }
             if (_tier === 6) {
                 return new Creature(BlackKnight, 16, 16, 120, 7, new Range(15, 30), 1, new DamageCalculatorMultipleyDamage(20, 2), 1);
@@ -58,7 +58,7 @@ export default class necropolisFactory {
                 return new Creature(VampireLord, 10, 10, 40, 9, new Range(5, 8), 1, new DamageCalculatorWithHealingAttacker(100), 1);
             }
             if (_tier === 5) {
-                return new CreatureShooting(new Creature(PowerLich, 13, 10, 40, 7, new Range(11, 15), 1, new DamageCalculatorDefault(), 1));
+                return new blockCreatureCounterAttack(new CreatureShooting(new Creature(PowerLich, 13, 10, 40, 7, new Range(11, 15), 1, new DamageCalculatorDefault(), 100)));
             }
             if (_tier === 6) {
                 return new Creature(DreadKnight, 18, 18, 120, 9, new Range(15, 30), 1, new DamageCalculatorMultipleyDamage(20, 2), 1);
@@ -67,5 +67,8 @@ export default class necropolisFactory {
                 return new Creature(GhostDragon, 19, 17, 200, 14, new Range(25, 50), 1, new DamageCalculatorDefault(), 1);
             }
         }
+    }
+    createdDefCreature() {
+        return new Creature('Default', 5, 5, 100, 5, new Range(5, 5), 1, new DamageCalculatorDefault(), 1);
     }
 }

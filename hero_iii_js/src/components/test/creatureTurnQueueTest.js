@@ -1,4 +1,4 @@
-import Creature from "../js/creature.js";
+import Creature from "../js/creature/creature.js";
 import CreatureTurnQueue from "../js/creatureTurnQueue.js";
 import Point from '../js/point.js';
 

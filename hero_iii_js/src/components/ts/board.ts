@@ -1,5 +1,5 @@
 import Point from './point';
-import Creature from './creature';
+import Creature from './creature/creature';
 export default class Board {
     map: any;
     boardX: number;

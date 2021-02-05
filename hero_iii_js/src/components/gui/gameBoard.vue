@@ -64,7 +64,7 @@
 <script>
 import GameEngine from "../js/gameEngine.js";
 import Point from "../js/point.js";
-import NacropolisFactory from "../js/necropolisFactory.js";
+import NacropolisFactory from "../js/creature/necropolisFactory.js";
 export default {
   data() {
     return {

@@ -1,5 +1,5 @@
 import Board from "../js/board.js";
-import Creature from "../js/creature.js";
+import Creature from "../js/creature/creature.js";
 import Point from '../js/point.js';
 
 export default class boardTest {

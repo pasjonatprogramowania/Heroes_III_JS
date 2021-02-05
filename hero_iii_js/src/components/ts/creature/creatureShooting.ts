@@ -6,5 +6,4 @@ export default class CreatureShooting extends Creature {
     getAttackRange() {
         return 100;
     }
-    counterAttack() {}
 }

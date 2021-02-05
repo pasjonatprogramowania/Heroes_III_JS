@@ -5,12 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const creature_1 = __importDefault(require("./creature"));
 const damageCalculatorDefault_1 = __importDefault(require("./damageCalculatorDefault"));
-const range_1 = __importDefault(require("./range"));
 const blockCreatureCounterAttack_1 = __importDefault(require("./blockCreatureCounterAttack"));
 const creatureShooting_1 = __importDefault(require("./creatureShooting"));
 const damageCalculatorMultipleyDamage_1 = __importDefault(require("./damageCalculatorMultipleyDamage"));
 const damageCalculatorWithHealingAttacker_1 = __importDefault(require("./damageCalculatorWithHealingAttacker"));
 const regenerateLostHpAfterTournEnd_1 = __importDefault(require("./regenerateLostHpAfterTournEnd"));
+const range_1 = __importDefault(require("./../range"));
 class necropolisFactory {
     create(_isUpgraded, _tier) {
         const Skeleton = 'Skeleton';
@@ -41,7 +41,7 @@ class necropolisFactory {
                 return new blockCreatureCounterAttack_1.default(new creature_1.default(Vampier, 10, 9, 30, 6, new range_1.default(5, 8), 1, new damageCalculatorDefault_1.default(), 1));
             }
             if (_tier === 5) {
-                return new creatureShooting_1.default(new creature_1.default(Lich, 13, 10, 30, 6, new range_1.default(11, 13), 1, new damageCalculatorDefault_1.default(), 100));
+                return new blockCreatureCounterAttack_1.default(new creatureShooting_1.default(new creature_1.default(Lich, 13, 10, 30, 6, new range_1.default(11, 13), 1, new damageCalculatorDefault_1.default(), 100)));
             }
             if (_tier === 6) {
                 return new creature_1.default(BlackKnight, 16, 16, 120, 7, new range_1.default(15, 30), 1, new damageCalculatorMultipleyDamage_1.default(20, 2), 1);
@@ -64,7 +64,7 @@ class necropolisFactory {
                 return new creature_1.default(VampireLord, 10, 10, 40, 9, new range_1.default(5, 8), 1, new damageCalculatorWithHealingAttacker_1.default(100), 1);
             }
             if (_tier === 5) {
-                return new creatureShooting_1.default(new creature_1.default(PowerLich, 13, 10, 40, 7, new range_1.default(11, 15), 1, new damageCalculatorDefault_1.default(), 1));
+                return new blockCreatureCounterAttack_1.default(new creatureShooting_1.default(new creature_1.default(PowerLich, 13, 10, 40, 7, new range_1.default(11, 15), 1, new damageCalculatorDefault_1.default(), 100)));
             }
             if (_tier === 6) {
                 return new creature_1.default(DreadKnight, 18, 18, 120, 9, new range_1.default(15, 30), 1, new damageCalculatorMultipleyDamage_1.default(20, 2), 1);
@@ -73,6 +73,9 @@ class necropolisFactory {
                 return new creature_1.default(GhostDragon, 19, 17, 200, 14, new range_1.default(25, 50), 1, new damageCalculatorDefault_1.default(), 1);
             }
         }
+    }
+    createdDefCreature() {
+        return new creature_1.default('Default', 5, 5, 100, 5, new range_1.default(5, 5), 1, new damageCalculatorDefault_1.default(), 1);
     }
 }
 exports.default = necropolisFactory;

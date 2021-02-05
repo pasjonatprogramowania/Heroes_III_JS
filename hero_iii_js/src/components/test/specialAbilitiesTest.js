@@ -1,14 +1,14 @@
-import DamageCalculatorMultipleyDamage from '../js/damageCalculatorMultipleyDamage.js';
-import DamageCalculatorDefault from '../js/damageCalculatorDefault.js';
-import Creature from '../js/creature.js';
-import CreatureWithSelfHealing from '../js/creatureWithSelfHealing.js';
-import CreatureShooting from '../js/creatureShooting.js';
 import Range from '../js/range.js';
 import Board from '../js/board.js';
 import Point from '../js/point.js';
-import blockCreatureCounterAttack from '../js/blockCreatureCounterAttack';
-import RegenerateLostHpAfterTournEnd from '../js/regenerateLostHpAfterTournEnd';
-import CreatureTurnQueue from '../js/creatureTurnQueue';
+import CreatureTurnQueue from '../js/creature/creatureTurnQueue.js';
+import DamageCalculatorMultipleyDamage from '../js/creature/damageCalculatorMultipleyDamage.js';
+import DamageCalculatorDefault from '../js/creature/damageCalculatorDefault.js';
+import Creature from "../js/creature/creature.js";
+import CreatureWithSelfHealing from '../js/creature/creatureWithSelfHealing.js';
+import CreatureShooting from '../js/creature/creatureShooting.js';
+import BlockCreatureCounterAttack from '../js/creature/blockCreatureCounterAttack.js';
+import RegenerateLostHpAfterTournEnd from '../js/creature/regenerateLostHpAfterTournEnd.js';
 
 export default class SpecialAbilitiesTest {
     DreadKnightShouldDealDoubleDamage() {
@@ -18,16 +18,6 @@ export default class SpecialAbilitiesTest {
         if (result !== 200) {
             console.log("~ result", result)
             throw `Exception: => DreadKnight powienien zadac 200dmg zadała ${result}dmg`;
-        }
-    }
-    DreadKnightShouldDealNormalDamage() {
-        let attacker = new Creature('DreadKnight', 5, 5, 9999, 5, new Range(100, 100), 1, new DamageCalculatorMultipleyDamage(20, 2, 0))
-        let defender = new Creature('Defender', 5, 5, 100, 1, new Range(0, 0), 1, new DamageCalculatorMultipleyDamage(20, 2, 0))
-
-        let result = new DamageCalculatorMultipleyDamage(20, 2, 0).calculate(attacker, defender)
-        if (result !== 100) {
-            console.log("~ result", result)
-            throw `Exception: => DreadKnight powienien zadac 100dmg zadała ${result}dmg`;
         }
     }
     VampireLordShouldHealAfterDealDamage() {
@@ -61,8 +51,8 @@ export default class SpecialAbilitiesTest {
     }
     ShootingCreatureShouldNotTakeCounterAttack() {
         let attacker = new Creature('Archer', 5, 5, 100, 5, new Range(50, 50), 10, new DamageCalculatorDefault())
-        let defender = new Creature('Defender', 5, 5, 100, 1, new Range(0, 0), 10, new DamageCalculatorDefault())
-        let Archer = new CreatureShooting(attacker)
+        let defender = new Creature('Defender', 5, 5, 100, 1, new Range(10, 10), 10, new DamageCalculatorDefault())
+        let Archer = new BlockCreatureCounterAttack(new CreatureShooting(attacker))
 
         let board = new Board();
         board.add(new Point(1, 1), Archer)
@@ -78,7 +68,7 @@ export default class SpecialAbilitiesTest {
         let attacker = new Creature('Archer', 5, 5, 100, 5, new Range(50, 50), 10, new DamageCalculatorDefault())
         let defender = new Creature('Defender', 5, 5, 100, 1, new Range(50, 50), 10, new DamageCalculatorDefault())
 
-        let Vampire = new CreatureShooting(new blockCreatureCounterAttack(attacker));
+        let Vampire = new BlockCreatureCounterAttack(new CreatureShooting(new BlockCreatureCounterAttack(attacker)));
 
         Vampire.attack(defender)
 
