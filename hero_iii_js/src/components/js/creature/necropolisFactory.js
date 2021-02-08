@@ -66,9 +66,9 @@ class NecropolisFactory {
             }
             else if (_tier === 5) {
                 return new splashDamageCreatureDecorator_1.default(new blockCreatureCounterAttack_1.default(new creatureShooting_1.default(new creature_1.default(PowerLich, 13, 10, 40, 7, new range_1.default(11, 15), 1, new damageCalculatorDefault_1.default(), 100))), [
+                    [false, true, false],
                     [true, true, true],
-                    [true, true, true],
-                    [true, true, true],
+                    [false, true, false],
                 ]);
             }
             else if (_tier === 6) {

@@ -50,9 +50,9 @@ export default class NecropolisFactory {
                 return new Creature(VampireLord, 10, 10, 40, 9, new Range(5, 8), 1, new DamageCalculatorWithHealingAttacker(100), 1);
             } else if (_tier === 5) {
                 return new SplashDamageCreatureDecorator(new blockCreatureCounterAttack(new CreatureShooting(new Creature(PowerLich, 13, 10, 40, 7, new Range(11, 15), 1, new DamageCalculatorDefault(), 100))), [
+                    [false, true, false],
                     [true, true, true],
-                    [true, true, true],
-                    [true, true, true],
+                    [false, true, false],
                 ]);
             } else if (_tier === 6) {
                 return new Creature(DreadKnight, 18, 18, 120, 9, new Range(15, 30), 1, new DamageCalculatorMultipleyDamage(20, 2), 1);

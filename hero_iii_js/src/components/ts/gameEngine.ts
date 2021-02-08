@@ -24,7 +24,6 @@ export default class GameEngine {
         this.queue.initQueue(this.board.map);
     }
     putCreaturesFromOneSideToBoard(_creatures: any, _site: boolean) {
-        // Zapytaj przemka jak mozna zastapic takiego pojaczka
         _creatures.forEach((item: any, index: number) => {
             let newPointX = _site ? 20 : 1;
             let newPointY = index + 1;

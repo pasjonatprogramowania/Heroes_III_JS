@@ -134,6 +134,7 @@ export default {
       this.actionAttack(_x, _y);
       this.actionMove(_x, _y);
     },
+
     actionAttack(_x, _y) {
       if (
         this.gameBoard().isThisTileTaken(new Point(_x, _y)) &&
