@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class CreatureStatistics {
-    constructor(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator, _attackRange, _splashRange = [[]]) {
+    constructor(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator, _attackRange) {
         this.name = _name;
         this.attack = _attack;
         this.armor = _armor;
@@ -14,7 +14,6 @@ class CreatureStatistics {
         this.currentHp = _maxHp;
         this.wasCounterAttack = false;
         this.attackRange = _attackRange;
-        this.splashRange = _splashRange;
     }
     getName() {
         return this.name;

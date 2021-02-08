@@ -11,8 +11,7 @@ export default class CreatureStatistics {
     currentHp: number;
     wasCounterAttack: boolean;
     attackRange: number;
-    splashRange: any;
-    constructor(_name: string, _attack: number, _armor: number, _maxHp: number, _moveRange: number, _damage: any, _amount: number, _calculator: any, _attackRange: number, _splashRange: any = [[]]) {
+    constructor(_name: string, _attack: number, _armor: number, _maxHp: number, _moveRange: number, _damage: any, _amount: number, _calculator: any, _attackRange: number) {
         this.name = _name;
         this.attack = _attack;
         this.armor = _armor;
@@ -25,7 +24,6 @@ export default class CreatureStatistics {
         this.currentHp = _maxHp;
         this.wasCounterAttack = false;
         this.attackRange = _attackRange;
-        this.splashRange = _splashRange;
     }
     getName() {
         return this.name;

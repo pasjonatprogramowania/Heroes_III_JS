@@ -68,5 +68,16 @@ class GameEngine {
             }
         }
     }
+    unitTestAttack(_point, _attacker) {
+        const activeCreature = _attacker;
+        let splashRange = activeCreature.getSplashRange();
+        for (let x = 0; x < splashRange.length; x++) {
+            for (let y = 0; y < splashRange.length; y++) {
+                if (splashRange[x][y] && this.board.isThisTileTaken(new point_1.default(_point.getX() - x + 1, _point.getY() - y + 1))) {
+                    activeCreature.attack(this.board.getCreatureByPoint(new point_1.default(_point.getX() - x + 1, _point.getY() - y + 1)));
+                }
+            }
+        }
+    }
 }
 exports.default = GameEngine;

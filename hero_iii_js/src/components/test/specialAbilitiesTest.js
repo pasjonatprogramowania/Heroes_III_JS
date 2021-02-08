@@ -147,25 +147,33 @@ export default class SpecialAbilitiesTest {
         board.add(new Point(19, 2), ns9)
 
         let gameEngine = new GameEngine(attakcerArray, defenderArray, board);
-        gameEngine.attack(new Point(18, 1));
+        gameEngine.unitTestAttack(new Point(18, 1), attacker);
 
-        if ((s8.getCurrentHp() === s8.getMaxHp() || s6.getCurrentHp() === s6.getMaxHp() || s5.getCurrentHp() === s5.getMaxHp() || s4.getCurrentHp() === s4.getMaxHp()) || s2.getCurrentHp() === s2.getMaxHp()) {
-            console.log("~ s8.getMaxHp()", s8.getMaxHp())
-            console.log("~ s8.getCurrentHp()", s8.getCurrentHp())
-            console.log("~ s6.getCurrentHp()", s6.getCurrentHp())
-            console.log("~ s5.getCurrentHp()", s5.getCurrentHp())
-            console.log("~ s4.getCurrentHp()", s4.getCurrentHp())
-            console.log("~ s2.getCurrentHp()", s2.getCurrentHp())
+        if (
+            ns1.getCurrentHp() === ns1.getMaxHp() ||
+            s2.getCurrentHp() === s2.getMaxHp() ||
+            ns3.getCurrentHp() === ns3.getMaxHp() ||
+            s4.getCurrentHp() === s4.getMaxHp() ||
+            s5.getCurrentHp() === s5.getMaxHp() ||
+            s6.getCurrentHp() === s6.getMaxHp() ||
+            ns7.getCurrentHp() === ns7.getMaxHp() ||
+            s8.getCurrentHp() === s8.getMaxHp() ||
+            ns9.getCurrentHp() === ns9.getMaxHp()
+
+        ) {
+            console.log("~ ns9.getCurrentHp() === ns9.getMaxHp()", ns9.getCurrentHp() === ns9.getMaxHp())
+            console.log("~ s8.getCurrentHp() === s8.getMaxHp()", s8.getCurrentHp() === s8.getMaxHp())
+            console.log("~ ns7.getCurrentHp() === ns7.getMaxHp()", ns7.getCurrentHp() === ns7.getMaxHp())
+            console.log("~ s6.getCurrentHp() === s6.getMaxHp()", s6.getCurrentHp() === s6.getMaxHp())
+            console.log("~ s5.getCurrentHp() === s5.getMaxHp()", s5.getCurrentHp() === s5.getMaxHp())
+            console.log("~ s4.getCurrentHp() === s4.getMaxHp()", s4.getCurrentHp() === s4.getMaxHp())
+            console.log("~ ns3.getCurrentHp() === ns3.getMaxHp()", ns3.getCurrentHp() === ns3.getMaxHp())
+            console.log("~ s2.getCurrentHp() === s2.getMaxHp()", s2.getCurrentHp() === s2.getMaxHp())
+            console.log("~ ns1.getCurrentHp() === ns1.getMaxHp()", ns1.getCurrentHp() === ns1.getMaxHp())
+
             throw `Exception: => Creatura która powinna otrzymac obrazenia nie otrzymala ich`;
         }
-        if (ns1.getCurrentHp() !== ns1.getMaxHp() || ns3.getCurrentHp() !== ns3.getMaxHp() || ns7.getCurrentHp() !== ns7.getMaxHp() || ns9.getCurrentHp() !== ns9.getMaxHp()) {
-            console.log("~ ns9.getMaxHp()", ns9.getMaxHp())
-            console.log("~ ns9.getCurrentHp()", ns9.getCurrentHp())
-            console.log("~ ns7.getCurrentHp()", ns7.getCurrentHp())
-            console.log("~ ns3.getCurrentHp()", ns3.getCurrentHp())
-            console.log("~ ns1.getCurrentHp()", ns1.getCurrentHp())
-            throw `Exception: => Creatura która nie powinna otrzymac obrazenia otrzymala je`;
-        }
+
 
     }
 }

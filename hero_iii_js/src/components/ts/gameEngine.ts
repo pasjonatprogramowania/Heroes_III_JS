@@ -69,4 +69,15 @@ export default class GameEngine {
             }
         }
     }
+    unitTestAttack(_point: Point, _attacker: any) {
+        const activeCreature = _attacker;
+        let splashRange = activeCreature.getSplashRange();
+        for (let x = 0; x < splashRange.length; x++) {
+            for (let y = 0; y < splashRange.length; y++) {
+                if (splashRange[x][y] && this.board.isThisTileTaken(new Point(_point.getX() - x + 1, _point.getY() - y + 1))) {
+                    activeCreature.attack(this.board.getCreatureByPoint(new Point(_point.getX() - x + 1, _point.getY() - y + 1)));
+                }
+            }
+        }
+    }
 }

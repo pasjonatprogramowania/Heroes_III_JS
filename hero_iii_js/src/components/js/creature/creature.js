@@ -8,8 +8,8 @@ const damageCalculatorDefault_1 = __importDefault(require("./damageCalculatorDef
 const range_1 = __importDefault(require("./../range"));
 class Creature {
     //prettier-ignore
-    constructor(_name = 'DefCreature', _attack = 5, _armor = 5, _maxHp = 100, _moveRange = 5, _damage = new range_1.default(5, 5), _amount = 1, _calculator = new damageCalculatorDefault_1.default(), _attackRange = 1, _splashRange = [[]]) {
-        this.stats = new creatureStatistics_1.default(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator, _attackRange, _splashRange);
+    constructor(_name = 'DefCreature', _attack = 5, _armor = 5, _maxHp = 100, _moveRange = 5, _damage = new range_1.default(5, 5), _amount = 1, _calculator = new damageCalculatorDefault_1.default(), _attackRange = 1) {
+        this.stats = new creatureStatistics_1.default(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator, _attackRange);
     }
     attack(_defender) {
         if (_defender.isAlive()) {
@@ -100,18 +100,6 @@ class Creature {
     }
     getAttackRange() {
         return this.stats.attackRange;
-    }
-    getSplashRange() {
-        let range = [];
-        range[0] = [];
-        range[1] = [];
-        range[2] = [];
-        range[0][1] = true;
-        range[2][1] = true;
-        range[1][1] = true;
-        range[1][2] = true;
-        range[1][0] = true;
-        return range;
     }
 }
 exports.default = Creature;

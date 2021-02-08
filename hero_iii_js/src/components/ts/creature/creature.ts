@@ -14,10 +14,9 @@ export default class Creature {
         _damage: any = new Range(5, 5),
         _amount: number = 1,
         _calculator: any = new DamageCalculatorDefault(),
-        _attackRange: number = 1,
-        _splashRange: any = [[]]
+        _attackRange: number = 1
         ) {
-        this.stats = new CreatureStatistics(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator, _attackRange, _splashRange);
+        this.stats = new CreatureStatistics(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator, _attackRange);
     }
     attack(_defender: Creature) {
         if (_defender.isAlive()) {
@@ -109,17 +108,5 @@ export default class Creature {
     }
     getAttackRange() {
         return this.stats.attackRange;
-    }
-    getSplashRange() {
-        let range: any = [];
-        range[0] = [];
-        range[1] = [];
-        range[2] = [];
-        range[0][1] = true;
-        range[2][1] = true;
-        range[1][1] = true;
-        range[1][2] = true;
-        range[1][0] = true;
-        return range;
     }
 }

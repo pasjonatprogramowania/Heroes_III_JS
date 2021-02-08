@@ -1,9 +1,11 @@
 import Creature from './creature';
-export default class RegenerateLostHpAfterTournEnd extends Creature {
-    constructor(_creature: Creature) {
+export default class SplashDamageCreatureDecorator extends Creature {
+    splashDamageRange: any;
+    constructor(_creature: Creature, _splashRange: any) {
         super(_creature.getName(), _creature.getAttack(), _creature.getArmor(), _creature.getMaxHp(), _creature.getMoveRange(), _creature.getDamage(), _creature.getAmount(), _creature.getCalculator(), _creature.getAttackRange());
+        this.splashDamageRange = _splashRange;
     }
-    propertyChange() {
-        this.stats.currentHp = this.getMaxHp();
+    getSplashRange() {
+        return this.splashDamageRange;
     }
 }
