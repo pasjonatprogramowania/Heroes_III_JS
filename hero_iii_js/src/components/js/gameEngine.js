@@ -7,8 +7,13 @@ const board_1 = __importDefault(require("./board"));
 const creatureTurnQueue_1 = __importDefault(require("./creatureTurnQueue"));
 const point_1 = __importDefault(require("./point"));
 class GameEngine {
-    constructor(_myCreatures, _EnnemyCreatures) {
-        this.board = new board_1.default();
+    constructor(_myCreatures, _EnnemyCreatures, _board = undefined) {
+        if (_board) {
+            this.board = _board;
+        }
+        else {
+            this.board = new board_1.default();
+        }
         this.queue = new creatureTurnQueue_1.default();
         this.creaturesOnBoard = [];
         this.putCreatureToBoard(_myCreatures, _EnnemyCreatures);
@@ -53,7 +58,15 @@ class GameEngine {
         this.board.pass(this.queue.getActiveCreature());
     }
     attack(_point) {
-        this.queue.getActiveCreature().attack(this.board.getVal(_point));
+        const activeCreature = this.queue.getActiveCreature();
+        let splashRange = activeCreature.getSplashRange();
+        for (let x = 0; x < splashRange.length; x++) {
+            for (let y = 0; y < splashRange.length; y++) {
+                if (splashRange[x][y] && this.board.isThisTileTaken(new point_1.default(_point.getX() - x + 1, _point.getY() - y + 1))) {
+                    activeCreature.attack(this.board.getCreatureByPoint(new point_1.default(_point.getX() - x + 1, _point.getY() - y + 1)));
+                }
+            }
+        }
     }
 }
 exports.default = GameEngine;

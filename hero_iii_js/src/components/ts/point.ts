@@ -5,10 +5,10 @@ export default class Point {
         this.x = _x;
         this.y = _y;
     }
-    getX() {
+    getX(): number {
         return this.x;
     }
-    getY() {
+    getY(): number {
         return this.y;
     }
     distanse(_point: Point) {

@@ -6,7 +6,7 @@ import DamageCalculatorMultipleyDamage from './damageCalculatorMultipleyDamage';
 import DamageCalculatorWithHealingAttacker from './damageCalculatorWithHealingAttacker';
 import RegenerateLostHpAfterTournEnd from './regenerateLostHpAfterTournEnd';
 import Range from './../range';
-export default class necropolisFactory {
+export default class NecropolisFactory {
     create(_isUpgraded: boolean, _tier: number) {
         const Skeleton = 'Skeleton';
         const WalkingDead = 'WalkingDead';

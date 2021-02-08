@@ -7,9 +7,6 @@ export default class BlockCreatureCounterAttack extends Creature {
         this.decoratedCreature = _creature;
     }
     attack(_defender: Creature) {
-        _defender.setDefaultStats();
-        this.decoratedCreature.setDefaultStats();
-
         if (this.decoratedCreature.isAlive()) {
             let damageToDeal = this.decoratedCreature.calculateDamge(this, _defender);
 

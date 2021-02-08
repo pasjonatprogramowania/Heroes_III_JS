@@ -10,7 +10,7 @@ export default class boardTest {
         let unitTestPoint = new Point(0, 0);
         board.add(unitTestPoint, creature);
 
-        if (board.getVal(unitTestPoint) === undefined) {
+        if (board.getCreatureByPoint(unitTestPoint) === undefined) {
             throw "Exception: => Creature dla tego pola zwraca undefined";
         }
     }
@@ -21,8 +21,8 @@ export default class boardTest {
         let unitTestPoint = new Point(0, 0);
         board.add(unitTestPoint, creature);
 
-        if (board.getPoint(creature) !== unitTestPoint) {
-            throw "Exception: => getPoint nie poprawnie zwraca Creature";
+        if (board.getPointByCreature(creature) !== unitTestPoint) {
+            throw "Exception: => getPointByCreature nie poprawnie zwraca Creature";
         }
 
     }
@@ -36,10 +36,10 @@ export default class boardTest {
         let newUnitTestPoint = new Point(1, 1);
         board.move(unitTestPoint, newUnitTestPoint);
 
-        if (board.getVal(unitTestPoint)) {
+        if (board.getCreatureByPoint(unitTestPoint)) {
             throw "Exception: => Creature nie zostala poprawnie usunieta, na jej starym miejscu jest slad po niej";
         }
-        if (board.getVal(newUnitTestPoint) !== creature) {
+        if (board.getCreatureByPoint(newUnitTestPoint) !== creature) {
             throw "Exception: => Creature nie zostala poprawnie usunieta, w jej nowym miejscu nie ma tej samej creatury";
         }
     }

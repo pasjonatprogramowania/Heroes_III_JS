@@ -41,6 +41,7 @@ specialAbilitiesTest.VampireLordShouldHealAfterDealDamage();
 specialAbilitiesTest.ShootingCreatureShouldHaveUnlimitedRange();
 specialAbilitiesTest.ShootingCreatureShouldNotTakeCounterAttack();
 specialAbilitiesTest.VampireShouldNotTakeCounterAttackAndHaveUnlimitedRange();
+specialAbilitiesTest.LichShouldDealSplashDamage();
 
 export default {
   data() {

@@ -18,10 +18,14 @@ export default class Board {
             throw 'Exception: => Klucz nie jest równy tej wartosci która powinna byc wpisana';
         }
     }
-    getVal(_point: Point) {
-        return this.map.get(_point);
+    getCreatureByPoint(_point: Point) {
+        for (const [key, val] of this.map.entries()) {
+            if (this.equals(key, _point)) {
+                return val;
+            }
+        }
     }
-    getPoint(_creature: Creature) {
+    getPointByCreature(_creature: Creature) {
         for (const [key, val] of this.map.entries()) {
             if (this.equals(val, _creature)) {
                 return key;
@@ -29,7 +33,7 @@ export default class Board {
         }
     }
     moveByCreature(_creature: Creature, _newPoint: Point) {
-        this.move(this.getPoint(_creature), _newPoint);
+        this.move(this.getPointByCreature(_creature), _newPoint);
     }
     move(_point: Point, _newPoint: Point) {
         this.isThatPointOnMap(_newPoint.getX(), _newPoint.getY());
@@ -52,15 +56,15 @@ export default class Board {
         this.isThatPointOnMap(_x, _y);
 
         let pointToMoveCreature = new Point(_x, _y);
-        let currentCreaturePoint = this.getPoint(_creature);
+        let currentCreaturePoint = this.getPointByCreature(_creature);
 
         let distanse = currentCreaturePoint.distanse(pointToMoveCreature);
 
         return distanse <= _creature.getMoveRange() && !this.isThisTileTaken(pointToMoveCreature);
     }
     canAttack(_attacker: Creature, _defender: Creature) {
-        let attackerPoint = this.getPoint(_attacker);
-        let defenderPoint = this.getPoint(_defender);
+        let attackerPoint = this.getPointByCreature(_attacker);
+        let defenderPoint = this.getPointByCreature(_defender);
 
         let distanse = attackerPoint.distanse(defenderPoint);
 
@@ -70,7 +74,7 @@ export default class Board {
         this.isThatPointOnMap(_x, _y);
 
         let pointToMoveCreature = new Point(_x, _y);
-        let currentCreaturePoint = this.getPoint(_creature);
+        let currentCreaturePoint = this.getPointByCreature(_creature);
 
         let distanse = currentCreaturePoint.distanse(pointToMoveCreature);
 
@@ -84,7 +88,6 @@ export default class Board {
     isThisTileTaken(_point: Point) {
         for (const [key] of this.map.entries()) {
             if (this.equals(key, _point)) {
-                // throw "Exception: => To pole jest zajete, nie mozesz tam ruszyc jednostki";
                 return true;
             }
         }

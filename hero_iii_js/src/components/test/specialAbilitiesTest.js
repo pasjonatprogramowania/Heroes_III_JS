@@ -9,6 +9,8 @@ import CreatureWithSelfHealing from '../js/creature/creatureWithSelfHealing.js';
 import CreatureShooting from '../js/creature/creatureShooting.js';
 import BlockCreatureCounterAttack from '../js/creature/blockCreatureCounterAttack.js';
 import RegenerateLostHpAfterTournEnd from '../js/creature/regenerateLostHpAfterTournEnd.js';
+import NecropolisFactory from '../js/creature/necropolisFactory';
+import GameEngine from '../js/gameEngine';
 
 export default class SpecialAbilitiesTest {
     DreadKnightShouldDealDoubleDamage() {
@@ -110,5 +112,60 @@ export default class SpecialAbilitiesTest {
             console.log("~ defender.getCurrentHp()", Lich.getCurrentHp())
             throw `Exception: => lICH powienien uleczyc sie przy kocu tury`;
         }
+    }
+    LichShouldDealSplashDamage() {
+        let factory = new NecropolisFactory();
+
+        let attakcerArray = [];
+        let defenderArray = [];
+
+        let attacker = factory.create(true, 5)
+        attakcerArray.push(attacker)
+
+        let ns1 = factory.createdDefCreature();
+        let s2 = factory.createdDefCreature();
+        let ns3 = factory.createdDefCreature();
+        let s4 = factory.createdDefCreature();
+        let s5 = factory.createdDefCreature();
+        let s6 = factory.createdDefCreature();
+        let ns7 = factory.createdDefCreature();
+        let s8 = factory.createdDefCreature();
+        let ns9 = factory.createdDefCreature();
+        defenderArray.push(ns1, s2, ns3, s4, s5, s6, ns7, s8, ns9)
+
+        let board = new Board();
+        board.add(new Point(17, 0), ns1)
+        board.add(new Point(18, 0), s2)
+        board.add(new Point(19, 0), ns3)
+
+        board.add(new Point(17, 1), s4)
+        board.add(new Point(18, 1), s5)
+        board.add(new Point(19, 1), s6)
+
+        board.add(new Point(17, 2), ns7)
+        board.add(new Point(18, 2), s8)
+        board.add(new Point(19, 2), ns9)
+
+        let gameEngine = new GameEngine(attakcerArray, defenderArray, board);
+        gameEngine.attack(new Point(18, 1));
+
+        if ((s8.getCurrentHp() === s8.getMaxHp() || s6.getCurrentHp() === s6.getMaxHp() || s5.getCurrentHp() === s5.getMaxHp() || s4.getCurrentHp() === s4.getMaxHp()) || s2.getCurrentHp() === s2.getMaxHp()) {
+            console.log("~ s8.getMaxHp()", s8.getMaxHp())
+            console.log("~ s8.getCurrentHp()", s8.getCurrentHp())
+            console.log("~ s6.getCurrentHp()", s6.getCurrentHp())
+            console.log("~ s5.getCurrentHp()", s5.getCurrentHp())
+            console.log("~ s4.getCurrentHp()", s4.getCurrentHp())
+            console.log("~ s2.getCurrentHp()", s2.getCurrentHp())
+            throw `Exception: => Creatura która powinna otrzymac obrazenia nie otrzymala ich`;
+        }
+        if (ns1.getCurrentHp() !== ns1.getMaxHp() || ns3.getCurrentHp() !== ns3.getMaxHp() || ns7.getCurrentHp() !== ns7.getMaxHp() || ns9.getCurrentHp() !== ns9.getMaxHp()) {
+            console.log("~ ns9.getMaxHp()", ns9.getMaxHp())
+            console.log("~ ns9.getCurrentHp()", ns9.getCurrentHp())
+            console.log("~ ns7.getCurrentHp()", ns7.getCurrentHp())
+            console.log("~ ns3.getCurrentHp()", ns3.getCurrentHp())
+            console.log("~ ns1.getCurrentHp()", ns1.getCurrentHp())
+            throw `Exception: => Creatura która nie powinna otrzymac obrazenia otrzymala je`;
+        }
+
     }
 }

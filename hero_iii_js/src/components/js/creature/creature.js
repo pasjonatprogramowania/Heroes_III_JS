@@ -7,19 +7,11 @@ const creatureStatistics_1 = __importDefault(require("./creatureStatistics"));
 const damageCalculatorDefault_1 = __importDefault(require("./damageCalculatorDefault"));
 const range_1 = __importDefault(require("./../range"));
 class Creature {
-    constructor(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator, _attackRange) {
-        this.stats = this.createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator, _attackRange);
-    }
-    createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator, _attackRange) {
-        //prettier-ignore
-        return new creatureStatistics_1.default(_name !== null && _name !== void 0 ? _name : "Default", _attack !== null && _attack !== void 0 ? _attack : 5, _armor !== null && _armor !== void 0 ? _armor : 5, _maxHp !== null && _maxHp !== void 0 ? _maxHp : 100, _moveRange !== null && _moveRange !== void 0 ? _moveRange : 5, _damage !== null && _damage !== void 0 ? _damage : new range_1.default(5, 5), _amount !== null && _amount !== void 0 ? _amount : 1, _calculator !== null && _calculator !== void 0 ? _calculator : new damageCalculatorDefault_1.default(), _attackRange !== null && _attackRange !== void 0 ? _attackRange : 1);
-    }
-    setDefaultStats() {
-        this.stats.currentHp = this.getCurrentHp() != undefined ? this.getCurrentHp() : this.getMaxHp();
+    //prettier-ignore
+    constructor(_name = 'DefCreature', _attack = 5, _armor = 5, _maxHp = 100, _moveRange = 5, _damage = new range_1.default(5, 5), _amount = 1, _calculator = new damageCalculatorDefault_1.default(), _attackRange = 1, _splashRange = [[]]) {
+        this.stats = new creatureStatistics_1.default(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator, _attackRange, _splashRange);
     }
     attack(_defender) {
-        _defender.setDefaultStats();
-        this.setDefaultStats();
         if (_defender.isAlive()) {
             let damageToDeal = _defender.calculateDamge(this, _defender);
             _defender.applayDamage(damageToDeal);
@@ -108,6 +100,18 @@ class Creature {
     }
     getAttackRange() {
         return this.stats.attackRange;
+    }
+    getSplashRange() {
+        let range = [];
+        range[0] = [];
+        range[1] = [];
+        range[2] = [];
+        range[0][1] = true;
+        range[2][1] = true;
+        range[1][1] = true;
+        range[1][2] = true;
+        range[1][0] = true;
+        return range;
     }
 }
 exports.default = Creature;

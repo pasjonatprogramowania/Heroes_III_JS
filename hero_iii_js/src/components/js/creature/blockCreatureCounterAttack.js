@@ -10,8 +10,6 @@ class BlockCreatureCounterAttack extends creature_1.default {
         this.decoratedCreature = _creature;
     }
     attack(_defender) {
-        _defender.setDefaultStats();
-        this.decoratedCreature.setDefaultStats();
         if (this.decoratedCreature.isAlive()) {
             let damageToDeal = this.decoratedCreature.calculateDamge(this, _defender);
             _defender.applayDamage(damageToDeal);

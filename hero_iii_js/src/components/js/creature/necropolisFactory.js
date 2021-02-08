@@ -11,7 +11,7 @@ const damageCalculatorMultipleyDamage_1 = __importDefault(require("./damageCalcu
 const damageCalculatorWithHealingAttacker_1 = __importDefault(require("./damageCalculatorWithHealingAttacker"));
 const regenerateLostHpAfterTournEnd_1 = __importDefault(require("./regenerateLostHpAfterTournEnd"));
 const range_1 = __importDefault(require("./../range"));
-class necropolisFactory {
+class NecropolisFactory {
     create(_isUpgraded, _tier) {
         const Skeleton = 'Skeleton';
         const WalkingDead = 'WalkingDead';
@@ -78,4 +78,4 @@ class necropolisFactory {
         return new creature_1.default('Default', 5, 5, 100, 5, new range_1.default(5, 5), 1, new damageCalculatorDefault_1.default(), 1);
     }
 }
-exports.default = necropolisFactory;
+exports.default = NecropolisFactory;

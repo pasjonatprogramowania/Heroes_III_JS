@@ -4,30 +4,22 @@ import Range from './../range';
 export default class Creature {
     damageCalculator: any;
     stats: CreatureStatistics;
-    constructor(_name: string, _attack: number, _armor: number, _maxHp: number, _moveRange: number, _damage: any, _amount: number, _calculator: any, _attackRange: number) {
-        this.stats = this.createCreature(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator, _attackRange);
-    }
-    createCreature(_name: string, _attack: number, _armor: number, _maxHp: number, _moveRange: number, _damage: any, _amount: number, _calculator: any, _attackRange: number) {
-        //prettier-ignore
-        return new CreatureStatistics(
-            _name ?? "Default",
-            _attack ?? 5,
-            _armor ?? 5,
-            _maxHp ?? 100,
-            _moveRange ?? 5,
-            _damage ?? new Range(5, 5),
-            _amount ?? 1,
-            _calculator ?? new DamageCalculatorDefault(),
-            _attackRange ?? 1
-        );
-    }
-    setDefaultStats() {
-        this.stats.currentHp = this.getCurrentHp() != undefined ? this.getCurrentHp() : this.getMaxHp();
+    //prettier-ignore
+    constructor(
+        _name: string = 'DefCreature',
+        _attack: number = 5,
+        _armor: number = 5,
+        _maxHp: number = 100,
+        _moveRange: number = 5,
+        _damage: any = new Range(5, 5),
+        _amount: number = 1,
+        _calculator: any = new DamageCalculatorDefault(),
+        _attackRange: number = 1,
+        _splashRange: any = [[]]
+        ) {
+        this.stats = new CreatureStatistics(_name, _attack, _armor, _maxHp, _moveRange, _damage, _amount, _calculator, _attackRange, _splashRange);
     }
     attack(_defender: Creature) {
-        _defender.setDefaultStats();
-        this.setDefaultStats();
-
         if (_defender.isAlive()) {
             let damageToDeal = _defender.calculateDamge(this, _defender);
 
@@ -117,5 +109,17 @@ export default class Creature {
     }
     getAttackRange() {
         return this.stats.attackRange;
+    }
+    getSplashRange() {
+        let range: any = [];
+        range[0] = [];
+        range[1] = [];
+        range[2] = [];
+        range[0][1] = true;
+        range[2][1] = true;
+        range[1][1] = true;
+        range[1][2] = true;
+        range[1][0] = true;
+        return range;
     }
 }

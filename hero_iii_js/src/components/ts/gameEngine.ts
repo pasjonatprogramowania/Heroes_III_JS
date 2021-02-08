@@ -7,8 +7,12 @@ export default class GameEngine {
     board: Board;
     queue: CreatureTurnQueue;
     creaturesOnBoard: any;
-    constructor(_myCreatures: Creature, _EnnemyCreatures: Creature) {
-        this.board = new Board();
+    constructor(_myCreatures: Creature, _EnnemyCreatures: Creature, _board: Board | undefined = undefined) {
+        if (_board) {
+            this.board = _board;
+        } else {
+            this.board = new Board();
+        }
         this.queue = new CreatureTurnQueue();
         this.creaturesOnBoard = [];
         this.putCreatureToBoard(_myCreatures, _EnnemyCreatures);
@@ -55,6 +59,14 @@ export default class GameEngine {
         this.board.pass(this.queue.getActiveCreature());
     }
     attack(_point: Point) {
-        this.queue.getActiveCreature().attack(this.board.getVal(_point));
+        const activeCreature = this.queue.getActiveCreature();
+        let splashRange = activeCreature.getSplashRange();
+        for (let x = 0; x < splashRange.length; x++) {
+            for (let y = 0; y < splashRange.length; y++) {
+                if (splashRange[x][y] && this.board.isThisTileTaken(new Point(_point.getX() - x + 1, _point.getY() - y + 1))) {
+                    activeCreature.attack(this.board.getCreatureByPoint(new Point(_point.getX() - x + 1, _point.getY() - y + 1)));
+                }
+            }
+        }
     }
 }
