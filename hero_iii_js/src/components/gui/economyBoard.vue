@@ -34,7 +34,7 @@
   </div>
 </template>
 <script>
-import NacropolisFactory from "../js/creature/necropolisFactory.js";
+import forgeFactory from "../js/creature/forgeFactory.js";
 export default {
   data() {
     return {
@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     cretureToBuy() {
-      let nacropolisFactory = new NacropolisFactory();
+      let nacropolisFactory = new forgeFactory();
 
       for (let i = 1; i <= 7; i++) {
         this.creaturesToBuy[0].push({
