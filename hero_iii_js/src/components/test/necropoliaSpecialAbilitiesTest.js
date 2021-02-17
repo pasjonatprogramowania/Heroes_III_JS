@@ -12,7 +12,7 @@ import RegenerateLostHpAfterTournEnd from '../js/creature/regenerateLostHpAfterT
 import NecropolisFactory from '../js/creature/necropolisFactory';
 import GameEngine from '../js/gameEngine';
 
-export default class SpecialAbilitiesTest {
+export default class necropoliaSpecialAbilitiesTest {
     DreadKnightShouldDealDoubleDamage() {
         let attacker = new Creature('DreadKnight', 5, 5, 9999, 5, new Range(100, 100), 1, new DamageCalculatorMultipleyDamage(0.2, 2, 100))
         let defender = new Creature('Defender', 5, 5, 100, 1, new Range(0, 0), 1, new DamageCalculatorMultipleyDamage(0.2, 2, 0))

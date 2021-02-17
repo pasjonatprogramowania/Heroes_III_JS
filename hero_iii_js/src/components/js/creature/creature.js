@@ -101,5 +101,13 @@ class Creature {
     getAttackRange() {
         return this.stats.attackRange;
     }
+    //prettier-ignore
+    getSplashRange() {
+        return [
+            [false, false, false],
+            [false, true, false],
+            [false, false, false]
+        ];
+    }
 }
 exports.default = Creature;

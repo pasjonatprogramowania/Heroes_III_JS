@@ -9,7 +9,8 @@ import AttackTest from "./test/attackTest.js";
 import CounterAttackTest from "./test/counterAttack.js";
 import EndTourTest from "./test/endTurnTest.js";
 import AmountDamageTest from "./test/amountDamageTest.js";
-import SpecialAbilitiesTest from "./test/specialAbilitiesTest.js";
+import NecropoliaSpecialAbilitiesTest from "./test/necropoliaSpecialAbilitiesTest.js";
+import ForgeSpecialAbilitiesTest from "./test/forgeSpecialAbilitiesTest.js";
 
 let boardTest = new BoardTest();
 let creatureTurnQueueTest = new CreatureTurnQueueTest();
@@ -17,7 +18,8 @@ let attackTest = new AttackTest();
 let counterAttackTest = new CounterAttackTest();
 let endTourTest = new EndTourTest();
 let amountDamageTest = new AmountDamageTest();
-let specialAbilitiesTest = new SpecialAbilitiesTest();
+let necropoliaSpecialAbilitiesTest = new NecropoliaSpecialAbilitiesTest();
+let forgeSpecialAbilitiesTest = new ForgeSpecialAbilitiesTest();
 
 attackTest.creatureShouldLost10HpWhenAttackerHas20AttackAndDefenderHas10Armor();
 attackTest.creatureShouldNotSelfHealWhenAttackerHasLowerAttackThenDefenderArmor();
@@ -36,12 +38,19 @@ amountDamageTest.defenderShouldLoseOneCreatureFromStackAndTheRestShouldHaveFullH
 amountDamageTest.defenderShouldLoseOneCreatureFromStackAndTheRestHave75CurrnetHp();
 amountDamageTest.attckerShouldLoseOneCreatureFromStackAndTheRestHave75CurrnetHp();
 amountDamageTest.defenderSholudLose3UnitAndand50HpAfterTwoAttacks();
-specialAbilitiesTest.DreadKnightShouldDealDoubleDamage();
-specialAbilitiesTest.VampireLordShouldHealAfterDealDamage();
-specialAbilitiesTest.ShootingCreatureShouldHaveUnlimitedRange();
-specialAbilitiesTest.ShootingCreatureShouldNotTakeCounterAttack();
-specialAbilitiesTest.VampireShouldNotTakeCounterAttackAndHaveUnlimitedRange();
-specialAbilitiesTest.LichShouldDealSplashDamage();
+necropoliaSpecialAbilitiesTest.DreadKnightShouldDealDoubleDamage();
+necropoliaSpecialAbilitiesTest.VampireLordShouldHealAfterDealDamage();
+necropoliaSpecialAbilitiesTest.ShootingCreatureShouldHaveUnlimitedRange();
+necropoliaSpecialAbilitiesTest.ShootingCreatureShouldNotTakeCounterAttack();
+necropoliaSpecialAbilitiesTest.VampireShouldNotTakeCounterAttackAndHaveUnlimitedRange();
+necropoliaSpecialAbilitiesTest.LichShouldDealSplashDamage();
+forgeSpecialAbilitiesTest.ObroncaShouldTake15lessRangeDamage();
+forgeSpecialAbilitiesTest.ElitarnyTarczownikShouldTake30LessRangeDamage();
+forgeSpecialAbilitiesTest.PodpalaczShouldDealDamageforTwoTiles();
+forgeSpecialAbilitiesTest.PiromaniakShouldDealDamageforTwoTiles();
+forgeSpecialAbilitiesTest.WysysaczDuszShouldDealSplashDamage();
+forgeSpecialAbilitiesTest.JugernautShouldHeal30HpOnTournEnd();
+forgeSpecialAbilitiesTest.NiszczycielShouldHeal30HpOnTournEnd();
 
 export default {
   data() {
