@@ -64,8 +64,8 @@
 <script>
 import GameEngine from "../js/gameEngine.js";
 import Point from "../js/point.js";
-import NacropolisFactory from "../js/creature/necropolisFactory.js";
 export default {
+  props: ["creatureBoard"],
   data() {
     return {
       gameEngine: "",
@@ -93,7 +93,7 @@ export default {
       );
     },
     getImgUrl(_creatureOnBoardItem) {
-      return `https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/main/hero_iii_js/src/assets/Castle-img/Necroplis-Unit-Img/${_creatureOnBoardItem.creature.stats.name}.png`;
+      return `https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/main/hero_iii_js/src/assets/Castle-img/Unit-Img/${_creatureOnBoardItem.creature.stats.name}.png`;
     },
     ennemyField(_x, _y) {
       return this.creatureOnBoardItem(_x, _y).player === "ennemy";
@@ -112,19 +112,10 @@ export default {
       }
     },
     createGameEngineObjectAndBoard() {
-      let nacropolisFactory = new NacropolisFactory();
-
-      let myCreature = [];
-      for (let i = 1; i < 7; i++) {
-        myCreature.push(nacropolisFactory.create(false, i));
-      }
-
-      let ennemyCreature = [];
-      for (let i = 1; i < 7; i++) {
-        ennemyCreature.push(nacropolisFactory.create(true, i));
-      }
-
-      this.gameEngine = new GameEngine(myCreature, ennemyCreature);
+      this.gameEngine = new GameEngine(
+        this.creatureBoard[0],
+        this.creatureBoard[1]
+      );
     },
     passCreature() {
       this.gameEngine.pass();
@@ -155,7 +146,7 @@ export default {
             )
           ) {
             this.gameEngine.attack(
-              this.gameBoard().getPoint(
+              this.gameBoard().getPointByCreature(
                 this.creatureOnBoardItem(_x, _y).creature
               )
             );
@@ -168,12 +159,13 @@ export default {
       if (this.canMove(_x, _y) && this.activeCreature().getMoveRange() > 0) {
         this.gameBoard().reduseMovment(this.activeCreature(), _x, _y);
         this.move(
-          (this.gameBoard().getPoint(this.activeCreature()), new Point(_x, _y))
+          (this.gameBoard().getPointByCreature(this.activeCreature()),
+          new Point(_x, _y))
         );
       }
     },
-    move(_targetPoint) {
-      return this.gameEngine.move(_targetPoint);
+    move(_targetCreatureByPoint) {
+      return this.gameEngine.move(_targetCreatureByPoint);
     },
     activeCreature() {
       return this.gameEngine.queue.getActiveCreature();

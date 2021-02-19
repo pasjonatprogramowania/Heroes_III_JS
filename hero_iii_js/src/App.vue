@@ -1,8 +1,11 @@
 <template>
   <div>
-    <unitTests />
-    <economyBoard />
-    <gameBoard />
+    <unit-test />
+    <component
+      :is="component"
+      :creature-board="creatureBoard"
+      @changeToGameBoard="changeToGameBoard($event)"
+    ></component>
   </div>
 </template>
 
@@ -14,9 +17,20 @@ import gameBoard from "./components/gui/gameBoard.vue";
 export default {
   name: "App",
   components: {
-    unitTests,
-    gameBoard,
-    economyBoard,
+    "unit-test": unitTests,
+    "game-board": gameBoard,
+    "economy-board": economyBoard,
+  },
+  data() {
+    return {
+      component: "economy-board",
+      creatureBoard: [[], []],
+    };
+  },
+  methods: {
+    changeToGameBoard(_updatedBoard) {
+      this.component = _updatedBoard;
+    },
   },
 };
 </script>

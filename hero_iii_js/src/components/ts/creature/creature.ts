@@ -32,7 +32,7 @@ export default class Creature {
         return this.getCalculator().calculate(_attacker, _defender);
     }
     counterAttack(_defender: Creature) {
-        if (_defender.isAlive() && !_defender.stats.wasCounterAttack) {
+        if (this.isAlive() && !_defender.stats.wasCounterAttack) {
             let counterAttackDamageToDeal = this.calculateDamge(_defender, this);
 
             this.applayDamage(counterAttackDamageToDeal);

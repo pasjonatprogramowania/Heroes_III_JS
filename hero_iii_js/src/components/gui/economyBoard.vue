@@ -11,7 +11,7 @@
     </div>
     <div class="buy-grid-container">
       <div
-        v-for="(item, index) in creaturesToBuy[playerTourn]"
+        v-for="(item, index) in creatureCart[playerTourn]"
         :key="index"
         class="buy-grid-item"
       >
@@ -19,9 +19,13 @@
         <div>Tire: {{ item.tier }}</div>
         <div>Price: {{ item.price }}</div>
         <div>Owned: {{ item.amount }}</div>
-        <img :src="getImgUrl(item.creature.getName())" alt="" />
+        <img
+          :src="getImgUrl(item.creature.getName())"
+          :alt="item.creature.getName()"
+        />
         <div>
           <button @click="buyCreature(item.creature)">Buy</button>
+          <button @click="sellCreature(item.creature)">Sell</button>
           <button>Details</button>
         </div>
       </div>
@@ -35,12 +39,16 @@
 </template>
 <script>
 import forgeFactory from "../js/creature/forgeFactory.js";
+// import necropolisFactory from "../js/creature/necropolisFactory.js";
 export default {
+  // eslint-disable-next-line vue/require-prop-types
+  props: ["creatureBoard"],
   data() {
     return {
       playerTourn: 0,
-      playerGold: [2000, 2000],
-      creaturesToBuy: [[], []],
+      playerGold: [10000, 10000],
+      creatureCart: [[], []],
+      factory: new forgeFactory(),
     };
   },
   created() {
@@ -48,18 +56,16 @@ export default {
   },
   methods: {
     cretureToBuy() {
-      let nacropolisFactory = new forgeFactory();
-
       for (let i = 1; i <= 7; i++) {
-        this.creaturesToBuy[0].push({
-          creature: nacropolisFactory.create(false, i),
+        this.creatureCart[0].push({
+          creature: this.factory.create(false, i),
           tier: i,
           upgraded: false,
           price: i * 100,
           amount: 0,
         });
-        this.creaturesToBuy[1].push({
-          creature: nacropolisFactory.create(false, i),
+        this.creatureCart[1].push({
+          creature: this.factory.create(false, i),
           tier: i,
           upgraded: false,
           price: i * 100,
@@ -67,75 +73,56 @@ export default {
         });
       }
       for (let i = 1; i <= 7; i++) {
-        this.creaturesToBuy[0].push({
-          creature: nacropolisFactory.create(true, i),
+        this.creatureCart[0].push({
+          creature: this.factory.create(true, i),
           tier: i,
           upgraded: true,
           price: i * 100,
           amount: 0,
         });
-        this.creaturesToBuy[1].push({
-          creature: nacropolisFactory.create(true, i),
+        this.creatureCart[1].push({
+          creature: this.factory.create(true, i),
           tier: i,
           upgraded: true,
           price: i * 100,
           amount: 0,
         });
       }
-      return this;
     },
     nextPlayerTurn() {
-      if (this.playerTourn >= 1) {
-        return;
-      }
+      this.creatureCart[this.playerTourn].forEach((item) => {
+        if (item.amount) {
+          let creatureToAdd = this.factory.create(item.upgraded, item.tier);
+          creatureToAdd.stats.amount = item.amount;
+          this.creatureBoard[this.playerTourn].push(creatureToAdd);
+        }
+      });
+      if (this.playerTourn >= 1) this.changeToGameBoard();
       this.playerTourn++;
     },
     getImgUrl(_creatureName) {
       return `https://raw.githubusercontent.com/pasjonatprogramowania/Heros_III_JS/main/hero_iii_js/src/assets/Castle-img/Unit-Img/${_creatureName}.png`;
     },
     buyCreature(_creatureToBuy) {
-      this.creaturesToBuy[this.playerTourn].find((item) => {
-        if (JSON.stringify(item.creature) === JSON.stringify(_creatureToBuy)) {
-          if (this.playerGold[this.playerTourn] < item.price) {
-            return;
-          }
+      this.creatureCart[this.playerTourn].find((item) => {
+        if (item.creature === _creatureToBuy) {
+          if (this.playerGold[this.playerTourn] < item.price) return;
           this.playerGold[this.playerTourn] -= item.price;
           item.amount += 1;
         }
       });
     },
-    getName() {
-      return this.stats.name;
+    sellCreature(_creatureToSell) {
+      this.creatureCart[this.playerTourn].find((item) => {
+        if (item.creature === _creatureToSell) {
+          if (item.amount <= 0) return;
+          this.playerGold[this.playerTourn] += item.price;
+          item.amount -= 1;
+        }
+      });
     },
-    getAttack() {
-      return this.stats.attack;
-    },
-    getArmor() {
-      return this.stats.armor;
-    },
-    getMaxHp() {
-      return this.stats.maxHp;
-    },
-    getCurrentHp() {
-      return this.stats.currentHp;
-    },
-    getMoveRange() {
-      return this.stats.moveRange;
-    },
-    getMaxRange() {
-      return this.stats.maxRange;
-    },
-    getDamage() {
-      return this.stats.damage;
-    },
-    getAmount() {
-      return this.stats.amount;
-    },
-    getCalculator() {
-      return this.stats.calculator;
-    },
-    getAttackRange() {
-      return this.stats.attackRange;
+    changeToGameBoard() {
+      this.$emit("changeToGameBoard", "game-board");
     },
   },
 };
