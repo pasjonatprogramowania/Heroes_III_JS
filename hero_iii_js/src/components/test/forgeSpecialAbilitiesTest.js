@@ -219,9 +219,6 @@ export default class forgeSpecialAbilitiesTest {
         let attacerHpAfterAttack = attacker.getCurrentHp();
 
         gameEngine.pass();
-        gameEngine.pass();
-        gameEngine.pass();
-        gameEngine.pass();
 
         if (attacker.getCurrentHp() === attacerHpAfterAttack) {
             console.log("~ attacker.getCurrentHp()", attacker.getCurrentHp())
@@ -246,9 +243,6 @@ export default class forgeSpecialAbilitiesTest {
 
         let attacerHpAfterAttack = attacker.getCurrentHp();
 
-        gameEngine.pass();
-        gameEngine.pass();
-        gameEngine.pass();
         gameEngine.pass();
 
         if (attacker.getCurrentHp() === attacerHpAfterAttack) {

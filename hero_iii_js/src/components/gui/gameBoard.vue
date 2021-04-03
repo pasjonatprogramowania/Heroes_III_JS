@@ -65,6 +65,7 @@
 import GameEngine from "../js/gameEngine.js";
 import Point from "../js/point.js";
 export default {
+  // eslint-disable-next-line vue/require-prop-types
   props: ["creatureBoard"],
   data() {
     return {
@@ -112,10 +113,8 @@ export default {
       }
     },
     createGameEngineObjectAndBoard() {
-      this.gameEngine = new GameEngine(
-        this.creatureBoard[0],
-        this.creatureBoard[1]
-      );
+      let [myCreature, ennemyCreature] = this.creatureBoard;
+      this.gameEngine = new GameEngine(myCreature, ennemyCreature);
     },
     passCreature() {
       this.gameEngine.pass();
@@ -207,10 +206,6 @@ html {
   grid-template-columns: repeat(20, minmax(50px, 1fr));
   grid-auto-flow: column;
 }
-side-board {
-  display: grid;
-  grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
-}
 .field.my-creature,
 .field.ennemy-creature {
   margin-left: 20px;
@@ -230,10 +225,11 @@ side-board {
   max-height: 100px;
   object-fit: cover;
   position: absolute;
-  top: -35px;
+  top: -40px;
   right: 0px;
   bottom: 0px;
-  left: -30px;
+  left: -20px;
+  z-index: 10;
 }
 .ennemy {
   transform: scaleX(-1);

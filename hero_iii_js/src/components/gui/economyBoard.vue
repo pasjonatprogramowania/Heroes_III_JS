@@ -91,9 +91,9 @@ export default {
     },
     nextPlayerTurn() {
       this.creatureCart[this.playerTourn].forEach((item) => {
-        if (item.amount) {
-          let creatureToAdd = this.factory.create(item.upgraded, item.tier);
-          creatureToAdd.stats.amount = item.amount;
+        let { amount, tier, upgraded } = item;
+        if (amount) {
+          let creatureToAdd = this.factory.create(upgraded, tier, amount);
           this.creatureBoard[this.playerTourn].push(creatureToAdd);
         }
       });
